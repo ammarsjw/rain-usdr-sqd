@@ -25,5 +25,8 @@ export class Change {
     eventLogIndex!: number
 
     @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
+
+    @BytesColumn_({nullable: false})
     src!: Uint8Array
 }

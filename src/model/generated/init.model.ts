@@ -26,4 +26,7 @@ export class Init {
 
     @BytesColumn_({nullable: false})
     ilkId!: Uint8Array
+
+    @BytesColumn_({nullable: true})
+    token!: Uint8Array | undefined | null
 }

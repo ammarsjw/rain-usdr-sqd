@@ -26,6 +26,7 @@ export const functions = {
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
+    ilkId: viewFun("0xffd7e45b", "ilkId()", {}, p.bytes32),
     lastCheckedBlock: viewFun("0x7f76614b", "lastCheckedBlock()", {}, p.uint256),
     pip: viewFun("0xd741e2f9", "pip()", {}, p.address),
     rely: fun("0x65fae35e", "rely(address)", {"account": p.address}, ),
@@ -65,6 +66,10 @@ export class Contract extends ContractBase {
 
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
+    }
+
+    ilkId() {
+        return this.eth_call(functions.ilkId, {})
     }
 
     lastCheckedBlock() {
@@ -136,6 +141,9 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
+
+export type IlkIdParams = FunctionArguments<typeof functions.ilkId>
+export type IlkIdReturn = FunctionReturn<typeof functions.ilkId>
 
 export type LastCheckedBlockParams = FunctionArguments<typeof functions.lastCheckedBlock>
 export type LastCheckedBlockReturn = FunctionReturn<typeof functions.lastCheckedBlock>

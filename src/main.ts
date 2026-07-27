@@ -77,7 +77,6 @@ const addressSet = new Set(contractAddresses);
 
 const vaultEngineAddress = (process.env.VAULT_ENGINE_ADDRESS || "").toLowerCase();
 const balanceSheetAddress = (process.env.BALANCE_SHEET_ADDRESS || "").toLowerCase();
-const rainOsmAddress = (process.env.RAIN_OSM_ADDRESS || "").toLowerCase();
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     const entities: any[] = [];
@@ -135,9 +134,13 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                 );
             }
 
-            // Cage (shared topic across adapters, ledger, converter and trigger).
+            // Cage (ledger, converter and trigger share the argless topic; the adapter's
+            // carries the ilk).
             else if (topic === vaultEngineEvents.Cage.topic) {
                 entities.push(new Cage({ ...base }));
+            } else if (topic === collateralAdapterEvents.Cage.topic) {
+                const { ilkId } = collateralAdapterEvents.Cage.decode(e);
+                entities.push(new Cage({ ...base, ilkId: hexToBytes(ilkId) }));
             }
 
             // VaultEngine.
@@ -150,6 +153,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === vaultEngineEvents.Init.topic) {
                 const { ilkId } = vaultEngineEvents.Init.decode(e);
                 entities.push(new Init({ ...base, ilkId: hexToBytes(ilkId) }));
+            } else if (topic === collateralAdapterEvents.Init.topic) {
+                const { ilkId, token } = collateralAdapterEvents.Init.decode(e);
+                entities.push(new Init({ ...base, ilkId: hexToBytes(ilkId), token: hexToBytes(token) }));
             } else if (topic === vaultEngineEvents.Slip.topic) {
                 const { ilkId, user, wad } = vaultEngineEvents.Slip.decode(e);
                 entities.push(new Slip({ ...base, ilkId: hexToBytes(ilkId), user: hexToBytes(user), wad }));
@@ -209,32 +215,35 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
             // CollateralAdapter.
             else if (topic === collateralAdapterEvents.Join.topic) {
-                const { user, amount } = collateralAdapterEvents.Join.decode(e);
-                entities.push(new Join({ ...base, user: hexToBytes(user), amount }));
+                const { ilkId, user, amount } = collateralAdapterEvents.Join.decode(e);
+                entities.push(new Join({ ...base, ilkId: hexToBytes(ilkId), user: hexToBytes(user), amount }));
             } else if (topic === collateralAdapterEvents.Exit.topic) {
-                const { user, amount } = collateralAdapterEvents.Exit.decode(e);
-                entities.push(new Exit({ ...base, user: hexToBytes(user), amount }));
+                const { ilkId, user, amount } = collateralAdapterEvents.Exit.decode(e);
+                entities.push(new Exit({ ...base, ilkId: hexToBytes(ilkId), user: hexToBytes(user), amount }));
             }
 
             // OracleSecurityModule.
             else if (topic === oracleSecurityModuleEvents.Stop.topic) {
-                entities.push(new Stop({ ...base }));
+                const { ilkId } = oracleSecurityModuleEvents.Stop.decode(e);
+                entities.push(new Stop({ ...base, ilkId: hexToBytes(ilkId) }));
             } else if (topic === oracleSecurityModuleEvents.Start.topic) {
-                entities.push(new Start({ ...base }));
+                const { ilkId } = oracleSecurityModuleEvents.Start.decode(e);
+                entities.push(new Start({ ...base, ilkId: hexToBytes(ilkId) }));
             } else if (topic === oracleSecurityModuleEvents.Void.topic) {
-                entities.push(new Void({ ...base }));
+                const { ilkId } = oracleSecurityModuleEvents.Void.decode(e);
+                entities.push(new Void({ ...base, ilkId: hexToBytes(ilkId) }));
             } else if (topic === oracleSecurityModuleEvents.Change.topic) {
-                const { src } = oracleSecurityModuleEvents.Change.decode(e);
-                entities.push(new Change({ ...base, src: hexToBytes(src) }));
+                const { ilkId, src } = oracleSecurityModuleEvents.Change.decode(e);
+                entities.push(new Change({ ...base, ilkId: hexToBytes(ilkId), src: hexToBytes(src) }));
             } else if (topic === oracleSecurityModuleEvents.Kiss.topic) {
                 const { account } = oracleSecurityModuleEvents.Kiss.decode(e);
                 entities.push(new Kiss({ ...base, account: hexToBytes(account) }));
             } else if (topic === oracleSecurityModuleEvents.Diss.topic) {
                 const { account } = oracleSecurityModuleEvents.Diss.decode(e);
                 entities.push(new Diss({ ...base, account: hexToBytes(account) }));
-            } else if (topic === oracleSecurityModuleEvents.Poke.topic && e.address === rainOsmAddress) {
-                const { current, next } = oracleSecurityModuleEvents.Poke.decode(e);
-                entities.push(new OsmPoke({ ...base, current, next }));
+            } else if (topic === oracleSecurityModuleEvents.Poke.topic) {
+                const { ilkId, current, next } = oracleSecurityModuleEvents.Poke.decode(e);
+                entities.push(new OsmPoke({ ...base, ilkId: hexToBytes(ilkId), current, next }));
             }
 
             // PriceConverter.
@@ -245,11 +254,15 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
             // PegStabilityModule.
             else if (topic === pegStabilityModuleEvents.SellStable.topic) {
-                const { user, stableAmt, usdrAmt } = pegStabilityModuleEvents.SellStable.decode(e);
-                entities.push(new SellStable({ ...base, user: hexToBytes(user), stableAmt, usdrAmt }));
+                const { ilkId, user, stableAmt, usdrAmt } = pegStabilityModuleEvents.SellStable.decode(e);
+                entities.push(
+                    new SellStable({ ...base, ilkId: hexToBytes(ilkId), user: hexToBytes(user), stableAmt, usdrAmt })
+                );
             } else if (topic === pegStabilityModuleEvents.BuyStable.topic) {
-                const { user, stableAmt, usdrAmt } = pegStabilityModuleEvents.BuyStable.decode(e);
-                entities.push(new BuyStable({ ...base, user: hexToBytes(user), stableAmt, usdrAmt }));
+                const { ilkId, user, stableAmt, usdrAmt } = pegStabilityModuleEvents.BuyStable.decode(e);
+                entities.push(
+                    new BuyStable({ ...base, ilkId: hexToBytes(ilkId), user: hexToBytes(user), stableAmt, usdrAmt })
+                );
             }
 
             // ReserveAccounting.

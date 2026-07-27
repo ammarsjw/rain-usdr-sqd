@@ -7,11 +7,6 @@
                 "type": "address"
             },
             {
-                "internalType": "contract ICollateralAdapter",
-                "name": "usdrAdapter_",
-                "type": "address"
-            },
-            {
                 "internalType": "contract IReserveAccounting",
                 "name": "reserveAccounting_",
                 "type": "address"
@@ -57,6 +52,12 @@
         "inputs": [
             {
                 "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
                 "internalType": "address",
                 "name": "user",
                 "type": "address"
@@ -96,6 +97,12 @@
             {
                 "indexed": true,
                 "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "bytes32",
                 "name": "what",
                 "type": "bytes32"
             },
@@ -107,6 +114,25 @@
             }
         ],
         "name": "File",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "Init",
         "type": "event"
     },
     {
@@ -202,6 +228,12 @@
         "inputs": [
             {
                 "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
                 "internalType": "address",
                 "name": "user",
                 "type": "address"
@@ -237,6 +269,11 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "internalType": "address",
                 "name": "user",
@@ -281,6 +318,11 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "internalType": "bytes32",
                 "name": "what",
@@ -359,16 +401,50 @@
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "ilkId",
-        "outputs": [
+        "inputs": [
             {
                 "internalType": "bytes32",
-                "name": "",
+                "name": "ilkId",
                 "type": "bytes32"
             }
         ],
+        "name": "ilks",
+        "outputs": [
+            {
+                "internalType": "contract IERC20Metadata",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "to18ConversionFactor",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tin",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tout",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
+        "name": "init",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -436,6 +512,11 @@
     {
         "inputs": [
             {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
                 "internalType": "address",
                 "name": "user",
                 "type": "address"
@@ -449,19 +530,6 @@
         "name": "sellStable",
         "outputs": [],
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "stableToken",
-        "outputs": [
-            {
-                "internalType": "contract IERC20Metadata",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -485,62 +553,10 @@
     },
     {
         "inputs": [],
-        "name": "tin",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "to18ConversionFactor",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "tout",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
         "name": "usdr",
         "outputs": [
             {
                 "internalType": "contract IUSDR",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "usdrAdapter",
-        "outputs": [
-            {
-                "internalType": "contract ICollateralAdapter",
                 "name": "",
                 "type": "address"
             }

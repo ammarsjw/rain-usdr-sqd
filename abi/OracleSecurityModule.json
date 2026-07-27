@@ -1,16 +1,5 @@
 [
     {
-        "inputs": [
-            {
-                "internalType": "contract IPriceSource",
-                "name": "src_",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
         "inputs": [],
         "name": "AccessControlBadConfirmation",
         "type": "error"
@@ -34,6 +23,12 @@
     {
         "anonymous": false,
         "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "indexed": true,
                 "internalType": "address",
@@ -86,6 +81,12 @@
     {
         "anonymous": false,
         "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "indexed": false,
                 "internalType": "uint128",
@@ -192,19 +193,40 @@
     },
     {
         "anonymous": false,
-        "inputs": [],
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "Start",
         "type": "event"
     },
     {
         "anonymous": false,
-        "inputs": [],
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "Stop",
         "type": "event"
     },
     {
         "anonymous": false,
-        "inputs": [],
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "Void",
         "type": "event"
     },
@@ -223,6 +245,11 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "internalType": "contract IPriceSource",
                 "name": "src_",
@@ -348,7 +375,13 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "pass",
         "outputs": [
             {
@@ -361,7 +394,13 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "peek",
         "outputs": [
             {
@@ -379,7 +418,13 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "peep",
         "outputs": [
             {
@@ -397,14 +442,26 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "poke",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "read",
         "outputs": [
             {
@@ -466,7 +523,13 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "src",
         "outputs": [
             {
@@ -479,21 +542,39 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "start",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "stop",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "stopped",
         "outputs": [
             {
@@ -525,14 +606,26 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "void",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "zzz",
         "outputs": [
             {

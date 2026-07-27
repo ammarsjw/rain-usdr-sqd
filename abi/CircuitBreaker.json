@@ -5,6 +5,11 @@
                 "internalType": "contract IOracleSecurityModule",
                 "name": "pip_",
                 "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ilkId_",
+                "type": "bytes32"
             }
         ],
         "stateMutability": "nonpayable",
@@ -348,6 +353,19 @@
                 "internalType": "bool",
                 "name": "",
                 "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "ilkId",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
             }
         ],
         "stateMutability": "view",

@@ -41,6 +41,8 @@ export const processor = new EvmBatchProcessor()
             vaultEngineEvents.Nope.topic,
             vaultEngineEvents.Init.topic,
             vaultEngineEvents.Cage.topic,
+            collateralAdapterEvents.Init.topic,
+            collateralAdapterEvents.Cage.topic,
             vaultEngineEvents.Slip.topic,
             vaultEngineEvents.Flux.topic,
             vaultEngineEvents.Move.topic,
@@ -63,7 +65,7 @@ export const processor = new EvmBatchProcessor()
             oracleSecurityModuleEvents.Poke.topic,
             // PriceConverter.
             priceConverterEvents.Poke.topic,
-            // PegStabilityModule.
+            // PegStabilityModule (Init/File topics shared with the adapter/system File above).
             pegStabilityModuleEvents.SellStable.topic,
             pegStabilityModuleEvents.BuyStable.topic,
             // ReserveAccounting.

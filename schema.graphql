@@ -40,7 +40,7 @@ type File @entity {
     dataAddress: Bytes
 }
 
-# One entity for every `Cage` across the system (adapters, ledger, spotter, dog).
+# One entity for every `Cage` across the system (ledger, spotter, dog: no ilk; adapter: ilk).
 type Cage @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
@@ -48,6 +48,9 @@ type Cage @entity {
     transactionHash: Bytes!
     contractAddress: Bytes!
     eventLogIndex: Int!
+
+    # Custom values
+    ilkId: Bytes
 }
 
 # =============================== VaultEngine =============================== #
@@ -78,6 +81,8 @@ type Nope @entity {
     operator: Bytes! # address
 }
 
+# One entity for every `Init` across the system (VaultEngine: ilk only; CollateralAdapter and
+# PegStabilityModule: ilk + token).
 type Init @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
@@ -86,8 +91,9 @@ type Init @entity {
     contractAddress: Bytes!
     eventLogIndex: Int!
 
-    # Custom required values
+    # Custom values
     ilkId: Bytes!
+    token: Bytes
 }
 
 type Slip @entity {
@@ -221,6 +227,7 @@ type Join @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     user: Bytes! # address
     amount: BigInt!
 }
@@ -234,6 +241,7 @@ type Exit @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     user: Bytes! # address
     amount: BigInt!
 }
@@ -247,6 +255,9 @@ type Stop @entity {
     transactionHash: Bytes!
     contractAddress: Bytes!
     eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
 }
 
 type Start @entity {
@@ -256,6 +267,9 @@ type Start @entity {
     transactionHash: Bytes!
     contractAddress: Bytes!
     eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
 }
 
 type Void @entity {
@@ -265,6 +279,9 @@ type Void @entity {
     transactionHash: Bytes!
     contractAddress: Bytes!
     eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
 }
 
 type Change @entity {
@@ -276,6 +293,7 @@ type Change @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     src: Bytes! # address
 }
 
@@ -312,6 +330,7 @@ type OsmPoke @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     current: BigInt!
     next: BigInt!
 }
@@ -343,6 +362,7 @@ type SellStable @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     user: Bytes! # address
     stableAmt: BigInt!
     usdrAmt: BigInt!
@@ -357,6 +377,7 @@ type BuyStable @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     user: Bytes! # address
     stableAmt: BigInt!
     usdrAmt: BigInt!

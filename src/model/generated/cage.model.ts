@@ -23,4 +23,7 @@ export class Cage {
 
     @IntColumn_({nullable: false})
     eventLogIndex!: number
+
+    @BytesColumn_({nullable: true})
+    ilkId!: Uint8Array | undefined | null
 }

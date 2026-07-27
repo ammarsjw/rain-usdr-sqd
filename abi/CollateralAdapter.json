@@ -5,21 +5,6 @@
                 "internalType": "contract IVaultEngine",
                 "name": "vaultEngine_",
                 "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "ilkId_",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "contract IERC20Metadata",
-                "name": "token_",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "isUsdrAdapter_",
-                "type": "bool"
             }
         ],
         "stateMutability": "nonpayable",
@@ -59,7 +44,14 @@
     },
     {
         "anonymous": false,
-        "inputs": [],
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "Cage",
         "type": "event"
     },
@@ -81,6 +73,12 @@
         "inputs": [
             {
                 "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
                 "internalType": "address",
                 "name": "user",
                 "type": "address"
@@ -98,6 +96,31 @@
     {
         "anonymous": false,
         "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "Init",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "indexed": true,
                 "internalType": "address",
@@ -216,23 +239,16 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            }
+        ],
         "name": "cage",
         "outputs": [],
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "dec",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -250,6 +266,11 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "internalType": "address",
                 "name": "user",
@@ -328,26 +349,34 @@
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "ilkId",
-        "outputs": [
+        "inputs": [
             {
                 "internalType": "bytes32",
-                "name": "",
+                "name": "ilkId",
                 "type": "bytes32"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "isUsdrAdapter",
+        "name": "ilks",
         "outputs": [
             {
+                "internalType": "contract IERC20Metadata",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "internalType": "uint8",
+                "name": "dec",
+                "type": "uint8"
+            },
+            {
                 "internalType": "bool",
-                "name": "",
+                "name": "isUsdr",
                 "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "live",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -355,6 +384,29 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "contract IERC20Metadata",
+                "name": "token_",
+                "type": "address"
+            }
+        ],
+        "name": "init",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ilkId",
+                "type": "bytes32"
+            },
             {
                 "internalType": "address",
                 "name": "user",
@@ -369,19 +421,6 @@
         "name": "join",
         "outputs": [],
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "live",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -447,19 +486,6 @@
                 "internalType": "bool",
                 "name": "",
                 "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "token",
-        "outputs": [
-            {
-                "internalType": "contract IERC20Metadata",
-                "name": "",
-                "type": "address"
             }
         ],
         "stateMutability": "view",

@@ -25,6 +25,9 @@ export class Join {
     eventLogIndex!: number
 
     @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
+
+    @BytesColumn_({nullable: false})
     user!: Uint8Array
 
     @BigIntColumn_({nullable: false})

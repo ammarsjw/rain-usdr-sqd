@@ -3,38 +3,35 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
-    BuyStable: event("0xaf36edb96ebc8dba83bc66ee2d3bb726e66d123092f55cfa78fe52ff2d676e5d", "BuyStable(address,uint256,uint256)", {"user": indexed(p.address), "stableAmt": p.uint256, "usdrAmt": p.uint256}),
+    BuyStable: event("0xa3ea69919a75724d1e4530d72df75b1fa04eaf370f8262bfef97133a5e75167e", "BuyStable(bytes32,address,uint256,uint256)", {"ilkId": indexed(p.bytes32), "user": indexed(p.address), "stableAmt": p.uint256, "usdrAmt": p.uint256}),
     Deny: event("0x184450df2e323acec0ed3b5c7531b81f9b4cdef7914dfd4c0a4317416bb5251b", "Deny(address)", {"account": indexed(p.address)}),
-    File: event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
+    File: event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
+    Init: event("0xfa2715184140b1bc488c6d441dff1ffe0c9431862a0ad8db95a2474caa3f9811", "Init(bytes32,address)", {"ilkId": indexed(p.bytes32), "token": indexed(p.address)}),
     Rely: event("0xdd0e34038ac38b2a1ce960229778ac48a8719bc900b6c4f8d0475c6e8b385a60", "Rely(address)", {"account": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
-    SellStable: event("0x820b786576f5bef1d45edb358059adac901bf4477497e710a1cb5238904b2edc", "SellStable(address,uint256,uint256)", {"user": indexed(p.address), "stableAmt": p.uint256, "usdrAmt": p.uint256}),
+    SellStable: event("0xd7f09203289f7d56e59ab5e9cc0a35f5163ff093491d3010c8a7ca3f747f19a2", "SellStable(bytes32,address,uint256,uint256)", {"ilkId": indexed(p.bytes32), "user": indexed(p.address), "stableAmt": p.uint256, "usdrAmt": p.uint256}),
 }
 
 export const functions = {
     DEFAULT_ADMIN_ROLE: viewFun("0xa217fddf", "DEFAULT_ADMIN_ROLE()", {}, p.bytes32),
-    buyStable: fun("0x4ef05cd0", "buyStable(address,uint256)", {"user": p.address, "stableAmt": p.uint256}, ),
+    buyStable: fun("0xc762d2b4", "buyStable(bytes32,address,uint256)", {"ilkId": p.bytes32, "user": p.address, "stableAmt": p.uint256}, ),
     collateralAdapter: viewFun("0x246786e2", "collateralAdapter()", {}, p.address),
     deny: fun("0x9c52a7f1", "deny(address)", {"account": p.address}, ),
-    file: fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
+    file: fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilkId: viewFun("0xffd7e45b", "ilkId()", {}, p.bytes32),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"token": p.address, "to18ConversionFactor": p.uint256, "tin": p.uint256, "tout": p.uint256}),
+    init: fun("0x3b663195", "init(bytes32)", {"ilkId": p.bytes32}, ),
     rely: fun("0x65fae35e", "rely(address)", {"account": p.address}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     reserveAccounting: viewFun("0x9d155075", "reserveAccounting()", {}, p.address),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
-    sellStable: fun("0xa052093c", "sellStable(address,uint256)", {"user": p.address, "stableAmt": p.uint256}, ),
-    stableToken: viewFun("0xa9d75b2b", "stableToken()", {}, p.address),
+    sellStable: fun("0x2d02ef8b", "sellStable(bytes32,address,uint256)", {"ilkId": p.bytes32, "user": p.address, "stableAmt": p.uint256}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
-    tin: viewFun("0x568d4b6f", "tin()", {}, p.uint256),
-    to18ConversionFactor: viewFun("0x4010f777", "to18ConversionFactor()", {}, p.uint256),
-    tout: viewFun("0xfae036d5", "tout()", {}, p.uint256),
     usdr: viewFun("0xada13fc6", "usdr()", {}, p.address),
-    usdrAdapter: viewFun("0x7fa518e6", "usdrAdapter()", {}, p.address),
     vaultEngine: viewFun("0xf29176c3", "vaultEngine()", {}, p.address),
 }
 
@@ -56,40 +53,20 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
-    ilkId() {
-        return this.eth_call(functions.ilkId, {})
+    ilks(ilkId: IlksParams["ilkId"]) {
+        return this.eth_call(functions.ilks, {ilkId})
     }
 
     reserveAccounting() {
         return this.eth_call(functions.reserveAccounting, {})
     }
 
-    stableToken() {
-        return this.eth_call(functions.stableToken, {})
-    }
-
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
         return this.eth_call(functions.supportsInterface, {interfaceId})
     }
 
-    tin() {
-        return this.eth_call(functions.tin, {})
-    }
-
-    to18ConversionFactor() {
-        return this.eth_call(functions.to18ConversionFactor, {})
-    }
-
-    tout() {
-        return this.eth_call(functions.tout, {})
-    }
-
     usdr() {
         return this.eth_call(functions.usdr, {})
-    }
-
-    usdrAdapter() {
-        return this.eth_call(functions.usdrAdapter, {})
     }
 
     vaultEngine() {
@@ -101,6 +78,7 @@ export class Contract extends ContractBase {
 export type BuyStableEventArgs = EParams<typeof events.BuyStable>
 export type DenyEventArgs = EParams<typeof events.Deny>
 export type FileEventArgs = EParams<typeof events.File>
+export type InitEventArgs = EParams<typeof events.Init>
 export type RelyEventArgs = EParams<typeof events.Rely>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
@@ -132,8 +110,11 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
 
-export type IlkIdParams = FunctionArguments<typeof functions.ilkId>
-export type IlkIdReturn = FunctionReturn<typeof functions.ilkId>
+export type IlksParams = FunctionArguments<typeof functions.ilks>
+export type IlksReturn = FunctionReturn<typeof functions.ilks>
+
+export type InitParams = FunctionArguments<typeof functions.init>
+export type InitReturn = FunctionReturn<typeof functions.init>
 
 export type RelyParams = FunctionArguments<typeof functions.rely>
 export type RelyReturn = FunctionReturn<typeof functions.rely>
@@ -150,26 +131,11 @@ export type RevokeRoleReturn = FunctionReturn<typeof functions.revokeRole>
 export type SellStableParams = FunctionArguments<typeof functions.sellStable>
 export type SellStableReturn = FunctionReturn<typeof functions.sellStable>
 
-export type StableTokenParams = FunctionArguments<typeof functions.stableToken>
-export type StableTokenReturn = FunctionReturn<typeof functions.stableToken>
-
 export type SupportsInterfaceParams = FunctionArguments<typeof functions.supportsInterface>
 export type SupportsInterfaceReturn = FunctionReturn<typeof functions.supportsInterface>
 
-export type TinParams = FunctionArguments<typeof functions.tin>
-export type TinReturn = FunctionReturn<typeof functions.tin>
-
-export type To18ConversionFactorParams = FunctionArguments<typeof functions.to18ConversionFactor>
-export type To18ConversionFactorReturn = FunctionReturn<typeof functions.to18ConversionFactor>
-
-export type ToutParams = FunctionArguments<typeof functions.tout>
-export type ToutReturn = FunctionReturn<typeof functions.tout>
-
 export type UsdrParams = FunctionArguments<typeof functions.usdr>
 export type UsdrReturn = FunctionReturn<typeof functions.usdr>
-
-export type UsdrAdapterParams = FunctionArguments<typeof functions.usdrAdapter>
-export type UsdrAdapterReturn = FunctionReturn<typeof functions.usdrAdapter>
 
 export type VaultEngineParams = FunctionArguments<typeof functions.vaultEngine>
 export type VaultEngineReturn = FunctionReturn<typeof functions.vaultEngine>

@@ -23,4 +23,7 @@ export class Void {
 
     @IntColumn_({nullable: false})
     eventLogIndex!: number
+
+    @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
 }

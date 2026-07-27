@@ -1,0 +1,26 @@
+{
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "overrides": [
+        {
+            "files": [
+                "*.json",
+                ".prettierrc"
+            ],
+            "options": {
+                "parser": "json-stringify"
+            }
+        }
+    ],
+    "plugins": [
+        "prettier-plugin-package",
+        "prettier-plugin-sort-imports"
+    ],
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": false,
+    "sortingMethod": "alphabetical",
+    "tabWidth": 4,
+    "trailingComma": "none",
+    "useTabs": false
+}

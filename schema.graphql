@@ -1,0 +1,731 @@
+# =============================== Shared (Auth) =============================== #
+
+type Rely @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type Deny @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+# One entity for every `File` overload across the system. Unused fields stay null.
+type File @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom values
+    ilkId: Bytes
+    what: Bytes!
+    dataUint: BigInt
+    dataAddress: Bytes
+}
+
+# One entity for every `Cage` across the system (adapters, ledger, spotter, dog).
+type Cage @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}
+
+# =============================== VaultEngine =============================== #
+
+type Hope @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    owner: Bytes! # address
+    operator: Bytes! # address
+}
+
+type Nope @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    owner: Bytes! # address
+    operator: Bytes! # address
+}
+
+type Init @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+}
+
+type Slip @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    user: Bytes! # address
+    wad: BigInt!
+}
+
+type Flux @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    from: Bytes! # address
+    to: Bytes! # address
+    wad: BigInt!
+}
+
+type Move @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    from: Bytes! # address
+    to: Bytes! # address
+    rad: BigInt!
+}
+
+type Frob @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    u: Bytes! # address
+    v: Bytes! # address
+    w: Bytes! # address
+    dink: BigInt!
+    dart: BigInt!
+}
+
+type Grab @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    u: Bytes! # address
+    v: Bytes! # address
+    w: Bytes! # address
+    dink: BigInt!
+    dart: BigInt!
+}
+
+type VaultHeal @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+    rad: BigInt!
+}
+
+type VaultSuck @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    u: Bytes! # address
+    v: Bytes! # address
+    rad: BigInt!
+}
+
+# =============================== USDR =============================== #
+
+type Transfer @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    from: Bytes! # address
+    to: Bytes! # address
+    value: BigInt!
+}
+
+# =============================== CollateralAdapter =============================== #
+
+type Join @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    user: Bytes! # address
+    amount: BigInt!
+}
+
+type Exit @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    user: Bytes! # address
+    amount: BigInt!
+}
+
+# =============================== OracleSecurityModule =============================== #
+
+type Stop @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}
+
+type Start @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}
+
+type Void @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}
+
+type Change @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    src: Bytes! # address
+}
+
+type Kiss @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type Diss @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type OsmPoke @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    current: BigInt!
+    next: BigInt!
+}
+
+# =============================== PriceConverter =============================== #
+
+type SpotPoke @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    val: Bytes!
+    spot: BigInt!
+}
+
+# =============================== PegStabilityModule =============================== #
+
+type SellStable @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    user: Bytes! # address
+    stableAmt: BigInt!
+    usdrAmt: BigInt!
+}
+
+type BuyStable @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    user: Bytes! # address
+    stableAmt: BigInt!
+    usdrAmt: BigInt!
+}
+
+# =============================== ReserveAccounting =============================== #
+
+type AddRecorder @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type RemoveRecorder @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type AddCommitter @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type RemoveCommitter @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    account: Bytes! # address
+}
+
+type RecordIncrease @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    wad: BigInt!
+    totalReserve: BigInt!
+}
+
+type RecordDecrease @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    wad: BigInt!
+    totalReserve: BigInt!
+}
+
+type UpdateCommittedEscrow @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    wad: BigInt!
+    freeSlack: BigInt!
+}
+
+# =============================== SolvencyEngine =============================== #
+
+type AddVolatileIlk @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+}
+
+type InvariantChecked @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    reserve: BigInt!
+    worstCaseLoss: BigInt!
+    passed: Boolean!
+}
+
+# =============================== BalanceSheet =============================== #
+
+type Fess @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    tab: BigInt!
+}
+
+type BalanceSheetHeal @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    rad: BigInt!
+}
+
+type BalanceSheetSuck @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    kpr: Bytes! # address
+    rad: BigInt!
+}
+
+type DistributeSurplus @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    excess: BigInt!
+}
+
+# =============================== LiquidationTrigger =============================== #
+
+type Bark @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    urn: Bytes! # address
+    ink: BigInt!
+    art: BigInt!
+    due: BigInt!
+    clip: Bytes! # address
+    auctionId: BigInt!
+}
+
+type Digs @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    rad: BigInt!
+}
+
+# =============================== DutchAuction =============================== #
+
+type Kick @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    auctionId: BigInt!
+    top: BigInt!
+    tab: BigInt!
+    lot: BigInt!
+    usr: Bytes! # address
+    kpr: Bytes! # address
+    coin: BigInt!
+}
+
+type Take @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    auctionId: BigInt!
+    max: BigInt!
+    price: BigInt!
+    owe: BigInt!
+    tab: BigInt!
+    lot: BigInt!
+    usr: Bytes! # address
+}
+
+type Redo @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    auctionId: BigInt!
+    top: BigInt!
+    tab: BigInt!
+    lot: BigInt!
+    usr: Bytes! # address
+    kpr: Bytes! # address
+    coin: BigInt!
+}
+
+type Yank @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    auctionId: BigInt!
+}
+
+# =============================== CircuitBreaker =============================== #
+
+type Activated @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    deviation: BigInt!
+}
+
+type Deactivated @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}
+
+type Checked @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    deviation: BigInt!
+    active: Boolean!
+}
+
+# =============================== Governor =============================== #
+
+type Schedule @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    actionId: BigInt!
+    target: Bytes! # address
+    data: Bytes!
+    eta: BigInt!
+}
+
+type Execute @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    actionId: BigInt!
+}
+
+type Cancel @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    actionId: BigInt!
+}
+
+type Pause @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    scope: Bytes!
+    pausedAt: BigInt!
+}
+
+type Unpause @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+}

@@ -1,0 +1,34 @@
+{
+    "name": "rain-usdr-sqd",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "rm -rf lib && tsc",
+        "codegen:abi": "squid-evm-typegen src/abi ./abi/*.json",
+        "codegen:model": "squid-typeorm-codegen",
+        "db:migrate": "npx squid-typeorm-migration apply",
+        "format": "prettier --check --write .prettierrc *.json **/*.{json,ts}",
+        "index": "npx tsc && node -r dotenv/config lib/main.js",
+        "squid-api:start": "squid-graphql-server",
+        "squid-etl:start": "node lib/processor.js",
+        "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f"
+    },
+    "author": "Rain Team",
+    "license": "MIT",
+    "dependencies": {
+        "@subsquid/evm-abi": "^0.3.1",
+        "@subsquid/evm-processor": "^1.27.0",
+        "@subsquid/graphql-server": "^4.9.0",
+        "@subsquid/typeorm-migration": "^1.3.0",
+        "@subsquid/typeorm-store": "^1.5.1",
+        "dotenv": "^16.4.7",
+        "typeorm": "^0.3.21"
+    },
+    "devDependencies": {
+        "@subsquid/evm-typegen": "^4.3.0",
+        "@subsquid/typeorm-codegen": "^2.0.2",
+        "prettier": "^3.5.3",
+        "prettier-plugin-package": "^1.4.0",
+        "prettier-plugin-sort-imports": "^1.8.6",
+        "typescript": "^5.8.2"
+    }
+}

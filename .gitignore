@@ -1,0 +1,36 @@
+.vscode/
+.env
+
+# NPM
+node_modules
+package-lock.json
+.npm
+
+# Yarn
+yarn.lock
+.yarn
+.yarnrc.yml
+.pnp.*
+
+# Sqd Files
+builds/
+db/
+lib/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Temporary Files
+scripts/ephemeral
+
+# Misc
+.DS_Store
+
+# Docs
+docs/

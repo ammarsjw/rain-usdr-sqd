@@ -1,0 +1,14 @@
+manifest_version: subsquid.io/v0.1
+name: rain-usdr
+
+build:
+
+deploy:
+  addons:
+    postgres:
+    rpc:
+      - arbitrum-one.http
+  processor:
+    cmd: ["node", "lib/processor.js"]
+  api:
+    cmd: ["sqd", "serve:dev"]

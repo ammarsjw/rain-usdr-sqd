@@ -22,7 +22,10 @@ export const processor = new EvmBatchProcessor()
         url: process.env.GATEWAY,
         apiKey: process.env.SQD_API_KEY
     })
-    .setRpcEndpoint(process.env.RPC_HTTP)
+    .setRpcEndpoint({
+        url: process.env.RPC_HTTP,
+        rateLimit: 300
+    })
     .setBlockRange({ from: startBlock })
     .setFinalityConfirmation(10)
     .addLog({

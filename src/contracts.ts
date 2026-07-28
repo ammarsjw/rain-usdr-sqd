@@ -14,7 +14,7 @@ const envAddresses = [
     process.env.BALANCE_SHEET_ADDRESS,
     process.env.PRICE_CURVE_ADDRESS,
     process.env.LIQUIDATION_TRIGGER_ADDRESS,
-    process.env.RAIN_CLIPPER_ADDRESS,
+    process.env.DUTCH_AUCTION_ADDRESS,
     process.env.CIRCUIT_BREAKER_ADDRESS,
     process.env.GOVERNOR_ADDRESS
 ];

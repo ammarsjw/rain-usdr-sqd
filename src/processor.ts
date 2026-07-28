@@ -18,7 +18,10 @@ import { EvmBatchProcessor } from "@subsquid/evm-processor";
 const startBlock = Number(process.env.START_BLOCK);
 
 export const processor = new EvmBatchProcessor()
-    .setGateway(process.env.GATEWAY)
+    .setGateway({
+        url: process.env.GATEWAY,
+        apiKey: process.env.SQD_API_KEY
+    })
     .setRpcEndpoint(process.env.RPC_HTTP)
     .setBlockRange({ from: startBlock })
     .setFinalityConfirmation(10)

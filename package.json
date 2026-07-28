@@ -5,11 +5,12 @@
         "build": "rm -rf lib && tsc",
         "codegen:abi": "squid-evm-typegen src/abi ./abi/*.json",
         "codegen:model": "squid-typeorm-codegen",
+        "db:generate": "npx squid-typeorm-migration generate",
         "db:migrate": "npx squid-typeorm-migration apply",
         "format": "prettier --check --write .prettierrc *.json **/*.{json,ts}",
         "index": "npx tsc && node -r dotenv/config lib/main.js",
-        "squid-api:start": "squid-graphql-server",
-        "squid-etl:start": "node lib/processor.js",
+        "squid-api:start": "node -r dotenv/config node_modules/@subsquid/graphql-server/bin/run.js",
+        "squid-etl:start": "node -r dotenv/config lib/main.js",
         "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f"
     },
     "author": "Rain Team",
@@ -30,5 +31,13 @@
         "prettier-plugin-package": "^1.4.0",
         "prettier-plugin-sort-imports": "^1.8.6",
         "typescript": "^5.8.2"
+    },
+    "allowScripts": {
+        "@apollo/protobufjs@1.2.8": true,
+        "@apollo/protobufjs@1.2.6": true,
+        "bufferutil@4.1.0": true,
+        "es5-ext@0.10.64": true,
+        "keccak@3.0.4": true,
+        "utf-8-validate@5.0.10": true
     }
 }

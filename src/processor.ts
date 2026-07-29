@@ -19,11 +19,11 @@ const startBlock = Number(process.env.START_BLOCK);
 
 export const processor = new EvmBatchProcessor()
     .setGateway({
-        url: process.env.GATEWAY,
+        url: process.env.GATEWAY!,
         apiKey: process.env.SQD_API_KEY
     })
     .setRpcEndpoint({
-        url: process.env.RPC_HTTP,
+        url: process.env.RPC_HTTP!,
         rateLimit: 300
     })
     .setBlockRange({ from: startBlock })

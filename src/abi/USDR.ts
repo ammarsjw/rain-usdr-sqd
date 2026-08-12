@@ -4,9 +4,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     Approval: event("0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925", "Approval(address,address,uint256)", {"owner": indexed(p.address), "spender": indexed(p.address), "value": p.uint256}),
-    Deny: event("0x184450df2e323acec0ed3b5c7531b81f9b4cdef7914dfd4c0a4317416bb5251b", "Deny(address)", {"account": indexed(p.address)}),
     EIP712DomainChanged: event("0x0a6387c9ea3628b88a633bb4f3b151770f70085117a15f9bf3787cda53f13d31", "EIP712DomainChanged()", {}),
-    Rely: event("0xdd0e34038ac38b2a1ce960229778ac48a8719bc900b6c4f8d0475c6e8b385a60", "Rely(address)", {"account": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -21,7 +19,6 @@ export const functions = {
     balanceOf: viewFun("0x70a08231", "balanceOf(address)", {"account": p.address}, p.uint256),
     burn: fun("0x9dc29fac", "burn(address,uint256)", {"from": p.address, "amount": p.uint256}, ),
     decimals: viewFun("0x313ce567", "decimals()", {}, p.uint8),
-    deny: fun("0x9c52a7f1", "deny(address)", {"account": p.address}, ),
     eip712Domain: viewFun("0x84b0196e", "eip712Domain()", {}, {"fields": p.bytes1, "name": p.string, "version": p.string, "chainId": p.uint256, "verifyingContract": p.address, "salt": p.bytes32, "extensions": p.array(p.uint256)}),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
@@ -30,7 +27,6 @@ export const functions = {
     name: viewFun("0x06fdde03", "name()", {}, p.string),
     nonces: viewFun("0x7ecebe00", "nonces(address)", {"owner": p.address}, p.uint256),
     permit: fun("0xd505accf", "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)", {"owner": p.address, "spender": p.address, "value": p.uint256, "deadline": p.uint256, "v": p.uint8, "r": p.bytes32, "s": p.bytes32}, ),
-    rely: fun("0x65fae35e", "rely(address)", {"account": p.address}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
@@ -97,9 +93,7 @@ export class Contract extends ContractBase {
 
 /// Event types
 export type ApprovalEventArgs = EParams<typeof events.Approval>
-export type DenyEventArgs = EParams<typeof events.Deny>
 export type EIP712DomainChangedEventArgs = EParams<typeof events.EIP712DomainChanged>
-export type RelyEventArgs = EParams<typeof events.Rely>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
@@ -127,9 +121,6 @@ export type BurnReturn = FunctionReturn<typeof functions.burn>
 export type DecimalsParams = FunctionArguments<typeof functions.decimals>
 export type DecimalsReturn = FunctionReturn<typeof functions.decimals>
 
-export type DenyParams = FunctionArguments<typeof functions.deny>
-export type DenyReturn = FunctionReturn<typeof functions.deny>
-
 export type Eip712DomainParams = FunctionArguments<typeof functions.eip712Domain>
 export type Eip712DomainReturn = FunctionReturn<typeof functions.eip712Domain>
 
@@ -153,9 +144,6 @@ export type NoncesReturn = FunctionReturn<typeof functions.nonces>
 
 export type PermitParams = FunctionArguments<typeof functions.permit>
 export type PermitReturn = FunctionReturn<typeof functions.permit>
-
-export type RelyParams = FunctionArguments<typeof functions.rely>
-export type RelyReturn = FunctionReturn<typeof functions.rely>
 
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>

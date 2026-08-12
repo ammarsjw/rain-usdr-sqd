@@ -1,6 +1,8 @@
 # =============================== Shared (Auth) =============================== #
 
-type Rely @entity {
+# AccessControl role grant (replaces the old Rely/Kiss/AddRecorder/AddCommitter wrappers;
+# the role field distinguishes wards, readers, recorders and committers).
+type RoleGranted @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
     blockTimestamp: BigInt!
@@ -9,10 +11,13 @@ type Rely @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    role: Bytes! # bytes32
     account: Bytes! # address
+    sender: Bytes! # address
 }
 
-type Deny @entity {
+# AccessControl role revocation (replaces the old Deny/Diss/RemoveRecorder/RemoveCommitter wrappers).
+type RoleRevoked @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
     blockTimestamp: BigInt!
@@ -21,7 +26,24 @@ type Deny @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    role: Bytes! # bytes32
     account: Bytes! # address
+    sender: Bytes! # address
+}
+
+# AccessControl role admin change (emitted from constructors wiring role hierarchies).
+type RoleAdminChanged @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    role: Bytes! # bytes32
+    previousAdminRole: Bytes! # bytes32
+    newAdminRole: Bytes! # bytes32
 }
 
 # One entity for every `File` overload across the system. Unused fields stay null.
@@ -297,30 +319,6 @@ type Change @entity {
     src: Bytes! # address
 }
 
-type Kiss @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
-
-type Diss @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
-
 type OsmPoke @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
@@ -384,54 +382,6 @@ type BuyStable @entity {
 }
 
 # =============================== ReserveAccounting =============================== #
-
-type AddRecorder @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
-
-type RemoveRecorder @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
-
-type AddCommitter @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
-
-type RemoveCommitter @entity {
-    id: ID! # transaction hash + event log index
-    blockNumber: BigInt!
-    blockTimestamp: BigInt!
-    transactionHash: Bytes!
-    contractAddress: Bytes!
-    eventLogIndex: Int!
-
-    # Custom required values
-    account: Bytes! # address
-}
 
 type RecordIncrease @entity {
     id: ID! # transaction hash + event log index

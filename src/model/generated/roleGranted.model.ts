@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class AddRecorder {
-    constructor(props?: Partial<AddRecorder>) {
+export class RoleGranted {
+    constructor(props?: Partial<RoleGranted>) {
         Object.assign(this, props)
     }
 
@@ -25,5 +25,11 @@ export class AddRecorder {
     eventLogIndex!: number
 
     @BytesColumn_({nullable: false})
+    role!: Uint8Array
+
+    @BytesColumn_({nullable: false})
     account!: Uint8Array
+
+    @BytesColumn_({nullable: false})
+    sender!: Uint8Array
 }

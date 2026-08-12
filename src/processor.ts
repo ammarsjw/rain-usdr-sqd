@@ -33,9 +33,10 @@ export const processor = new EvmBatchProcessor()
         transaction: true,
         transactionLogs: true,
         topic0: [
-            // Auth (shared by all privileged contracts).
-            vaultEngineEvents.Rely.topic,
-            vaultEngineEvents.Deny.topic,
+            // Access control (shared by all privileged contracts).
+            vaultEngineEvents.RoleGranted.topic,
+            vaultEngineEvents.RoleRevoked.topic,
+            vaultEngineEvents.RoleAdminChanged.topic,
             // File overloads (topics shared across the system).
             vaultEngineEvents["File(bytes32 indexed,uint256)"].topic,
             vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,uint256)"].topic,
@@ -66,8 +67,6 @@ export const processor = new EvmBatchProcessor()
             oracleSecurityModuleEvents.Start.topic,
             oracleSecurityModuleEvents.Void.topic,
             oracleSecurityModuleEvents.Change.topic,
-            oracleSecurityModuleEvents.Kiss.topic,
-            oracleSecurityModuleEvents.Diss.topic,
             oracleSecurityModuleEvents.Poke.topic,
             // PriceConverter.
             priceConverterEvents.Poke.topic,
@@ -75,10 +74,6 @@ export const processor = new EvmBatchProcessor()
             pegStabilityModuleEvents.SellStable.topic,
             pegStabilityModuleEvents.BuyStable.topic,
             // ReserveAccounting.
-            reserveAccountingEvents.AddRecorder.topic,
-            reserveAccountingEvents.RemoveRecorder.topic,
-            reserveAccountingEvents.AddCommitter.topic,
-            reserveAccountingEvents.RemoveCommitter.topic,
             reserveAccountingEvents.RecordIncrease.topic,
             reserveAccountingEvents.RecordDecrease.topic,
             reserveAccountingEvents.UpdateCommittedEscrow.topic,

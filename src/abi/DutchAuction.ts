@@ -3,12 +3,10 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
-    Deny: event("0x184450df2e323acec0ed3b5c7531b81f9b4cdef7914dfd4c0a4317416bb5251b", "Deny(address)", {"account": indexed(p.address)}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     Kick: event("0x7c5bfdc0a5e8192f6cd4972f382cec69116862fb62e6abff8003874c58e064b8", "Kick(uint256,uint256,uint256,uint256,address,address,uint256)", {"id": indexed(p.uint256), "top": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": indexed(p.address), "kpr": indexed(p.address), "coin": p.uint256}),
     Redo: event("0x275de7ecdd375b5e8049319f8b350686131c219dd4dc450a08e9cf83b03c865f", "Redo(uint256,uint256,uint256,uint256,address,address,uint256)", {"id": indexed(p.uint256), "top": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": indexed(p.address), "kpr": indexed(p.address), "coin": p.uint256}),
-    Rely: event("0xdd0e34038ac38b2a1ce960229778ac48a8719bc900b6c4f8d0475c6e8b385a60", "Rely(address)", {"account": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -18,28 +16,27 @@ export const events = {
 
 export const functions = {
     DEFAULT_ADMIN_ROLE: viewFun("0xa217fddf", "DEFAULT_ADMIN_ROLE()", {}, p.bytes32),
+    ILK_ID: viewFun("0x8255570a", "ILK_ID()", {}, p.bytes32),
+    VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
     active: viewFun("0x8033d581", "active(uint256)", {"_0": p.uint256}, p.uint256),
     buf: viewFun("0x15232515", "buf()", {}, p.uint256),
     calc: viewFun("0x96f1b6be", "calc()", {}, p.address),
     chip: viewFun("0xb61500e4", "chip()", {}, p.uint64),
     count: viewFun("0x06661abd", "count()", {}, p.uint256),
     cusp: viewFun("0x49ed5931", "cusp()", {}, p.uint256),
-    deny: fun("0x9c52a7f1", "deny(address)", {"account": p.address}, ),
     dog: viewFun("0xc3b3ad7f", "dog()", {}, p.address),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
-    getStatus: viewFun("0x5c622a0e", "getStatus(uint256)", {"id": p.uint256}, {"needsRedo": p.bool, "price_": p.uint256, "lot": p.uint256, "tab": p.uint256}),
+    getStatus: viewFun("0x5c622a0e", "getStatus(uint256)", {"id": p.uint256}, {"needsRedo": p.bool, "price": p.uint256, "lot": p.uint256, "tab": p.uint256}),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilkId: viewFun("0xffd7e45b", "ilkId()", {}, p.bytes32),
     kick: fun("0x898eb267", "kick(uint256,uint256,address,address)", {"tab": p.uint256, "lot": p.uint256, "usr": p.address, "kpr": p.address}, p.uint256),
     kicks: viewFun("0xcfdd3302", "kicks()", {}, p.uint256),
     list: viewFun("0x0f560cd7", "list()", {}, p.array(p.uint256)),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     pip: viewFun("0xd741e2f9", "pip()", {}, p.address),
     redo: fun("0xd843416d", "redo(uint256,address)", {"id": p.uint256, "kpr": p.address}, ),
-    rely: fun("0x65fae35e", "rely(address)", {"account": p.address}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sales: viewFun("0xb5f522f7", "sales(uint256)", {"id": p.uint256}, {"pos": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": p.address, "tic": p.uint96, "top": p.uint256}),
@@ -47,7 +44,6 @@ export const functions = {
     tail: viewFun("0x13d8c840", "tail()", {}, p.uint256),
     take: fun("0x81a794cb", "take(uint256,uint256,uint256,address,bytes)", {"id": p.uint256, "amt": p.uint256, "max": p.uint256, "who": p.address, "data": p.bytes}, ),
     tip: viewFun("0x2755cd2d", "tip()", {}, p.uint192),
-    vaultEngine: viewFun("0xf29176c3", "vaultEngine()", {}, p.address),
     vow: viewFun("0x626cb3c5", "vow()", {}, p.address),
     yank: fun("0x26e027f1", "yank(uint256)", {"id": p.uint256}, ),
 }
@@ -56,6 +52,14 @@ export class Contract extends ContractBase {
 
     DEFAULT_ADMIN_ROLE() {
         return this.eth_call(functions.DEFAULT_ADMIN_ROLE, {})
+    }
+
+    ILK_ID() {
+        return this.eth_call(functions.ILK_ID, {})
+    }
+
+    VAULT_ENGINE() {
+        return this.eth_call(functions.VAULT_ENGINE, {})
     }
 
     active(_0: ActiveParams["_0"]) {
@@ -98,10 +102,6 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
-    ilkId() {
-        return this.eth_call(functions.ilkId, {})
-    }
-
     kicks() {
         return this.eth_call(functions.kicks, {})
     }
@@ -134,22 +134,16 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.tip, {})
     }
 
-    vaultEngine() {
-        return this.eth_call(functions.vaultEngine, {})
-    }
-
     vow() {
         return this.eth_call(functions.vow, {})
     }
 }
 
 /// Event types
-export type DenyEventArgs = EParams<typeof events.Deny>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type KickEventArgs = EParams<typeof events.Kick>
 export type RedoEventArgs = EParams<typeof events.Redo>
-export type RelyEventArgs = EParams<typeof events.Rely>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
@@ -159,6 +153,12 @@ export type YankEventArgs = EParams<typeof events.Yank>
 /// Function types
 export type DEFAULT_ADMIN_ROLEParams = FunctionArguments<typeof functions.DEFAULT_ADMIN_ROLE>
 export type DEFAULT_ADMIN_ROLEReturn = FunctionReturn<typeof functions.DEFAULT_ADMIN_ROLE>
+
+export type ILK_IDParams = FunctionArguments<typeof functions.ILK_ID>
+export type ILK_IDReturn = FunctionReturn<typeof functions.ILK_ID>
+
+export type VAULT_ENGINEParams = FunctionArguments<typeof functions.VAULT_ENGINE>
+export type VAULT_ENGINEReturn = FunctionReturn<typeof functions.VAULT_ENGINE>
 
 export type ActiveParams = FunctionArguments<typeof functions.active>
 export type ActiveReturn = FunctionReturn<typeof functions.active>
@@ -177,9 +177,6 @@ export type CountReturn = FunctionReturn<typeof functions.count>
 
 export type CuspParams = FunctionArguments<typeof functions.cusp>
 export type CuspReturn = FunctionReturn<typeof functions.cusp>
-
-export type DenyParams = FunctionArguments<typeof functions.deny>
-export type DenyReturn = FunctionReturn<typeof functions.deny>
 
 export type DogParams = FunctionArguments<typeof functions.dog>
 export type DogReturn = FunctionReturn<typeof functions.dog>
@@ -202,9 +199,6 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
 
-export type IlkIdParams = FunctionArguments<typeof functions.ilkId>
-export type IlkIdReturn = FunctionReturn<typeof functions.ilkId>
-
 export type KickParams = FunctionArguments<typeof functions.kick>
 export type KickReturn = FunctionReturn<typeof functions.kick>
 
@@ -222,9 +216,6 @@ export type PipReturn = FunctionReturn<typeof functions.pip>
 
 export type RedoParams = FunctionArguments<typeof functions.redo>
 export type RedoReturn = FunctionReturn<typeof functions.redo>
-
-export type RelyParams = FunctionArguments<typeof functions.rely>
-export type RelyReturn = FunctionReturn<typeof functions.rely>
 
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>
@@ -246,9 +237,6 @@ export type TakeReturn = FunctionReturn<typeof functions.take>
 
 export type TipParams = FunctionArguments<typeof functions.tip>
 export type TipReturn = FunctionReturn<typeof functions.tip>
-
-export type VaultEngineParams = FunctionArguments<typeof functions.vaultEngine>
-export type VaultEngineReturn = FunctionReturn<typeof functions.vaultEngine>
 
 export type VowParams = FunctionArguments<typeof functions.vow>
 export type VowReturn = FunctionReturn<typeof functions.vow>

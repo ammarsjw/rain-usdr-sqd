@@ -15,8 +15,6 @@ import { contractAddresses } from "./contracts";
 import { idFromEventLogIndex } from "./id";
 import {
     Activated,
-    AddCommitter,
-    AddRecorder,
     AddVolatileIlk,
     BalanceSheetHeal,
     BalanceSheetSuck,
@@ -27,9 +25,7 @@ import {
     Change,
     Checked,
     Deactivated,
-    Deny,
     Digs,
-    Diss,
     DistributeSurplus,
     Execute,
     Exit,
@@ -43,7 +39,6 @@ import {
     InvariantChecked,
     Join,
     Kick,
-    Kiss,
     Move,
     Nope,
     OsmPoke,
@@ -51,9 +46,9 @@ import {
     RecordDecrease,
     RecordIncrease,
     Redo,
-    Rely,
-    RemoveCommitter,
-    RemoveRecorder,
+    RoleAdminChanged,
+    RoleGranted,
+    RoleRevoked,
     Schedule,
     SellStable,
     Slip,
@@ -96,13 +91,38 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             };
             const topic = e.topics[0];
 
-            // Auth (shared by all privileged contracts).
-            if (topic === vaultEngineEvents.Rely.topic) {
-                const { account } = vaultEngineEvents.Rely.decode(e);
-                entities.push(new Rely({ ...base, account: hexToBytes(account) }));
-            } else if (topic === vaultEngineEvents.Deny.topic) {
-                const { account } = vaultEngineEvents.Deny.decode(e);
-                entities.push(new Deny({ ...base, account: hexToBytes(account) }));
+            // Access control (shared by all privileged contracts; the role field distinguishes
+            // wards, readers, recorders and committers).
+            if (topic === vaultEngineEvents.RoleGranted.topic) {
+                const { role, account, sender } = vaultEngineEvents.RoleGranted.decode(e);
+                entities.push(
+                    new RoleGranted({
+                        ...base,
+                        role: hexToBytes(role),
+                        account: hexToBytes(account),
+                        sender: hexToBytes(sender)
+                    })
+                );
+            } else if (topic === vaultEngineEvents.RoleRevoked.topic) {
+                const { role, account, sender } = vaultEngineEvents.RoleRevoked.decode(e);
+                entities.push(
+                    new RoleRevoked({
+                        ...base,
+                        role: hexToBytes(role),
+                        account: hexToBytes(account),
+                        sender: hexToBytes(sender)
+                    })
+                );
+            } else if (topic === vaultEngineEvents.RoleAdminChanged.topic) {
+                const { role, previousAdminRole, newAdminRole } = vaultEngineEvents.RoleAdminChanged.decode(e);
+                entities.push(
+                    new RoleAdminChanged({
+                        ...base,
+                        role: hexToBytes(role),
+                        previousAdminRole: hexToBytes(previousAdminRole),
+                        newAdminRole: hexToBytes(newAdminRole)
+                    })
+                );
             }
 
             // File overloads (topics shared across the system).
@@ -235,12 +255,6 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === oracleSecurityModuleEvents.Change.topic) {
                 const { ilkId, src } = oracleSecurityModuleEvents.Change.decode(e);
                 entities.push(new Change({ ...base, ilkId: hexToBytes(ilkId), src: hexToBytes(src) }));
-            } else if (topic === oracleSecurityModuleEvents.Kiss.topic) {
-                const { account } = oracleSecurityModuleEvents.Kiss.decode(e);
-                entities.push(new Kiss({ ...base, account: hexToBytes(account) }));
-            } else if (topic === oracleSecurityModuleEvents.Diss.topic) {
-                const { account } = oracleSecurityModuleEvents.Diss.decode(e);
-                entities.push(new Diss({ ...base, account: hexToBytes(account) }));
             } else if (topic === oracleSecurityModuleEvents.Poke.topic) {
                 const { ilkId, current, next } = oracleSecurityModuleEvents.Poke.decode(e);
                 entities.push(new OsmPoke({ ...base, ilkId: hexToBytes(ilkId), current, next }));
@@ -266,19 +280,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             }
 
             // ReserveAccounting.
-            else if (topic === reserveAccountingEvents.AddRecorder.topic) {
-                const { account } = reserveAccountingEvents.AddRecorder.decode(e);
-                entities.push(new AddRecorder({ ...base, account: hexToBytes(account) }));
-            } else if (topic === reserveAccountingEvents.RemoveRecorder.topic) {
-                const { account } = reserveAccountingEvents.RemoveRecorder.decode(e);
-                entities.push(new RemoveRecorder({ ...base, account: hexToBytes(account) }));
-            } else if (topic === reserveAccountingEvents.AddCommitter.topic) {
-                const { account } = reserveAccountingEvents.AddCommitter.decode(e);
-                entities.push(new AddCommitter({ ...base, account: hexToBytes(account) }));
-            } else if (topic === reserveAccountingEvents.RemoveCommitter.topic) {
-                const { account } = reserveAccountingEvents.RemoveCommitter.decode(e);
-                entities.push(new RemoveCommitter({ ...base, account: hexToBytes(account) }));
-            } else if (topic === reserveAccountingEvents.RecordIncrease.topic) {
+            else if (topic === reserveAccountingEvents.RecordIncrease.topic) {
                 const { wad, totalReserve } = reserveAccountingEvents.RecordIncrease.decode(e);
                 entities.push(new RecordIncrease({ ...base, wad, totalReserve }));
             } else if (topic === reserveAccountingEvents.RecordDecrease.topic) {

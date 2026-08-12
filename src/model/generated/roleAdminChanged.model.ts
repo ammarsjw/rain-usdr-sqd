@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Diss {
-    constructor(props?: Partial<Diss>) {
+export class RoleAdminChanged {
+    constructor(props?: Partial<RoleAdminChanged>) {
         Object.assign(this, props)
     }
 
@@ -25,5 +25,11 @@ export class Diss {
     eventLogIndex!: number
 
     @BytesColumn_({nullable: false})
-    account!: Uint8Array
+    role!: Uint8Array
+
+    @BytesColumn_({nullable: false})
+    previousAdminRole!: Uint8Array
+
+    @BytesColumn_({nullable: false})
+    newAdminRole!: Uint8Array
 }

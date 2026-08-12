@@ -1,3 +1,5 @@
+import { EvmBatchProcessor } from "@subsquid/evm-processor";
+
 import { events as balanceSheetEvents } from "./abi/BalanceSheet";
 import { events as circuitBreakerEvents } from "./abi/CircuitBreaker";
 import { events as collateralAdapterEvents } from "./abi/CollateralAdapter";
@@ -12,19 +14,25 @@ import { events as reserveAccountingEvents } from "./abi/ReserveAccounting";
 import { events as solvencyEngineEvents } from "./abi/SolvencyEngine";
 import { events as usdrEvents } from "./abi/USDR";
 import { events as vaultEngineEvents } from "./abi/VaultEngine";
-import { contractAddresses } from "./contracts";
-import { EvmBatchProcessor } from "@subsquid/evm-processor";
+import { START_BLOCK } from "./config/deployments";
 
-const startBlock = Number(process.env.START_BLOCK);
+import { contractAddresses } from "./contracts";
+
+const gateway = process.env.GATEWAY!;
+const sqdApiKey = process.env.SQD_API_KEY;
+const rpcEndpoint = process.env.RPC_HTTP!;
+const rateLimit = Number(process.env.RATE_LIMIT);
+
+const startBlock = Number(START_BLOCK);
 
 export const processor = new EvmBatchProcessor()
     .setGateway({
-        url: process.env.GATEWAY!,
-        apiKey: process.env.SQD_API_KEY
+        url: gateway,
+        apiKey: sqdApiKey
     })
     .setRpcEndpoint({
-        url: process.env.RPC_HTTP!,
-        rateLimit: 300
+        url: rpcEndpoint,
+        rateLimit: rateLimit
     })
     .setBlockRange({ from: startBlock })
     .setFinalityConfirmation(10)

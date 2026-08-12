@@ -1,3 +1,5 @@
+import { TypeormDatabase } from "@subsquid/typeorm-store";
+
 import { events as balanceSheetEvents } from "./abi/BalanceSheet";
 import { events as circuitBreakerEvents } from "./abi/CircuitBreaker";
 import { events as collateralAdapterEvents } from "./abi/CollateralAdapter";
@@ -11,6 +13,8 @@ import { events as reserveAccountingEvents } from "./abi/ReserveAccounting";
 import { events as solvencyEngineEvents } from "./abi/SolvencyEngine";
 import { events as usdrEvents } from "./abi/USDR";
 import { events as vaultEngineEvents } from "./abi/VaultEngine";
+import { VAULT_ENGINE_ADDRESS, BALANCE_SHEET_ADDRESS } from "./config/deployments";
+
 import { contractAddresses } from "./contracts";
 import { idFromEventLogIndex } from "./id";
 import {
@@ -66,12 +70,11 @@ import {
 } from "./model";
 import { processor } from "./processor";
 import { hexToBytes } from "./utils";
-import { TypeormDatabase } from "@subsquid/typeorm-store";
+
+const vaultEngineAddress = VAULT_ENGINE_ADDRESS.toLowerCase();
+const balanceSheetAddress = BALANCE_SHEET_ADDRESS.toLowerCase();
 
 const addressSet = new Set(contractAddresses);
-
-const vaultEngineAddress = (process.env.VAULT_ENGINE_ADDRESS || "").toLowerCase();
-const balanceSheetAddress = (process.env.BALANCE_SHEET_ADDRESS || "").toLowerCase();
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
     const entities: any[] = [];

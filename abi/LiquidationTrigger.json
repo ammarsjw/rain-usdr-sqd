@@ -264,6 +264,19 @@
     },
     {
         "type": "function",
+        "name": "governor",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "grantRole",
         "inputs": [
             {
@@ -332,6 +345,11 @@
             },
             {
                 "name": "dirt",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "barkFactor",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -685,6 +703,11 @@
     {
         "type": "error",
         "name": "DustyAuction",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InvalidBarkFactor",
         "inputs": []
     },
     {

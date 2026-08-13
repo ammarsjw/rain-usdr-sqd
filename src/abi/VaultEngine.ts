@@ -5,6 +5,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 export const events = {
     Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
+    'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
     Flux: event("0x5718eae79ffb8b6c98c497e5029a903705cf6a33a17aaab32de7fe198d8d8a0d", "Flux(bytes32,address,address,uint256)", {"ilkId": indexed(p.bytes32), "from": indexed(p.address), "to": indexed(p.address), "wad": p.uint256}),
     Frob: event("0xe37707842c8387f7c3c357f1d6c5bf57084e681573bdda024fae70cf0ecde80e", "Frob(bytes32,address,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "u": indexed(p.address), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
@@ -29,16 +30,18 @@ export const functions = {
     debt: viewFun("0x0dca59c1", "debt()", {}, p.uint256),
     'file(bytes32,bytes32,uint256)': fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
+    'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     flux: fun("0x6111be2e", "flux(bytes32,address,address,uint256)", {"ilkId": p.bytes32, "from": p.address, "to": p.address, "wad": p.uint256}, ),
     frob: fun("0x76088703", "frob(bytes32,address,address,address,int256,int256)", {"ilkId": p.bytes32, "u": p.address, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     globalLine: viewFun("0x0a91f0ce", "globalLine()", {}, p.uint256),
+    governor: viewFun("0x0c340a24", "governor()", {}, p.address),
     grab: fun("0x7bab3f40", "grab(bytes32,address,address,address,int256,int256)", {"ilkId": p.bytes32, "u": p.address, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
     heal: fun("0xf37ac61c", "heal(uint256)", {"rad": p.uint256}, ),
     hope: fun("0xa3b22fc4", "hope(address)", {"operator": p.address}, ),
-    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"globalArt": p.uint256, "rate": p.uint256, "spot": p.uint256, "line": p.uint256, "dust": p.uint256}),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"globalArt": p.uint256, "globalInk": p.uint256, "rate": p.uint256, "spot": p.uint256, "line": p.uint256, "dust": p.uint256}),
     init: fun("0x3b663195", "init(bytes32)", {"ilkId": p.bytes32}, ),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     move: fun("0xbb35783b", "move(address,address,uint256)", {"from": p.address, "to": p.address, "rad": p.uint256}, ),
@@ -47,6 +50,7 @@ export const functions = {
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sin: viewFun("0xf059212a", "sin(address)", {"debtSink": p.address}, p.uint256),
     slip: fun("0x7cdd3fde", "slip(bytes32,address,int256)", {"ilkId": p.bytes32, "user": p.address, "wad": p.int256}, ),
+    solvencyEngine: viewFun("0xa898ed1e", "solvencyEngine()", {}, p.address),
     suck: fun("0xf24e23eb", "suck(address,address,uint256)", {"u": p.address, "v": p.address, "rad": p.uint256}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
     urns: viewFun("0x2424be5c", "urns(bytes32,address)", {"ilkId": p.bytes32, "vaultOwner": p.address}, {"ink": p.uint256, "art": p.uint256}),
@@ -80,6 +84,10 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.globalLine, {})
     }
 
+    governor() {
+        return this.eth_call(functions.governor, {})
+    }
+
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
     }
@@ -94,6 +102,10 @@ export class Contract extends ContractBase {
 
     sin(debtSink: SinParams["debtSink"]) {
         return this.eth_call(functions.sin, {debtSink})
+    }
+
+    solvencyEngine() {
+        return this.eth_call(functions.solvencyEngine, {})
     }
 
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
@@ -116,7 +128,8 @@ export class Contract extends ContractBase {
 /// Event types
 export type CageEventArgs = EParams<typeof events.Cage>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
-export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
+export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
+export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
 export type FluxEventArgs = EParams<typeof events.Flux>
 export type FrobEventArgs = EParams<typeof events.Frob>
 export type GrabEventArgs = EParams<typeof events.Grab>
@@ -153,6 +166,9 @@ export type FileReturn_0 = FunctionReturn<typeof functions['file(bytes32,bytes32
 export type FileParams_1 = FunctionArguments<typeof functions['file(bytes32,uint256)']>
 export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,uint256)']>
 
+export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,address)']>
+export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,address)']>
+
 export type FluxParams = FunctionArguments<typeof functions.flux>
 export type FluxReturn = FunctionReturn<typeof functions.flux>
 
@@ -164,6 +180,9 @@ export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>
 
 export type GlobalLineParams = FunctionArguments<typeof functions.globalLine>
 export type GlobalLineReturn = FunctionReturn<typeof functions.globalLine>
+
+export type GovernorParams = FunctionArguments<typeof functions.governor>
+export type GovernorReturn = FunctionReturn<typeof functions.governor>
 
 export type GrabParams = FunctionArguments<typeof functions.grab>
 export type GrabReturn = FunctionReturn<typeof functions.grab>
@@ -206,6 +225,9 @@ export type SinReturn = FunctionReturn<typeof functions.sin>
 
 export type SlipParams = FunctionArguments<typeof functions.slip>
 export type SlipReturn = FunctionReturn<typeof functions.slip>
+
+export type SolvencyEngineParams = FunctionArguments<typeof functions.solvencyEngine>
+export type SolvencyEngineReturn = FunctionReturn<typeof functions.solvencyEngine>
 
 export type SuckParams = FunctionArguments<typeof functions.suck>
 export type SuckReturn = FunctionReturn<typeof functions.suck>

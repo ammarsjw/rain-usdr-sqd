@@ -43,6 +43,19 @@
     },
     {
         "type": "function",
+        "name": "OBS_COUNT",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "PIP",
         "inputs": [],
         "outputs": [
@@ -56,7 +69,7 @@
     },
     {
         "type": "function",
-        "name": "TREND_WINDOW",
+        "name": "activatedAt",
         "inputs": [],
         "outputs": [
             {
@@ -82,20 +95,7 @@
     },
     {
         "type": "function",
-        "name": "calmBlocks",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "calmCount",
+        "name": "calmPeriod",
         "inputs": [],
         "outputs": [
             {
@@ -194,7 +194,20 @@
     },
     {
         "type": "function",
-        "name": "lastCheckedBlock",
+        "name": "lastObsTimestamp",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "obsInterval",
         "inputs": [],
         "outputs": [
             {
@@ -279,20 +292,7 @@
         "inputs": [],
         "outputs": [
             {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "trendTimestamp",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
+                "name": "trend",
                 "type": "uint256",
                 "internalType": "uint256"
             }

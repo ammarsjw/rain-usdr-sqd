@@ -69,6 +69,32 @@
     },
     {
         "type": "function",
+        "name": "breachThreshold",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "breached",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "checkInvariant",
         "inputs": [],
         "outputs": [
@@ -84,6 +110,19 @@
             }
         ],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "exposureCap",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -197,6 +236,64 @@
     },
     {
         "type": "function",
+        "name": "isBreached",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "isVolatile",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "volatile_",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "priceConverter",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IPriceConverter"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "removeVolatileIlk",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "renounceRole",
         "inputs": [
             {
@@ -212,6 +309,19 @@
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "reserveFactor",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -323,6 +433,25 @@
     },
     {
         "type": "event",
+        "name": "ExposureClamped",
+        "inputs": [
+            {
+                "name": "reported",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "cap",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "File",
         "inputs": [
             {
@@ -361,6 +490,19 @@
                 "type": "bool",
                 "indexed": false,
                 "internalType": "bool"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "RemoveVolatileIlk",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
             }
         ],
         "anonymous": false
@@ -460,10 +602,5 @@
                 "internalType": "bytes32"
             }
         ]
-    },
-    {
-        "type": "error",
-        "name": "SolvencyBreach",
-        "inputs": []
     }
 ]

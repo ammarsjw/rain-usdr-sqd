@@ -15,23 +15,23 @@ export const events = {
 export const functions = {
     DEFAULT_ADMIN_ROLE: viewFun("0xa217fddf", "DEFAULT_ADMIN_ROLE()", {}, p.bytes32),
     ILK_ID: viewFun("0x8255570a", "ILK_ID()", {}, p.bytes32),
+    OBS_COUNT: viewFun("0x709dfa2d", "OBS_COUNT()", {}, p.uint256),
     PIP: viewFun("0xd632fd1d", "PIP()", {}, p.address),
-    TREND_WINDOW: viewFun("0xf5b738b7", "TREND_WINDOW()", {}, p.uint256),
+    activatedAt: viewFun("0x597be6d1", "activatedAt()", {}, p.uint256),
     active: viewFun("0x02fb0c5e", "active()", {}, p.bool),
-    calmBlocks: viewFun("0x5993cf90", "calmBlocks()", {}, p.uint256),
-    calmCount: viewFun("0xa8465c66", "calmCount()", {}, p.uint256),
+    calmPeriod: viewFun("0xa2bc60f1", "calmPeriod()", {}, p.uint256),
     check: fun("0x919840ad", "check()", {}, ),
     file: fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    lastCheckedBlock: viewFun("0x7f76614b", "lastCheckedBlock()", {}, p.uint256),
+    lastObsTimestamp: viewFun("0xde83d719", "lastObsTimestamp()", {}, p.uint256),
+    obsInterval: viewFun("0x1c9c1f90", "obsInterval()", {}, p.uint256),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
     threshold: viewFun("0x42cde4e8", "threshold()", {}, p.uint256),
     trendPrice: viewFun("0x3076fb57", "trendPrice()", {}, p.uint256),
-    trendTimestamp: viewFun("0x6fa9c1d5", "trendTimestamp()", {}, p.uint256),
 }
 
 export class Contract extends ContractBase {
@@ -44,24 +44,24 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.ILK_ID, {})
     }
 
+    OBS_COUNT() {
+        return this.eth_call(functions.OBS_COUNT, {})
+    }
+
     PIP() {
         return this.eth_call(functions.PIP, {})
     }
 
-    TREND_WINDOW() {
-        return this.eth_call(functions.TREND_WINDOW, {})
+    activatedAt() {
+        return this.eth_call(functions.activatedAt, {})
     }
 
     active() {
         return this.eth_call(functions.active, {})
     }
 
-    calmBlocks() {
-        return this.eth_call(functions.calmBlocks, {})
-    }
-
-    calmCount() {
-        return this.eth_call(functions.calmCount, {})
+    calmPeriod() {
+        return this.eth_call(functions.calmPeriod, {})
     }
 
     getRoleAdmin(role: GetRoleAdminParams["role"]) {
@@ -72,8 +72,12 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
-    lastCheckedBlock() {
-        return this.eth_call(functions.lastCheckedBlock, {})
+    lastObsTimestamp() {
+        return this.eth_call(functions.lastObsTimestamp, {})
+    }
+
+    obsInterval() {
+        return this.eth_call(functions.obsInterval, {})
     }
 
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
@@ -86,10 +90,6 @@ export class Contract extends ContractBase {
 
     trendPrice() {
         return this.eth_call(functions.trendPrice, {})
-    }
-
-    trendTimestamp() {
-        return this.eth_call(functions.trendTimestamp, {})
     }
 }
 
@@ -109,20 +109,20 @@ export type DEFAULT_ADMIN_ROLEReturn = FunctionReturn<typeof functions.DEFAULT_A
 export type ILK_IDParams = FunctionArguments<typeof functions.ILK_ID>
 export type ILK_IDReturn = FunctionReturn<typeof functions.ILK_ID>
 
+export type OBS_COUNTParams = FunctionArguments<typeof functions.OBS_COUNT>
+export type OBS_COUNTReturn = FunctionReturn<typeof functions.OBS_COUNT>
+
 export type PIPParams = FunctionArguments<typeof functions.PIP>
 export type PIPReturn = FunctionReturn<typeof functions.PIP>
 
-export type TREND_WINDOWParams = FunctionArguments<typeof functions.TREND_WINDOW>
-export type TREND_WINDOWReturn = FunctionReturn<typeof functions.TREND_WINDOW>
+export type ActivatedAtParams = FunctionArguments<typeof functions.activatedAt>
+export type ActivatedAtReturn = FunctionReturn<typeof functions.activatedAt>
 
 export type ActiveParams = FunctionArguments<typeof functions.active>
 export type ActiveReturn = FunctionReturn<typeof functions.active>
 
-export type CalmBlocksParams = FunctionArguments<typeof functions.calmBlocks>
-export type CalmBlocksReturn = FunctionReturn<typeof functions.calmBlocks>
-
-export type CalmCountParams = FunctionArguments<typeof functions.calmCount>
-export type CalmCountReturn = FunctionReturn<typeof functions.calmCount>
+export type CalmPeriodParams = FunctionArguments<typeof functions.calmPeriod>
+export type CalmPeriodReturn = FunctionReturn<typeof functions.calmPeriod>
 
 export type CheckParams = FunctionArguments<typeof functions.check>
 export type CheckReturn = FunctionReturn<typeof functions.check>
@@ -139,8 +139,11 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
 
-export type LastCheckedBlockParams = FunctionArguments<typeof functions.lastCheckedBlock>
-export type LastCheckedBlockReturn = FunctionReturn<typeof functions.lastCheckedBlock>
+export type LastObsTimestampParams = FunctionArguments<typeof functions.lastObsTimestamp>
+export type LastObsTimestampReturn = FunctionReturn<typeof functions.lastObsTimestamp>
+
+export type ObsIntervalParams = FunctionArguments<typeof functions.obsInterval>
+export type ObsIntervalReturn = FunctionReturn<typeof functions.obsInterval>
 
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>
@@ -156,7 +159,4 @@ export type ThresholdReturn = FunctionReturn<typeof functions.threshold>
 
 export type TrendPriceParams = FunctionArguments<typeof functions.trendPrice>
 export type TrendPriceReturn = FunctionReturn<typeof functions.trendPrice>
-
-export type TrendTimestampParams = FunctionArguments<typeof functions.trendTimestamp>
-export type TrendTimestampReturn = FunctionReturn<typeof functions.trendTimestamp>
 

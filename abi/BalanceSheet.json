@@ -113,6 +113,19 @@
     },
     {
         "type": "function",
+        "name": "flog",
+        "inputs": [
+            {
+                "name": "era",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "getRoleAdmin",
         "inputs": [
             {
@@ -187,11 +200,37 @@
     },
     {
         "type": "function",
-        "name": "hump",
+        "name": "humpFloor",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "humpRate",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "humpTarget",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "target",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -218,6 +257,19 @@
     },
     {
         "type": "function",
+        "name": "reserveAccounting",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IReserveAccounting"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "revokeRole",
         "inputs": [
             {
@@ -233,6 +285,25 @@
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "sin",
+        "inputs": [
+            {
+                "name": "era",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "tab",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -267,6 +338,32 @@
                 "name": "",
                 "type": "bool",
                 "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "totalQueuedSin",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "wait",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
@@ -331,6 +428,25 @@
                 "type": "address",
                 "indexed": false,
                 "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Flog",
+        "inputs": [
+            {
+                "name": "era",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "tab",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
             }
         ],
         "anonymous": false
@@ -465,11 +581,6 @@
     },
     {
         "type": "error",
-        "name": "BufferBelowTarget",
-        "inputs": []
-    },
-    {
-        "type": "error",
         "name": "InsufficientDebt",
         "inputs": []
     },
@@ -486,6 +597,11 @@
     {
         "type": "error",
         "name": "OutstandingBadDebt",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "WaitNotElapsed",
         "inputs": []
     }
 ]

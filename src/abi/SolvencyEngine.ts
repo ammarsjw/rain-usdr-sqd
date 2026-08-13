@@ -4,8 +4,10 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     AddVolatileIlk: event("0x9f18973ffe1697bc37451ee876c856ed2e039f564a18687caae7dfc17d30116f", "AddVolatileIlk(bytes32)", {"ilkId": indexed(p.bytes32)}),
+    ExposureClamped: event("0x80a7d1a310a6b2bf16dd90bfbde907c7ef552f5318d4563086dbc92283ea85fe", "ExposureClamped(uint256,uint256)", {"reported": p.uint256, "cap": p.uint256}),
     File: event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     InvariantChecked: event("0x2ba99f67a85051641806035b942769c163c26579094d10165250b0ec4f7109a6", "InvariantChecked(uint256,uint256,bool)", {"reserve": p.uint256, "worstCaseLoss": p.uint256, "passed": p.bool}),
+    RemoveVolatileIlk: event("0x6d45f728d9a5d37500b100fd5402b20469515231e15576fe773283bbbe7bcbb4", "RemoveVolatileIlk(bytes32)", {"ilkId": indexed(p.bytes32)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -16,14 +18,22 @@ export const functions = {
     RESERVE_ACCOUNTING: viewFun("0x0e985d9b", "RESERVE_ACCOUNTING()", {}, p.address),
     VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
     addVolatileIlk: fun("0xb4f7398a", "addVolatileIlk(bytes32)", {"ilkId": p.bytes32}, ),
+    breachThreshold: viewFun("0x36d04ab4", "breachThreshold()", {}, p.uint256),
+    breached: viewFun("0x80c1dae2", "breached()", {}, p.bool),
     checkInvariant: fun("0xe79487da", "checkInvariant()", {}, {"loss": p.uint256, "reserve": p.uint256}),
+    exposureCap: viewFun("0xb51d20c7", "exposureCap()", {}, p.uint256),
     externalExposure: viewFun("0xeef93b5f", "externalExposure()", {}, p.address),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
+    isBreached: viewFun("0x12c68770", "isBreached()", {}, p.bool),
+    isVolatile: viewFun("0xc1d9cc73", "isVolatile(bytes32)", {"ilkId": p.bytes32}, p.bool),
+    priceConverter: viewFun("0xb9385510", "priceConverter()", {}, p.address),
+    removeVolatileIlk: fun("0xc85f7650", "removeVolatileIlk(bytes32)", {"ilkId": p.bytes32}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
+    reserveFactor: viewFun("0x4322b714", "reserveFactor()", {}, p.uint256),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     stressDepth: viewFun("0xc077d72a", "stressDepth()", {}, p.uint256),
     stressMarkdown: viewFun("0xd88e644f", "stressMarkdown()", {}, p.uint256),
@@ -46,6 +56,18 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.VAULT_ENGINE, {})
     }
 
+    breachThreshold() {
+        return this.eth_call(functions.breachThreshold, {})
+    }
+
+    breached() {
+        return this.eth_call(functions.breached, {})
+    }
+
+    exposureCap() {
+        return this.eth_call(functions.exposureCap, {})
+    }
+
     externalExposure() {
         return this.eth_call(functions.externalExposure, {})
     }
@@ -56,6 +78,22 @@ export class Contract extends ContractBase {
 
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
+    }
+
+    isBreached() {
+        return this.eth_call(functions.isBreached, {})
+    }
+
+    isVolatile(ilkId: IsVolatileParams["ilkId"]) {
+        return this.eth_call(functions.isVolatile, {ilkId})
+    }
+
+    priceConverter() {
+        return this.eth_call(functions.priceConverter, {})
+    }
+
+    reserveFactor() {
+        return this.eth_call(functions.reserveFactor, {})
     }
 
     stressDepth() {
@@ -81,8 +119,10 @@ export class Contract extends ContractBase {
 
 /// Event types
 export type AddVolatileIlkEventArgs = EParams<typeof events.AddVolatileIlk>
+export type ExposureClampedEventArgs = EParams<typeof events.ExposureClamped>
 export type FileEventArgs = EParams<typeof events.File>
 export type InvariantCheckedEventArgs = EParams<typeof events.InvariantChecked>
+export type RemoveVolatileIlkEventArgs = EParams<typeof events.RemoveVolatileIlk>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
@@ -100,8 +140,17 @@ export type VAULT_ENGINEReturn = FunctionReturn<typeof functions.VAULT_ENGINE>
 export type AddVolatileIlkParams = FunctionArguments<typeof functions.addVolatileIlk>
 export type AddVolatileIlkReturn = FunctionReturn<typeof functions.addVolatileIlk>
 
+export type BreachThresholdParams = FunctionArguments<typeof functions.breachThreshold>
+export type BreachThresholdReturn = FunctionReturn<typeof functions.breachThreshold>
+
+export type BreachedParams = FunctionArguments<typeof functions.breached>
+export type BreachedReturn = FunctionReturn<typeof functions.breached>
+
 export type CheckInvariantParams = FunctionArguments<typeof functions.checkInvariant>
 export type CheckInvariantReturn = FunctionReturn<typeof functions.checkInvariant>
+
+export type ExposureCapParams = FunctionArguments<typeof functions.exposureCap>
+export type ExposureCapReturn = FunctionReturn<typeof functions.exposureCap>
 
 export type ExternalExposureParams = FunctionArguments<typeof functions.externalExposure>
 export type ExternalExposureReturn = FunctionReturn<typeof functions.externalExposure>
@@ -121,8 +170,23 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
 
+export type IsBreachedParams = FunctionArguments<typeof functions.isBreached>
+export type IsBreachedReturn = FunctionReturn<typeof functions.isBreached>
+
+export type IsVolatileParams = FunctionArguments<typeof functions.isVolatile>
+export type IsVolatileReturn = FunctionReturn<typeof functions.isVolatile>
+
+export type PriceConverterParams = FunctionArguments<typeof functions.priceConverter>
+export type PriceConverterReturn = FunctionReturn<typeof functions.priceConverter>
+
+export type RemoveVolatileIlkParams = FunctionArguments<typeof functions.removeVolatileIlk>
+export type RemoveVolatileIlkReturn = FunctionReturn<typeof functions.removeVolatileIlk>
+
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>
+
+export type ReserveFactorParams = FunctionArguments<typeof functions.reserveFactor>
+export type ReserveFactorReturn = FunctionReturn<typeof functions.reserveFactor>
 
 export type RevokeRoleParams = FunctionArguments<typeof functions.revokeRole>
 export type RevokeRoleReturn = FunctionReturn<typeof functions.revokeRole>

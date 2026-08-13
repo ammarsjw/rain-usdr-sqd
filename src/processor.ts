@@ -76,6 +76,7 @@ export const processor = new EvmBatchProcessor()
             oracleSecurityModuleEvents.Void.topic,
             oracleSecurityModuleEvents.Change.topic,
             oracleSecurityModuleEvents.Poke.topic,
+            oracleSecurityModuleEvents.PokeFailed.topic,
             // PriceConverter.
             priceConverterEvents.Poke.topic,
             // PegStabilityModule (Init/File topics shared with the adapter/system File above).
@@ -87,9 +88,12 @@ export const processor = new EvmBatchProcessor()
             reserveAccountingEvents.UpdateCommittedEscrow.topic,
             // SolvencyEngine.
             solvencyEngineEvents.AddVolatileIlk.topic,
+            solvencyEngineEvents.RemoveVolatileIlk.topic,
             solvencyEngineEvents.InvariantChecked.topic,
+            solvencyEngineEvents.ExposureClamped.topic,
             // BalanceSheet.
             balanceSheetEvents.Fess.topic,
+            balanceSheetEvents.Flog.topic,
             balanceSheetEvents.Heal.topic,
             balanceSheetEvents.Suck.topic,
             balanceSheetEvents.DistributeSurplus.topic,
@@ -101,6 +105,7 @@ export const processor = new EvmBatchProcessor()
             dutchAuctionEvents.Take.topic,
             dutchAuctionEvents.Redo.topic,
             dutchAuctionEvents.Yank.topic,
+            dutchAuctionEvents.Upchost.topic,
             // CircuitBreaker.
             circuitBreakerEvents.Activated.topic,
             circuitBreakerEvents.Deactivated.topic,

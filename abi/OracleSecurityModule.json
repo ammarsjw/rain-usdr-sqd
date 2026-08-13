@@ -405,6 +405,25 @@
     },
     {
         "type": "event",
+        "name": "PokeFailed",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "src",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "RoleAdminChanged",
         "inputs": [
             {

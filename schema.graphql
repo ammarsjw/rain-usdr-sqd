@@ -333,6 +333,19 @@ type OsmPoke @entity {
     next: BigInt!
 }
 
+type PokeFailed @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    src: Bytes!
+}
+
 # =============================== PriceConverter =============================== #
 
 type SpotPoke @entity {
@@ -450,6 +463,31 @@ type InvariantChecked @entity {
     passed: Boolean!
 }
 
+type RemoveVolatileIlk @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+}
+
+type ExposureClamped @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    reported: BigInt!
+    cap: BigInt!
+}
+
 # =============================== BalanceSheet =============================== #
 
 type Fess @entity {
@@ -461,6 +499,19 @@ type Fess @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    tab: BigInt!
+}
+
+type Flog @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    era: BigInt!
     tab: BigInt!
 }
 
@@ -600,6 +651,18 @@ type Yank @entity {
 
     # Custom required values
     auctionId: BigInt!
+}
+
+type Upchost @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    chost: BigInt!
 }
 
 # =============================== CircuitBreaker =============================== #

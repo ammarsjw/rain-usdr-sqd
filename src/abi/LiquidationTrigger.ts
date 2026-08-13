@@ -31,9 +31,10 @@ export const functions = {
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     globalDirt: viewFun("0xf8ddf469", "globalDirt()", {}, p.uint256),
     globalHole: viewFun("0xb1ffc23d", "globalHole()", {}, p.uint256),
+    governor: viewFun("0x0c340a24", "governor()", {}, p.address),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"clip": p.address, "chop": p.uint256, "hole": p.uint256, "dirt": p.uint256}),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"clip": p.address, "chop": p.uint256, "hole": p.uint256, "dirt": p.uint256, "barkFactor": p.uint256}),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
@@ -73,6 +74,10 @@ export class Contract extends ContractBase {
 
     globalHole() {
         return this.eth_call(functions.globalHole, {})
+    }
+
+    governor() {
+        return this.eth_call(functions.governor, {})
     }
 
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
@@ -153,6 +158,9 @@ export type GlobalDirtReturn = FunctionReturn<typeof functions.globalDirt>
 
 export type GlobalHoleParams = FunctionArguments<typeof functions.globalHole>
 export type GlobalHoleReturn = FunctionReturn<typeof functions.globalHole>
+
+export type GovernorParams = FunctionArguments<typeof functions.governor>
+export type GovernorReturn = FunctionReturn<typeof functions.governor>
 
 export type GrantRoleParams = FunctionArguments<typeof functions.grantRole>
 export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>

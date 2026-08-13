@@ -33,8 +33,10 @@ import {
     DistributeSurplus,
     Execute,
     Exit,
+    ExposureClamped,
     Fess,
     File,
+    Flog,
     Flux,
     Frob,
     Grab,
@@ -47,9 +49,11 @@ import {
     Nope,
     OsmPoke,
     Pause,
+    PokeFailed,
     RecordDecrease,
     RecordIncrease,
     Redo,
+    RemoveVolatileIlk,
     RoleAdminChanged,
     RoleGranted,
     RoleRevoked,
@@ -62,6 +66,7 @@ import {
     Take,
     Transfer,
     Unpause,
+    Upchost,
     UpdateCommittedEscrow,
     VaultHeal,
     VaultSuck,
@@ -261,6 +266,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === oracleSecurityModuleEvents.Poke.topic) {
                 const { ilkId, current, next } = oracleSecurityModuleEvents.Poke.decode(e);
                 entities.push(new OsmPoke({ ...base, ilkId: hexToBytes(ilkId), current, next }));
+            } else if (topic === oracleSecurityModuleEvents.PokeFailed.topic) {
+                const { ilkId, src } = oracleSecurityModuleEvents.PokeFailed.decode(e);
+                entities.push(new PokeFailed({ ...base, ilkId: hexToBytes(ilkId), src: hexToBytes(src) }));
             }
 
             // PriceConverter.
@@ -298,15 +306,24 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             else if (topic === solvencyEngineEvents.AddVolatileIlk.topic) {
                 const { ilkId } = solvencyEngineEvents.AddVolatileIlk.decode(e);
                 entities.push(new AddVolatileIlk({ ...base, ilkId: hexToBytes(ilkId) }));
+            } else if (topic === solvencyEngineEvents.RemoveVolatileIlk.topic) {
+                const { ilkId } = solvencyEngineEvents.RemoveVolatileIlk.decode(e);
+                entities.push(new RemoveVolatileIlk({ ...base, ilkId: hexToBytes(ilkId) }));
             } else if (topic === solvencyEngineEvents.InvariantChecked.topic) {
                 const { reserve, worstCaseLoss, passed } = solvencyEngineEvents.InvariantChecked.decode(e);
                 entities.push(new InvariantChecked({ ...base, reserve, worstCaseLoss, passed }));
+            } else if (topic === solvencyEngineEvents.ExposureClamped.topic) {
+                const { reported, cap } = solvencyEngineEvents.ExposureClamped.decode(e);
+                entities.push(new ExposureClamped({ ...base, reported, cap }));
             }
 
             // BalanceSheet.
             else if (topic === balanceSheetEvents.Fess.topic) {
                 const { tab } = balanceSheetEvents.Fess.decode(e);
                 entities.push(new Fess({ ...base, tab }));
+            } else if (topic === balanceSheetEvents.Flog.topic) {
+                const { era, tab } = balanceSheetEvents.Flog.decode(e);
+                entities.push(new Flog({ ...base, era, tab }));
             } else if (topic === balanceSheetEvents.Heal.topic && e.address === balanceSheetAddress) {
                 const { rad } = balanceSheetEvents.Heal.decode(e);
                 entities.push(new BalanceSheetHeal({ ...base, rad }));
@@ -373,6 +390,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === dutchAuctionEvents.Yank.topic) {
                 const { id } = dutchAuctionEvents.Yank.decode(e);
                 entities.push(new Yank({ ...base, auctionId: id }));
+            } else if (topic === dutchAuctionEvents.Upchost.topic) {
+                const { chost } = dutchAuctionEvents.Upchost.decode(e);
+                entities.push(new Upchost({ ...base, chost }));
             }
 
             // CircuitBreaker.

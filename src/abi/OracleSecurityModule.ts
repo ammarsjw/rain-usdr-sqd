@@ -5,6 +5,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 export const events = {
     Change: event("0x89712192d0d1795390587564d97b5eb2ccc0c8c9ae9eb1c0f260381583be5d1e", "Change(bytes32,address)", {"ilkId": indexed(p.bytes32), "src": indexed(p.address)}),
     Poke: event("0x89dcaadc52f13d2bfc2f5e35ac7c4b784e4c1897749319d3bb8dff473ae32189", "Poke(bytes32,uint128,uint128)", {"ilkId": indexed(p.bytes32), "current": p.uint128, "next": p.uint128}),
+    PokeFailed: event("0xdaf19275f7dc8b3922dfe9ecf9a7e400af5473e524557967a17dce99fe843824", "PokeFailed(bytes32,address)", {"ilkId": indexed(p.bytes32), "src": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -90,6 +91,7 @@ export class Contract extends ContractBase {
 /// Event types
 export type ChangeEventArgs = EParams<typeof events.Change>
 export type PokeEventArgs = EParams<typeof events.Poke>
+export type PokeFailedEventArgs = EParams<typeof events.PokeFailed>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>

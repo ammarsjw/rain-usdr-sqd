@@ -4,7 +4,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     BuyStable: event("0xa3ea69919a75724d1e4530d72df75b1fa04eaf370f8262bfef97133a5e75167e", "BuyStable(bytes32,address,uint256,uint256)", {"ilkId": indexed(p.bytes32), "user": indexed(p.address), "stableAmt": p.uint256, "usdrAmt": p.uint256}),
-    File: event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
+    File: event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     Init: event("0xfa2715184140b1bc488c6d441dff1ffe0c9431862a0ad8db95a2474caa3f9811", "Init(bytes32,address)", {"ilkId": indexed(p.bytes32), "token": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -19,15 +19,17 @@ export const functions = {
     USDR: viewFun("0x31511b14", "USDR()", {}, p.address),
     VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
     buyStable: fun("0xc762d2b4", "buyStable(bytes32,address,uint256)", {"ilkId": p.bytes32, "user": p.address, "stableAmt": p.uint256}, ),
-    file: fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
+    file: fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
+    governor: viewFun("0x0c340a24", "governor()", {}, p.address),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"token": p.address, "to18ConversionFactor": p.uint256, "tin": p.uint256, "tout": p.uint256}),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"token": p.address, "to18ConversionFactor": p.uint256}),
     init: fun("0x3b663195", "init(bytes32)", {"ilkId": p.bytes32}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sellStable: fun("0x2d02ef8b", "sellStable(bytes32,address,uint256)", {"ilkId": p.bytes32, "user": p.address, "stableAmt": p.uint256}, ),
+    solvencyEngine: viewFun("0xa898ed1e", "solvencyEngine()", {}, p.address),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
 }
 
@@ -57,12 +59,20 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.getRoleAdmin, {role})
     }
 
+    governor() {
+        return this.eth_call(functions.governor, {})
+    }
+
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
     ilks(ilkId: IlksParams["ilkId"]) {
         return this.eth_call(functions.ilks, {ilkId})
+    }
+
+    solvencyEngine() {
+        return this.eth_call(functions.solvencyEngine, {})
     }
 
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
@@ -104,6 +114,9 @@ export type FileReturn = FunctionReturn<typeof functions.file>
 export type GetRoleAdminParams = FunctionArguments<typeof functions.getRoleAdmin>
 export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>
 
+export type GovernorParams = FunctionArguments<typeof functions.governor>
+export type GovernorReturn = FunctionReturn<typeof functions.governor>
+
 export type GrantRoleParams = FunctionArguments<typeof functions.grantRole>
 export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 
@@ -124,6 +137,9 @@ export type RevokeRoleReturn = FunctionReturn<typeof functions.revokeRole>
 
 export type SellStableParams = FunctionArguments<typeof functions.sellStable>
 export type SellStableReturn = FunctionReturn<typeof functions.sellStable>
+
+export type SolvencyEngineParams = FunctionArguments<typeof functions.solvencyEngine>
+export type SolvencyEngineReturn = FunctionReturn<typeof functions.solvencyEngine>
 
 export type SupportsInterfaceParams = FunctionArguments<typeof functions.supportsInterface>
 export type SupportsInterfaceReturn = FunctionReturn<typeof functions.supportsInterface>

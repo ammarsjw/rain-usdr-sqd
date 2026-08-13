@@ -11,6 +11,7 @@ export const events = {
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     Take: event("0x05e309fd6ce72f2ab888a20056bb4210df08daed86f21f95053deb19964d86b1", "Take(uint256,uint256,uint256,uint256,uint256,uint256,address)", {"id": indexed(p.uint256), "max": p.uint256, "price": p.uint256, "owe": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": indexed(p.address)}),
+    Upchost: event("0x55fdb012a699c045403977212c8fc12fd6d1642fa30eac085dc592c29077ce05", "Upchost(uint256)", {"chost": p.uint256}),
     Yank: event("0x2c5d2826eb5903b8fc201cf48094b858f42f61c7eaac9aaf43ebed490138144e", "Yank(uint256)", {"id": indexed(p.uint256)}),
 }
 
@@ -22,6 +23,7 @@ export const functions = {
     buf: viewFun("0x15232515", "buf()", {}, p.uint256),
     calc: viewFun("0x96f1b6be", "calc()", {}, p.address),
     chip: viewFun("0xb61500e4", "chip()", {}, p.uint64),
+    chost: viewFun("0xba2cdc75", "chost()", {}, p.uint256),
     count: viewFun("0x06661abd", "count()", {}, p.uint256),
     cusp: viewFun("0x49ed5931", "cusp()", {}, p.uint256),
     dog: viewFun("0xc3b3ad7f", "dog()", {}, p.address),
@@ -44,6 +46,7 @@ export const functions = {
     tail: viewFun("0x13d8c840", "tail()", {}, p.uint256),
     take: fun("0x81a794cb", "take(uint256,uint256,uint256,address,bytes)", {"id": p.uint256, "amt": p.uint256, "max": p.uint256, "who": p.address, "data": p.bytes}, ),
     tip: viewFun("0x2755cd2d", "tip()", {}, p.uint192),
+    upchost: fun("0x0cbb5862", "upchost()", {}, ),
     vow: viewFun("0x626cb3c5", "vow()", {}, p.address),
     yank: fun("0x26e027f1", "yank(uint256)", {"id": p.uint256}, ),
 }
@@ -76,6 +79,10 @@ export class Contract extends ContractBase {
 
     chip() {
         return this.eth_call(functions.chip, {})
+    }
+
+    chost() {
+        return this.eth_call(functions.chost, {})
     }
 
     count() {
@@ -148,6 +155,7 @@ export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
 export type TakeEventArgs = EParams<typeof events.Take>
+export type UpchostEventArgs = EParams<typeof events.Upchost>
 export type YankEventArgs = EParams<typeof events.Yank>
 
 /// Function types
@@ -171,6 +179,9 @@ export type CalcReturn = FunctionReturn<typeof functions.calc>
 
 export type ChipParams = FunctionArguments<typeof functions.chip>
 export type ChipReturn = FunctionReturn<typeof functions.chip>
+
+export type ChostParams = FunctionArguments<typeof functions.chost>
+export type ChostReturn = FunctionReturn<typeof functions.chost>
 
 export type CountParams = FunctionArguments<typeof functions.count>
 export type CountReturn = FunctionReturn<typeof functions.count>
@@ -237,6 +248,9 @@ export type TakeReturn = FunctionReturn<typeof functions.take>
 
 export type TipParams = FunctionArguments<typeof functions.tip>
 export type TipReturn = FunctionReturn<typeof functions.tip>
+
+export type UpchostParams = FunctionArguments<typeof functions.upchost>
+export type UpchostReturn = FunctionReturn<typeof functions.upchost>
 
 export type VowParams = FunctionArguments<typeof functions.vow>
 export type VowReturn = FunctionReturn<typeof functions.vow>

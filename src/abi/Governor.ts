@@ -5,7 +5,6 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 export const events = {
     Cancel: event("0x8bf30e7ff26833413be5f69e1d373744864d600b664204b4a2f9844a8eedb9ed", "Cancel(uint256)", {"id": indexed(p.uint256)}),
     Execute: event("0xddb556f1d2c1ec821e910b019d3685b229db152a0ecd517ca7e24b8bd7139289", "Execute(uint256)", {"id": indexed(p.uint256)}),
-    File: event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     Pause: event("0x8320b06dce22cc23cd6092e0b675403852c085d54c3a0ffe955142be6b68190e", "Pause(bytes32,uint256)", {"scope": p.bytes32, "pausedAt": p.uint256}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -22,7 +21,6 @@ export const functions = {
     changes: viewFun("0x8d62c64e", "changes(uint256)", {"changeId": p.uint256}, {"target": p.address, "data": p.bytes, "eta": p.uint256, "executed": p.bool, "cancelled": p.bool}),
     delay: viewFun("0x6a42b8f8", "delay()", {}, p.uint256),
     execute: fun("0xfe0d94c1", "execute(uint256)", {"id": p.uint256}, p.bytes),
-    file: fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
@@ -87,7 +85,6 @@ export class Contract extends ContractBase {
 /// Event types
 export type CancelEventArgs = EParams<typeof events.Cancel>
 export type ExecuteEventArgs = EParams<typeof events.Execute>
-export type FileEventArgs = EParams<typeof events.File>
 export type PauseEventArgs = EParams<typeof events.Pause>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
@@ -116,9 +113,6 @@ export type DelayReturn = FunctionReturn<typeof functions.delay>
 
 export type ExecuteParams = FunctionArguments<typeof functions.execute>
 export type ExecuteReturn = FunctionReturn<typeof functions.execute>
-
-export type FileParams = FunctionArguments<typeof functions.file>
-export type FileReturn = FunctionReturn<typeof functions.file>
 
 export type GetRoleAdminParams = FunctionArguments<typeof functions.getRoleAdmin>
 export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>

@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Bark {
@@ -27,6 +27,11 @@ export class Bark {
     @BytesColumn_({nullable: false})
     ilkId!: Uint8Array
 
+    @Index_("idx_bark_vault_id_bd86ceb8")
+    @BigIntColumn_({nullable: false})
+    vaultId!: bigint
+
+    @Index_("idx_bark_urn_909d1448")
     @BytesColumn_({nullable: false})
     urn!: Uint8Array
 

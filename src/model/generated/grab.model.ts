@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Grab {
@@ -27,8 +27,9 @@ export class Grab {
     @BytesColumn_({nullable: false})
     ilkId!: Uint8Array
 
-    @BytesColumn_({nullable: false})
-    u!: Uint8Array
+    @Index_("idx_grab_vault_id_734dc28f")
+    @BigIntColumn_({nullable: false})
+    vaultId!: bigint
 
     @BytesColumn_({nullable: false})
     v!: Uint8Array

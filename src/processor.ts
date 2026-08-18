@@ -4,6 +4,7 @@ import { events as balanceSheetEvents } from "./abi/BalanceSheet";
 import { events as circuitBreakerEvents } from "./abi/CircuitBreaker";
 import { events as collateralAdapterEvents } from "./abi/CollateralAdapter";
 import { events as dutchAuctionEvents } from "./abi/DutchAuction";
+import { events as endEvents } from "./abi/End";
 import { events as governorEvents } from "./abi/Governor";
 import { events as liquidationTriggerEvents } from "./abi/LiquidationTrigger";
 import { events as oracleSecurityModuleEvents } from "./abi/OracleSecurityModule";
@@ -62,6 +63,7 @@ export const processor = new EvmBatchProcessor()
             vaultEngineEvents.Slip.topic,
             vaultEngineEvents.Flux.topic,
             vaultEngineEvents.Move.topic,
+            vaultEngineEvents.Open.topic,
             vaultEngineEvents.Frob.topic,
             vaultEngineEvents.Grab.topic,
             vaultEngineEvents.Heal.topic,
@@ -116,7 +118,16 @@ export const processor = new EvmBatchProcessor()
             governorEvents.Execute.topic,
             governorEvents.Cancel.topic,
             governorEvents.Pause.topic,
-            governorEvents.Unpause.topic
+            governorEvents.Unpause.topic,
+            // End (emergency settlement).
+            endEvents.CageIlk.topic,
+            endEvents.Skip.topic,
+            endEvents.Skim.topic,
+            endEvents.Free.topic,
+            endEvents.Thaw.topic,
+            endEvents.Flow.topic,
+            endEvents.Pack.topic,
+            endEvents.Cash.topic
         ]
     });
 

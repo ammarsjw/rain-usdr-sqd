@@ -8,13 +8,14 @@ export const events = {
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
     Flux: event("0x5718eae79ffb8b6c98c497e5029a903705cf6a33a17aaab32de7fe198d8d8a0d", "Flux(bytes32,address,address,uint256)", {"ilkId": indexed(p.bytes32), "from": indexed(p.address), "to": indexed(p.address), "wad": p.uint256}),
-    Frob: event("0xe37707842c8387f7c3c357f1d6c5bf57084e681573bdda024fae70cf0ecde80e", "Frob(bytes32,address,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "u": indexed(p.address), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
-    Grab: event("0x1b2837fd40844c96cf39e52acaae7902fb74257fe20b1b7df5458b97d896c636", "Grab(bytes32,address,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "u": indexed(p.address), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
+    Frob: event("0x5ec4a8ea5d2358f103950da4d5c2100d3b8d72245b71c03c96b528ac0b1d19a2", "Frob(bytes32,uint256,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
+    Grab: event("0xeef20157d364ea2b8a33cccc636e9c5624ccd3e69c81b66f5d8ec43cb3ff80bf", "Grab(bytes32,uint256,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
     Heal: event("0xf45656a54542e115023bb56558fa8a669119d7b2cc53bbc6c11b6ffc3b36e965", "Heal(address,uint256)", {"account": indexed(p.address), "rad": p.uint256}),
     Hope: event("0xaa731fc3330498a56e191236785be109218ed38365faa8c33965e6de3b78ee4c", "Hope(address,address)", {"owner": indexed(p.address), "operator": indexed(p.address)}),
     Init: event("0xeeb45f27c5b399a603237b10d4803743d494bfc24c3a004cadb716c41033a555", "Init(bytes32)", {"ilkId": indexed(p.bytes32)}),
     Move: event("0xdeb3a6837278f6e9914a507e4d73f08e841d8fca434fb97d4307b3b0d3d6b105", "Move(address,address,uint256)", {"from": indexed(p.address), "to": indexed(p.address), "rad": p.uint256}),
     Nope: event("0x181131ad57ffc99f2486240a094384037710b935bcd941b626ca2856316bb2c5", "Nope(address,address)", {"owner": indexed(p.address), "operator": indexed(p.address)}),
+    Open: event("0xfa48ecb13b782c85d632bfbac8bacc5a9fccbacaf7807914c48e6d60f875b15a", "Open(bytes32,address,uint256)", {"ilkId": indexed(p.bytes32), "owner": indexed(p.address), "vaultId": indexed(p.uint256)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -32,20 +33,23 @@ export const functions = {
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     flux: fun("0x6111be2e", "flux(bytes32,address,address,uint256)", {"ilkId": p.bytes32, "from": p.address, "to": p.address, "wad": p.uint256}, ),
-    frob: fun("0x76088703", "frob(bytes32,address,address,address,int256,int256)", {"ilkId": p.bytes32, "u": p.address, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
+    frob: fun("0x39e9b990", "frob(uint256,address,address,int256,int256)", {"vaultId": p.uint256, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     globalLine: viewFun("0x0a91f0ce", "globalLine()", {}, p.uint256),
     governor: viewFun("0x0c340a24", "governor()", {}, p.address),
-    grab: fun("0x7bab3f40", "grab(bytes32,address,address,address,int256,int256)", {"ilkId": p.bytes32, "u": p.address, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
+    grab: fun("0xaf336426", "grab(uint256,address,address,int256,int256)", {"vaultId": p.uint256, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
     heal: fun("0xf37ac61c", "heal(uint256)", {"rad": p.uint256}, ),
     hope: fun("0xa3b22fc4", "hope(address)", {"operator": p.address}, ),
+    ilkOf: viewFun("0xa4e67ff5", "ilkOf(uint256)", {"vaultId": p.uint256}, p.bytes32),
     ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"globalArt": p.uint256, "globalInk": p.uint256, "rate": p.uint256, "spot": p.uint256, "line": p.uint256, "dust": p.uint256}),
     init: fun("0x3b663195", "init(bytes32)", {"ilkId": p.bytes32}, ),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     move: fun("0xbb35783b", "move(address,address,uint256)", {"from": p.address, "to": p.address, "rad": p.uint256}, ),
     nope: fun("0xdc4d20fa", "nope(address)", {"operator": p.address}, ),
+    open: fun("0x6090dec5", "open(bytes32,address)", {"ilkId": p.bytes32, "usr": p.address}, p.uint256),
+    ownerOf: viewFun("0x6352211e", "ownerOf(uint256)", {"vaultId": p.uint256}, p.address),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sin: viewFun("0xf059212a", "sin(address)", {"debtSink": p.address}, p.uint256),
@@ -53,8 +57,9 @@ export const functions = {
     solvencyEngine: viewFun("0xa898ed1e", "solvencyEngine()", {}, p.address),
     suck: fun("0xf24e23eb", "suck(address,address,uint256)", {"u": p.address, "v": p.address, "rad": p.uint256}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
-    urns: viewFun("0x2424be5c", "urns(bytes32,address)", {"ilkId": p.bytes32, "vaultOwner": p.address}, {"ink": p.uint256, "art": p.uint256}),
+    urns: viewFun("0x2726b073", "urns(uint256)", {"vaultId": p.uint256}, {"ink": p.uint256, "art": p.uint256}),
     usdr: viewFun("0x6c2d6dc1", "usdr(address)", {"user": p.address}, p.uint256),
+    vaultCount: viewFun("0xa7c6a100", "vaultCount()", {}, p.uint256),
     vice: viewFun("0x2d61a355", "vice()", {}, p.uint256),
 }
 
@@ -92,12 +97,20 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
+    ilkOf(vaultId: IlkOfParams["vaultId"]) {
+        return this.eth_call(functions.ilkOf, {vaultId})
+    }
+
     ilks(ilkId: IlksParams["ilkId"]) {
         return this.eth_call(functions.ilks, {ilkId})
     }
 
     live() {
         return this.eth_call(functions.live, {})
+    }
+
+    ownerOf(vaultId: OwnerOfParams["vaultId"]) {
+        return this.eth_call(functions.ownerOf, {vaultId})
     }
 
     sin(debtSink: SinParams["debtSink"]) {
@@ -112,12 +125,16 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.supportsInterface, {interfaceId})
     }
 
-    urns(ilkId: UrnsParams["ilkId"], vaultOwner: UrnsParams["vaultOwner"]) {
-        return this.eth_call(functions.urns, {ilkId, vaultOwner})
+    urns(vaultId: UrnsParams["vaultId"]) {
+        return this.eth_call(functions.urns, {vaultId})
     }
 
     usdr(user: UsdrParams["user"]) {
         return this.eth_call(functions.usdr, {user})
+    }
+
+    vaultCount() {
+        return this.eth_call(functions.vaultCount, {})
     }
 
     vice() {
@@ -138,6 +155,7 @@ export type HopeEventArgs = EParams<typeof events.Hope>
 export type InitEventArgs = EParams<typeof events.Init>
 export type MoveEventArgs = EParams<typeof events.Move>
 export type NopeEventArgs = EParams<typeof events.Nope>
+export type OpenEventArgs = EParams<typeof events.Open>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
@@ -199,6 +217,9 @@ export type HealReturn = FunctionReturn<typeof functions.heal>
 export type HopeParams = FunctionArguments<typeof functions.hope>
 export type HopeReturn = FunctionReturn<typeof functions.hope>
 
+export type IlkOfParams = FunctionArguments<typeof functions.ilkOf>
+export type IlkOfReturn = FunctionReturn<typeof functions.ilkOf>
+
 export type IlksParams = FunctionArguments<typeof functions.ilks>
 export type IlksReturn = FunctionReturn<typeof functions.ilks>
 
@@ -213,6 +234,12 @@ export type MoveReturn = FunctionReturn<typeof functions.move>
 
 export type NopeParams = FunctionArguments<typeof functions.nope>
 export type NopeReturn = FunctionReturn<typeof functions.nope>
+
+export type OpenParams = FunctionArguments<typeof functions.open>
+export type OpenReturn = FunctionReturn<typeof functions.open>
+
+export type OwnerOfParams = FunctionArguments<typeof functions.ownerOf>
+export type OwnerOfReturn = FunctionReturn<typeof functions.ownerOf>
 
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>
@@ -240,6 +267,9 @@ export type UrnsReturn = FunctionReturn<typeof functions.urns>
 
 export type UsdrParams = FunctionArguments<typeof functions.usdr>
 export type UsdrReturn = FunctionReturn<typeof functions.usdr>
+
+export type VaultCountParams = FunctionArguments<typeof functions.vaultCount>
+export type VaultCountReturn = FunctionReturn<typeof functions.vaultCount>
 
 export type ViceParams = FunctionArguments<typeof functions.vice>
 export type ViceReturn = FunctionReturn<typeof functions.vice>

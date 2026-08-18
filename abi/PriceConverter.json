@@ -486,5 +486,15 @@
                 "internalType": "bytes32"
             }
         ]
+    },
+    {
+        "type": "error",
+        "name": "MatBelowOne",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "WouldOrphanIlk",
+        "inputs": []
     }
 ]

@@ -3,9 +3,10 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
+    Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
-    Kick: event("0x7c5bfdc0a5e8192f6cd4972f382cec69116862fb62e6abff8003874c58e064b8", "Kick(uint256,uint256,uint256,uint256,address,address,uint256)", {"id": indexed(p.uint256), "top": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": indexed(p.address), "kpr": indexed(p.address), "coin": p.uint256}),
+    Kick: event("0x2d401861ff46b9558290672fd6c70bbac0595c769d4fa16f1a468f55c8e7386b", "Kick(uint256,uint256,uint256,uint256,uint256,address,address,uint256)", {"id": indexed(p.uint256), "top": p.uint256, "tab": p.uint256, "lot": p.uint256, "vaultId": indexed(p.uint256), "usr": p.address, "kpr": indexed(p.address), "coin": p.uint256}),
     Redo: event("0x275de7ecdd375b5e8049319f8b350686131c219dd4dc450a08e9cf83b03c865f", "Redo(uint256,uint256,uint256,uint256,address,address,uint256)", {"id": indexed(p.uint256), "top": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": indexed(p.address), "kpr": indexed(p.address), "coin": p.uint256}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -21,6 +22,7 @@ export const functions = {
     VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
     active: viewFun("0x8033d581", "active(uint256)", {"_0": p.uint256}, p.uint256),
     buf: viewFun("0x15232515", "buf()", {}, p.uint256),
+    cage: fun("0x69245009", "cage()", {}, ),
     calc: viewFun("0x96f1b6be", "calc()", {}, p.address),
     chip: viewFun("0xb61500e4", "chip()", {}, p.uint64),
     chost: viewFun("0xba2cdc75", "chost()", {}, p.uint256),
@@ -31,9 +33,10 @@ export const functions = {
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     getStatus: viewFun("0x5c622a0e", "getStatus(uint256)", {"id": p.uint256}, {"needsRedo": p.bool, "price": p.uint256, "lot": p.uint256, "tab": p.uint256}),
+    governor: viewFun("0x0c340a24", "governor()", {}, p.address),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    kick: fun("0x898eb267", "kick(uint256,uint256,address,address)", {"tab": p.uint256, "lot": p.uint256, "usr": p.address, "kpr": p.address}, p.uint256),
+    kick: fun("0x8188afde", "kick(uint256,uint256,uint256,address,address)", {"tab": p.uint256, "lot": p.uint256, "vaultId": p.uint256, "usr": p.address, "kpr": p.address}, p.uint256),
     kicks: viewFun("0xcfdd3302", "kicks()", {}, p.uint256),
     list: viewFun("0x0f560cd7", "list()", {}, p.array(p.uint256)),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
@@ -41,7 +44,8 @@ export const functions = {
     redo: fun("0xd843416d", "redo(uint256,address)", {"id": p.uint256, "kpr": p.address}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
-    sales: viewFun("0xb5f522f7", "sales(uint256)", {"id": p.uint256}, {"pos": p.uint256, "tab": p.uint256, "lot": p.uint256, "usr": p.address, "tic": p.uint96, "top": p.uint256}),
+    sales: viewFun("0xb5f522f7", "sales(uint256)", {"id": p.uint256}, {"pos": p.uint256, "tab": p.uint256, "lot": p.uint256, "vaultId": p.uint256, "usr": p.address, "tic": p.uint96, "top": p.uint256}),
+    stopped: viewFun("0x75f12b21", "stopped()", {}, p.uint256),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
     tail: viewFun("0x13d8c840", "tail()", {}, p.uint256),
     take: fun("0x81a794cb", "take(uint256,uint256,uint256,address,bytes)", {"id": p.uint256, "amt": p.uint256, "max": p.uint256, "who": p.address, "data": p.bytes}, ),
@@ -105,6 +109,10 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.getStatus, {id})
     }
 
+    governor() {
+        return this.eth_call(functions.governor, {})
+    }
+
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
     }
@@ -129,6 +137,10 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.sales, {id})
     }
 
+    stopped() {
+        return this.eth_call(functions.stopped, {})
+    }
+
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
         return this.eth_call(functions.supportsInterface, {interfaceId})
     }
@@ -147,6 +159,7 @@ export class Contract extends ContractBase {
 }
 
 /// Event types
+export type CageEventArgs = EParams<typeof events.Cage>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type KickEventArgs = EParams<typeof events.Kick>
@@ -173,6 +186,9 @@ export type ActiveReturn = FunctionReturn<typeof functions.active>
 
 export type BufParams = FunctionArguments<typeof functions.buf>
 export type BufReturn = FunctionReturn<typeof functions.buf>
+
+export type CageParams = FunctionArguments<typeof functions.cage>
+export type CageReturn = FunctionReturn<typeof functions.cage>
 
 export type CalcParams = FunctionArguments<typeof functions.calc>
 export type CalcReturn = FunctionReturn<typeof functions.calc>
@@ -203,6 +219,9 @@ export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>
 
 export type GetStatusParams = FunctionArguments<typeof functions.getStatus>
 export type GetStatusReturn = FunctionReturn<typeof functions.getStatus>
+
+export type GovernorParams = FunctionArguments<typeof functions.governor>
+export type GovernorReturn = FunctionReturn<typeof functions.governor>
 
 export type GrantRoleParams = FunctionArguments<typeof functions.grantRole>
 export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
@@ -236,6 +255,9 @@ export type RevokeRoleReturn = FunctionReturn<typeof functions.revokeRole>
 
 export type SalesParams = FunctionArguments<typeof functions.sales>
 export type SalesReturn = FunctionReturn<typeof functions.sales>
+
+export type StoppedParams = FunctionArguments<typeof functions.stopped>
+export type StoppedReturn = FunctionReturn<typeof functions.stopped>
 
 export type SupportsInterfaceParams = FunctionArguments<typeof functions.supportsInterface>
 export type SupportsInterfaceReturn = FunctionReturn<typeof functions.supportsInterface>

@@ -4,6 +4,7 @@ import { events as balanceSheetEvents } from "./abi/BalanceSheet";
 import { events as circuitBreakerEvents } from "./abi/CircuitBreaker";
 import { events as collateralAdapterEvents } from "./abi/CollateralAdapter";
 import { events as dutchAuctionEvents } from "./abi/DutchAuction";
+import { events as endEvents } from "./abi/End";
 import { events as governorEvents } from "./abi/Governor";
 import { events as liquidationTriggerEvents } from "./abi/LiquidationTrigger";
 import { events as oracleSecurityModuleEvents } from "./abi/OracleSecurityModule";
@@ -25,7 +26,9 @@ import {
     Bark,
     BuyStable,
     Cage,
+    CageIlk,
     Cancel,
+    Cash,
     Change,
     Checked,
     Deactivated,
@@ -37,7 +40,9 @@ import {
     Fess,
     File,
     Flog,
+    Flow,
     Flux,
+    Free,
     Frob,
     Grab,
     Hope,
@@ -47,7 +52,9 @@ import {
     Kick,
     Move,
     Nope,
+    Open,
     OsmPoke,
+    Pack,
     Pause,
     PokeFailed,
     RecordDecrease,
@@ -59,11 +66,14 @@ import {
     RoleRevoked,
     Schedule,
     SellStable,
+    Skim,
+    Skip,
     Slip,
     SpotPoke,
     Start,
     Stop,
     Take,
+    Thaw,
     Transfer,
     Unpause,
     Upchost,
@@ -201,13 +211,23 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === vaultEngineEvents.Move.topic) {
                 const { from, to, rad } = vaultEngineEvents.Move.decode(e);
                 entities.push(new Move({ ...base, from: hexToBytes(from), to: hexToBytes(to), rad }));
+            } else if (topic === vaultEngineEvents.Open.topic) {
+                const { ilkId, owner, vaultId } = vaultEngineEvents.Open.decode(e);
+                entities.push(
+                    new Open({
+                        ...base,
+                        ilkId: hexToBytes(ilkId),
+                        owner: hexToBytes(owner),
+                        vaultId
+                    })
+                );
             } else if (topic === vaultEngineEvents.Frob.topic) {
-                const { ilkId, u, v, w, dink, dart } = vaultEngineEvents.Frob.decode(e);
+                const { ilkId, vaultId, v, w, dink, dart } = vaultEngineEvents.Frob.decode(e);
                 entities.push(
                     new Frob({
                         ...base,
                         ilkId: hexToBytes(ilkId),
-                        u: hexToBytes(u),
+                        vaultId,
                         v: hexToBytes(v),
                         w: hexToBytes(w),
                         dink,
@@ -215,12 +235,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                     })
                 );
             } else if (topic === vaultEngineEvents.Grab.topic) {
-                const { ilkId, u, v, w, dink, dart } = vaultEngineEvents.Grab.decode(e);
+                const { ilkId, vaultId, v, w, dink, dart } = vaultEngineEvents.Grab.decode(e);
                 entities.push(
                     new Grab({
                         ...base,
                         ilkId: hexToBytes(ilkId),
-                        u: hexToBytes(u),
+                        vaultId,
                         v: hexToBytes(v),
                         w: hexToBytes(w),
                         dink,
@@ -337,11 +357,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
             // LiquidationTrigger.
             else if (topic === liquidationTriggerEvents.Bark.topic) {
-                const { ilkId, urn, ink, art, due, clip, id } = liquidationTriggerEvents.Bark.decode(e);
+                const { ilkId, vaultId, urn, ink, art, due, clip, id } = liquidationTriggerEvents.Bark.decode(e);
                 entities.push(
                     new Bark({
                         ...base,
                         ilkId: hexToBytes(ilkId),
+                        vaultId,
                         urn: hexToBytes(urn),
                         ink,
                         art,
@@ -357,7 +378,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
             // DutchAuction.
             else if (topic === dutchAuctionEvents.Kick.topic) {
-                const { id, top, tab, lot, usr, kpr, coin } = dutchAuctionEvents.Kick.decode(e);
+                const { id, top, tab, lot, vaultId, usr, kpr, coin } = dutchAuctionEvents.Kick.decode(e);
                 entities.push(
                     new Kick({
                         ...base,
@@ -365,6 +386,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                         top,
                         tab,
                         lot,
+                        vaultId,
                         usr: hexToBytes(usr),
                         kpr: hexToBytes(kpr),
                         coin
@@ -429,6 +451,33 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                 entities.push(new Pause({ ...base, scope: hexToBytes(scope), pausedAt }));
             } else if (topic === governorEvents.Unpause.topic) {
                 entities.push(new Unpause({ ...base }));
+            }
+
+            // End (emergency settlement).
+            else if (topic === endEvents.CageIlk.topic) {
+                const { ilkId, tag, art } = endEvents.CageIlk.decode(e);
+                entities.push(new CageIlk({ ...base, ilkId: hexToBytes(ilkId), tag, art }));
+            } else if (topic === endEvents.Skip.topic) {
+                const { ilkId, auctionId, vaultId, lot, art } = endEvents.Skip.decode(e);
+                entities.push(new Skip({ ...base, ilkId: hexToBytes(ilkId), auctionId, vaultId, lot, art }));
+            } else if (topic === endEvents.Skim.topic) {
+                const { ilkId, vaultId, wad, art } = endEvents.Skim.decode(e);
+                entities.push(new Skim({ ...base, ilkId: hexToBytes(ilkId), vaultId, wad, art }));
+            } else if (topic === endEvents.Free.topic) {
+                const { ilkId, vaultId, owner, ink } = endEvents.Free.decode(e);
+                entities.push(new Free({ ...base, ilkId: hexToBytes(ilkId), vaultId, owner: hexToBytes(owner), ink }));
+            } else if (topic === endEvents.Thaw.topic) {
+                const { debt } = endEvents.Thaw.decode(e);
+                entities.push(new Thaw({ ...base, debt }));
+            } else if (topic === endEvents.Flow.topic) {
+                const { ilkId, fix } = endEvents.Flow.decode(e);
+                entities.push(new Flow({ ...base, ilkId: hexToBytes(ilkId), fix }));
+            } else if (topic === endEvents.Pack.topic) {
+                const { usr, wad } = endEvents.Pack.decode(e);
+                entities.push(new Pack({ ...base, usr: hexToBytes(usr), wad }));
+            } else if (topic === endEvents.Cash.topic) {
+                const { ilkId, usr, wad, ink } = endEvents.Cash.decode(e);
+                entities.push(new Cash({ ...base, ilkId: hexToBytes(ilkId), usr: hexToBytes(usr), wad, ink }));
             }
         }
     }

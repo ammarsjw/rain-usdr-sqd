@@ -443,6 +443,11 @@
     },
     {
         "type": "error",
+        "name": "FeeOnTransferToken",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "InvalidDecimals",
         "inputs": []
     },

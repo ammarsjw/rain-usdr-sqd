@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Kick {
@@ -35,6 +35,10 @@ export class Kick {
 
     @BigIntColumn_({nullable: false})
     lot!: bigint
+
+    @Index_("idx_kick_vault_id_f336711a")
+    @BigIntColumn_({nullable: false})
+    vaultId!: bigint
 
     @BytesColumn_({nullable: false})
     usr!: Uint8Array

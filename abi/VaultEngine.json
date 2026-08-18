@@ -177,14 +177,9 @@
         "name": "frob",
         "inputs": [
             {
-                "name": "ilkId",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "u",
-                "type": "address",
-                "internalType": "address"
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
             },
             {
                 "name": "v",
@@ -260,14 +255,9 @@
         "name": "grab",
         "inputs": [
             {
-                "name": "ilkId",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "u",
-                "type": "address",
-                "internalType": "address"
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
             },
             {
                 "name": "v",
@@ -360,6 +350,25 @@
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "ilkOf",
+        "inputs": [
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -466,6 +475,49 @@
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "open",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "usr",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "ownerOf",
+        "inputs": [
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "vaultOwner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -605,14 +657,9 @@
         "name": "urns",
         "inputs": [
             {
-                "name": "ilkId",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "vaultOwner",
-                "type": "address",
-                "internalType": "address"
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "outputs": [
@@ -642,6 +689,19 @@
         "outputs": [
             {
                 "name": "balance",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "vaultCount",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -772,10 +832,10 @@
                 "internalType": "bytes32"
             },
             {
-                "name": "u",
-                "type": "address",
+                "name": "vaultId",
+                "type": "uint256",
                 "indexed": true,
-                "internalType": "address"
+                "internalType": "uint256"
             },
             {
                 "name": "v",
@@ -815,10 +875,10 @@
                 "internalType": "bytes32"
             },
             {
-                "name": "u",
-                "type": "address",
+                "name": "vaultId",
+                "type": "uint256",
                 "indexed": true,
-                "internalType": "address"
+                "internalType": "uint256"
             },
             {
                 "name": "v",
@@ -938,6 +998,31 @@
                 "type": "address",
                 "indexed": true,
                 "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Open",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "owner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
             }
         ],
         "anonymous": false
@@ -1111,6 +1196,11 @@
     {
         "type": "error",
         "name": "NotSafe",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "VaultNotFound",
         "inputs": []
     }
 ]

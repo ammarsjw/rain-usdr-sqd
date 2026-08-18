@@ -3,7 +3,7 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
-    Bark: event("0x85258d09e1e4ef299ff3fc11e74af99563f022d21f3f940db982229dc2a3358c", "Bark(bytes32,address,uint256,uint256,uint256,address,uint256)", {"ilkId": indexed(p.bytes32), "urn": indexed(p.address), "ink": p.uint256, "art": p.uint256, "due": p.uint256, "clip": p.address, "id": p.uint256}),
+    Bark: event("0xdb0b9a53b1f88db6010a9e9af7adf98a1a51e536a2864294729c12850d3f93ec", "Bark(bytes32,uint256,address,uint256,uint256,uint256,address,uint256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "urn": indexed(p.address), "ink": p.uint256, "art": p.uint256, "due": p.uint256, "clip": p.address, "id": p.uint256}),
     Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
     Digs: event("0x54f095dc7308776bf01e8580e4dd40fd959ea4bf50b069975768320ef8d77d8a", "Digs(bytes32,uint256)", {"ilkId": indexed(p.bytes32), "rad": p.uint256}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
@@ -19,7 +19,7 @@ export const functions = {
     DEFAULT_ADMIN_ROLE: viewFun("0xa217fddf", "DEFAULT_ADMIN_ROLE()", {}, p.bytes32),
     VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
     balanceSheet: viewFun("0x22285cf6", "balanceSheet()", {}, p.address),
-    bark: fun("0xed998908", "bark(bytes32,address,address)", {"ilkId": p.bytes32, "urn": p.address, "kpr": p.address}, p.uint256),
+    bark: fun("0x6f213545", "bark(uint256,address)", {"vaultId": p.uint256, "kpr": p.address}, p.uint256),
     cage: fun("0x69245009", "cage()", {}, ),
     chop: viewFun("0xd7926538", "chop(bytes32)", {"ilkId": p.bytes32}, p.uint256),
     circuitBreaker: viewFun("0x16efd941", "circuitBreaker()", {}, p.address),

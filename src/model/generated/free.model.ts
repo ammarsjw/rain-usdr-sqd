@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Frob {
-    constructor(props?: Partial<Frob>) {
+export class Free {
+    constructor(props?: Partial<Free>) {
         Object.assign(this, props)
     }
 
@@ -27,19 +27,14 @@ export class Frob {
     @BytesColumn_({nullable: false})
     ilkId!: Uint8Array
 
-    @Index_("idx_frob_vault_id_8ad41d2b")
+    @Index_("idx_free_vault_id_3a97b1fb")
     @BigIntColumn_({nullable: false})
     vaultId!: bigint
 
+    @Index_("idx_free_owner_87a0ebee")
     @BytesColumn_({nullable: false})
-    v!: Uint8Array
-
-    @BytesColumn_({nullable: false})
-    w!: Uint8Array
+    owner!: Uint8Array
 
     @BigIntColumn_({nullable: false})
-    dink!: bigint
-
-    @BigIntColumn_({nullable: false})
-    dart!: bigint
+    ink!: bigint
 }

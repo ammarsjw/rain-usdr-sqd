@@ -54,14 +54,9 @@
         "name": "bark",
         "inputs": [
             {
-                "name": "ilkId",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "urn",
-                "type": "address",
-                "internalType": "address"
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
             },
             {
                 "name": "kpr",
@@ -448,6 +443,12 @@
                 "internalType": "bytes32"
             },
             {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
                 "name": "urn",
                 "type": "address",
                 "indexed": true,
@@ -712,6 +713,11 @@
     },
     {
         "type": "error",
+        "name": "InvalidThrottle",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "LiquidationLimitHit",
         "inputs": []
     },
@@ -728,6 +734,11 @@
     {
         "type": "error",
         "name": "Overflow",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "VaultNotFound",
         "inputs": []
     }
 ]

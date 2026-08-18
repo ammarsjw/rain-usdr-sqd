@@ -135,24 +135,6 @@
     },
     {
         "type": "function",
-        "name": "file",
-        "inputs": [
-            {
-                "name": "what",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "data",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
         "name": "getRoleAdmin",
         "inputs": [
             {
@@ -371,25 +353,6 @@
                 "name": "id",
                 "type": "uint256",
                 "indexed": true,
-                "internalType": "uint256"
-            }
-        ],
-        "anonymous": false
-    },
-    {
-        "type": "event",
-        "name": "File",
-        "inputs": [
-            {
-                "name": "what",
-                "type": "bytes32",
-                "indexed": true,
-                "internalType": "bytes32"
-            },
-            {
-                "name": "data",
-                "type": "uint256",
-                "indexed": false,
                 "internalType": "uint256"
             }
         ],

@@ -30,7 +30,7 @@ export const functions = {
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
     isBreached: viewFun("0x12c68770", "isBreached()", {}, p.bool),
     isVolatile: viewFun("0xc1d9cc73", "isVolatile(bytes32)", {"ilkId": p.bytes32}, p.bool),
-    priceConverter: viewFun("0xb9385510", "priceConverter()", {}, p.address),
+    osm: viewFun("0x972da311", "osm()", {}, p.address),
     removeVolatileIlk: fun("0xc85f7650", "removeVolatileIlk(bytes32)", {"ilkId": p.bytes32}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     reserveFactor: viewFun("0x4322b714", "reserveFactor()", {}, p.uint256),
@@ -88,8 +88,8 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.isVolatile, {ilkId})
     }
 
-    priceConverter() {
-        return this.eth_call(functions.priceConverter, {})
+    osm() {
+        return this.eth_call(functions.osm, {})
     }
 
     reserveFactor() {
@@ -176,8 +176,8 @@ export type IsBreachedReturn = FunctionReturn<typeof functions.isBreached>
 export type IsVolatileParams = FunctionArguments<typeof functions.isVolatile>
 export type IsVolatileReturn = FunctionReturn<typeof functions.isVolatile>
 
-export type PriceConverterParams = FunctionArguments<typeof functions.priceConverter>
-export type PriceConverterReturn = FunctionReturn<typeof functions.priceConverter>
+export type OsmParams = FunctionArguments<typeof functions.osm>
+export type OsmReturn = FunctionReturn<typeof functions.osm>
 
 export type RemoveVolatileIlkParams = FunctionArguments<typeof functions.removeVolatileIlk>
 export type RemoveVolatileIlkReturn = FunctionReturn<typeof functions.removeVolatileIlk>

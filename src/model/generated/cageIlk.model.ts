@@ -1,8 +1,8 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Frob {
-    constructor(props?: Partial<Frob>) {
+export class CageIlk {
+    constructor(props?: Partial<CageIlk>) {
         Object.assign(this, props)
     }
 
@@ -27,19 +27,9 @@ export class Frob {
     @BytesColumn_({nullable: false})
     ilkId!: Uint8Array
 
-    @Index_("idx_frob_vault_id_8ad41d2b")
     @BigIntColumn_({nullable: false})
-    vaultId!: bigint
-
-    @BytesColumn_({nullable: false})
-    v!: Uint8Array
-
-    @BytesColumn_({nullable: false})
-    w!: Uint8Array
+    tag!: bigint
 
     @BigIntColumn_({nullable: false})
-    dink!: bigint
-
-    @BigIntColumn_({nullable: false})
-    dart!: bigint
+    art!: bigint
 }

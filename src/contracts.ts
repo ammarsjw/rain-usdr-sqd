@@ -12,7 +12,8 @@ import {
     DUTCH_AUCTION_ADDRESS,
     CIRCUIT_BREAKER_ADDRESS,
     PSM_ADDRESS,
-    GOVERNOR_ADDRESS
+    GOVERNOR_ADDRESS,
+    END_ADDRESS
 } from "./config/deployments";
 
 // All indexed addresses as an array.
@@ -30,7 +31,8 @@ const configAddresses = [
     DUTCH_AUCTION_ADDRESS,
     CIRCUIT_BREAKER_ADDRESS,
     PSM_ADDRESS,
-    GOVERNOR_ADDRESS
+    GOVERNOR_ADDRESS,
+    END_ADDRESS
 ];
 
 // Forcing lower case addresses.

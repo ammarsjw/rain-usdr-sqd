@@ -161,6 +161,7 @@ type Move @entity {
     rad: BigInt!
 }
 
+# Multi-vault model: positions are keyed by sequential vaultId (see Open).
 type Frob @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
@@ -171,11 +172,26 @@ type Frob @entity {
 
     # Custom required values
     ilkId: Bytes!
-    u: Bytes! # address
+    vaultId: BigInt! @index
     v: Bytes! # address
     w: Bytes! # address
     dink: BigInt!
     dart: BigInt!
+}
+
+# Emitted when a new vault is opened; the position-discovery primitive (filter by owner).
+type Open @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    owner: Bytes! @index # address
+    vaultId: BigInt! @index
 }
 
 type Grab @entity {
@@ -188,7 +204,7 @@ type Grab @entity {
 
     # Custom required values
     ilkId: Bytes!
-    u: Bytes! # address
+    vaultId: BigInt! @index
     v: Bytes! # address
     w: Bytes! # address
     dink: BigInt!
@@ -564,7 +580,8 @@ type Bark @entity {
 
     # Custom required values
     ilkId: Bytes!
-    urn: Bytes! # address
+    vaultId: BigInt! @index
+    urn: Bytes! @index # vault owner address (leftover-collateral recipient)
     ink: BigInt!
     art: BigInt!
     due: BigInt!
@@ -600,7 +617,8 @@ type Kick @entity {
     top: BigInt!
     tab: BigInt!
     lot: BigInt!
-    usr: Bytes! # address
+    vaultId: BigInt! @index
+    usr: Bytes! # vault owner address
     kpr: Bytes! # address
     coin: BigInt!
 }
@@ -762,4 +780,119 @@ type Unpause @entity {
     transactionHash: Bytes!
     contractAddress: Bytes!
     eventLogIndex: Int!
+}
+
+# =============================== End (emergency settlement) =============================== #
+
+type CageIlk @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    tag: BigInt!
+    art: BigInt!
+}
+
+type Skip @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    auctionId: BigInt!
+    vaultId: BigInt! @index
+    lot: BigInt!
+    art: BigInt!
+}
+
+type Skim @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    vaultId: BigInt! @index
+    wad: BigInt!
+    art: BigInt!
+}
+
+type Free @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    vaultId: BigInt! @index
+    owner: Bytes! @index # address
+    ink: BigInt!
+}
+
+type Thaw @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    debt: BigInt!
+}
+
+type Flow @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    fix: BigInt!
+}
+
+type Pack @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    usr: Bytes! @index # address
+    wad: BigInt!
+}
+
+type Cash @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    usr: Bytes! @index # address
+    wad: BigInt!
+    ink: BigInt!
 }

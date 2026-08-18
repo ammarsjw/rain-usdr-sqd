@@ -6,11 +6,6 @@
                 "name": "vaultEngine_",
                 "type": "address",
                 "internalType": "contract IVaultEngine"
-            },
-            {
-                "name": "reserveAccounting_",
-                "type": "address",
-                "internalType": "contract IReserveAccounting"
             }
         ],
         "stateMutability": "nonpayable"
@@ -30,19 +25,6 @@
     },
     {
         "type": "function",
-        "name": "RESERVE_ACCOUNTING",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "contract IReserveAccounting"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "VAULT_ENGINE",
         "inputs": [],
         "outputs": [
@@ -56,7 +38,65 @@
     },
     {
         "type": "function",
-        "name": "addVolatileIlk",
+        "name": "art",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "snapshotArt",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "bag",
+        "inputs": [
+            {
+                "name": "usr",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "deposited",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "balanceSheet",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IBalanceSheet"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "cage",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "cage",
         "inputs": [
             {
                 "name": "ilkId",
@@ -69,70 +109,31 @@
     },
     {
         "type": "function",
-        "name": "breachThreshold",
-        "inputs": [],
-        "outputs": [
+        "name": "cash",
+        "inputs": [
             {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "breached",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "checkInvariant",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "loss",
-                "type": "uint256",
-                "internalType": "uint256"
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
             },
             {
-                "name": "reserve",
+                "name": "wad",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
+        "outputs": [],
         "stateMutability": "nonpayable"
     },
     {
         "type": "function",
-        "name": "exposureCap",
+        "name": "debt",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
                 "type": "uint256",
                 "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "externalExposure",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "contract IExternalExposure"
             }
         ],
         "stateMutability": "view"
@@ -172,6 +173,70 @@
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "fix",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "redemptionPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "flow",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "free",
+        "inputs": [
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "gap",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "shortfall",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -236,61 +301,79 @@
     },
     {
         "type": "function",
-        "name": "isBreached",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "isVolatile",
-        "inputs": [
-            {
-                "name": "ilkId",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "volatile_",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "osm",
+        "name": "liquidationTrigger",
         "inputs": [],
         "outputs": [
             {
                 "name": "",
                 "type": "address",
-                "internalType": "contract IOracleSecurityModule"
+                "internalType": "contract ILiquidationTrigger"
             }
         ],
         "stateMutability": "view"
     },
     {
         "type": "function",
-        "name": "removeVolatileIlk",
+        "name": "live",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "out",
         "inputs": [
             {
                 "name": "ilkId",
                 "type": "bytes32",
                 "internalType": "bytes32"
+            },
+            {
+                "name": "usr",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "redeemed",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "pack",
+        "inputs": [
+            {
+                "name": "wad",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "outputs": [],
         "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "priceConverter",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IPriceConverter"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -312,19 +395,6 @@
     },
     {
         "type": "function",
-        "name": "reserveFactor",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "revokeRole",
         "inputs": [
             {
@@ -343,29 +413,34 @@
     },
     {
         "type": "function",
-        "name": "stressDepth",
-        "inputs": [],
-        "outputs": [
+        "name": "skim",
+        "inputs": [
             {
-                "name": "",
+                "name": "vaultId",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
-        "stateMutability": "view"
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
-        "name": "stressMarkdown",
-        "inputs": [],
-        "outputs": [
+        "name": "skip",
+        "inputs": [
             {
-                "name": "",
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "auctionId",
                 "type": "uint256",
                 "internalType": "uint256"
             }
         ],
-        "stateMutability": "view"
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
@@ -388,30 +463,50 @@
     },
     {
         "type": "function",
-        "name": "volatileIlks",
+        "name": "tag",
         "inputs": [
             {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
             }
         ],
         "outputs": [
             {
-                "name": "",
-                "type": "bytes32",
-                "internalType": "bytes32"
+                "name": "settlementPrice",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "stateMutability": "view"
     },
     {
         "type": "function",
-        "name": "worstCaseLoss",
+        "name": "thaw",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "wait",
         "inputs": [],
         "outputs": [
             {
-                "name": "loss",
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "when",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -420,29 +515,59 @@
     },
     {
         "type": "event",
-        "name": "AddVolatileIlk",
+        "name": "Cage",
+        "inputs": [],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "CageIlk",
         "inputs": [
             {
                 "name": "ilkId",
                 "type": "bytes32",
                 "indexed": true,
                 "internalType": "bytes32"
+            },
+            {
+                "name": "tag",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
             }
         ],
         "anonymous": false
     },
     {
         "type": "event",
-        "name": "ExposureClamped",
+        "name": "Cash",
         "inputs": [
             {
-                "name": "reported",
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "usr",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "wad",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
             },
             {
-                "name": "cap",
+                "name": "ink",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -471,38 +596,88 @@
     },
     {
         "type": "event",
-        "name": "InvariantChecked",
+        "name": "File",
         "inputs": [
             {
-                "name": "reserve",
-                "type": "uint256",
-                "indexed": false,
-                "internalType": "uint256"
+                "name": "what",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
             },
             {
-                "name": "worstCaseLoss",
-                "type": "uint256",
+                "name": "addr",
+                "type": "address",
                 "indexed": false,
-                "internalType": "uint256"
-            },
-            {
-                "name": "passed",
-                "type": "bool",
-                "indexed": false,
-                "internalType": "bool"
+                "internalType": "address"
             }
         ],
         "anonymous": false
     },
     {
         "type": "event",
-        "name": "RemoveVolatileIlk",
+        "name": "Flow",
         "inputs": [
             {
                 "name": "ilkId",
                 "type": "bytes32",
                 "indexed": true,
                 "internalType": "bytes32"
+            },
+            {
+                "name": "fix",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Free",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "owner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "ink",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Pack",
+        "inputs": [
+            {
+                "name": "usr",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "wad",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
             }
         ],
         "anonymous": false
@@ -583,6 +758,87 @@
         "anonymous": false
     },
     {
+        "type": "event",
+        "name": "Skim",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "wad",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Skip",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "auctionId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "lot",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Thaw",
+        "inputs": [
+            {
+                "name": "debt",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
         "type": "error",
         "name": "AccessControlBadConfirmation",
         "inputs": []
@@ -605,12 +861,67 @@
     },
     {
         "type": "error",
-        "name": "ExposureCapNotSet",
+        "name": "AlreadyCaged",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "ParameterOutOfBounds",
+        "name": "ArtNotZero",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "DebtAlreadyFixed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "DebtNotFixed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "FixAlreadyDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "FixNotDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InsufficientBag",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ReentrancyGuardReentrantCall",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "StillLive",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "SurplusNotZero",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TagAlreadyDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TagNotDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "WaitNotElapsed",
         "inputs": []
     }
 ]

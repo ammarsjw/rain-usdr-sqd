@@ -18,10 +18,11 @@ import { START_BLOCK } from "./config/deployments";
 
 import { contractAddresses } from "./contracts";
 
-const gateway = process.env.GATEWAY!;
-const sqdApiKey = process.env.SQD_API_KEY;
-const rpcEndpoint = process.env.RPC_HTTP!;
-const rateLimit = Number(process.env.RATE_LIMIT);
+const gateway = process.env.GATEWAY || "";
+const sqdApiKey = process.env.SQD_API_KEY || "";
+
+const rpcEndpoint = process.env.RPC_HTTP || "";
+const rateLimit = process.env.RATE_LIMIT || "";
 
 const startBlock = Number(START_BLOCK);
 
@@ -32,7 +33,7 @@ export const processor = new EvmBatchProcessor()
     })
     .setRpcEndpoint({
         url: rpcEndpoint,
-        rateLimit: rateLimit
+        rateLimit: Number(rateLimit)
     })
     .setBlockRange({ from: startBlock })
     .setFinalityConfirmation(10)

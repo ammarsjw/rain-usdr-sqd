@@ -15,7 +15,7 @@ import { events as reserveAccountingEvents } from "./abi/ReserveAccounting";
 import { events as solvencyEngineEvents } from "./abi/SolvencyEngine";
 import { events as usdrEvents } from "./abi/USDR";
 import { events as vaultEngineEvents } from "./abi/VaultEngine";
-import { START_BLOCK } from "./config/deployments";
+import { START_BLOCK, RATE_LIMIT } from "./shared/config";
 
 import { contractAddresses } from "./contracts";
 
@@ -23,7 +23,7 @@ const gateway = process.env.GATEWAY || "";
 const sqdApiKey = process.env.SQD_API_KEY || "";
 
 const rpcEndpoint = process.env.RPC_HTTP || "";
-const rateLimit = process.env.RATE_LIMIT || "";
+const rateLimit = Number(RATE_LIMIT);
 
 const startBlock = Number(START_BLOCK);
 
@@ -34,7 +34,7 @@ export const processor = new EvmBatchProcessor()
     })
     .setRpcEndpoint({
         url: rpcEndpoint,
-        rateLimit: Number(rateLimit)
+        rateLimit: rateLimit
     })
     .setBlockRange({ from: startBlock })
     .setFinalityConfirmation(10)

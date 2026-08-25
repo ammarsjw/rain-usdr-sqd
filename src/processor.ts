@@ -57,6 +57,7 @@ export const processor = new EvmBatchProcessor()
             vaultEngineEvents.Hope.topic,
             vaultEngineEvents.Nope.topic,
             vaultEngineEvents.Init.topic,
+            vaultEngineEvents.Drip.topic,
             vaultEngineEvents.Cage.topic,
             collateralAdapterEvents.Init.topic,
             collateralAdapterEvents.Cage.topic,

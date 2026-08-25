@@ -34,6 +34,7 @@ import {
     Deactivated,
     Digs,
     DistributeSurplus,
+    Drip,
     Execute,
     Exit,
     ExposureClamped,
@@ -191,6 +192,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === vaultEngineEvents.Init.topic) {
                 const { ilkId } = vaultEngineEvents.Init.decode(e);
                 entities.push(new Init({ ...base, ilkId: hexToBytes(ilkId) }));
+            } else if (topic === vaultEngineEvents.Drip.topic) {
+                const { ilkId, rate, rad } = vaultEngineEvents.Drip.decode(e);
+                entities.push(new Drip({ ...base, ilkId: hexToBytes(ilkId), rate, rad }));
             } else if (topic === collateralAdapterEvents.Init.topic) {
                 const { ilkId, token } = collateralAdapterEvents.Init.decode(e);
                 entities.push(new Init({ ...base, ilkId: hexToBytes(ilkId), token: hexToBytes(token) }));

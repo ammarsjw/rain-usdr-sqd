@@ -118,6 +118,22 @@ type Init @entity {
     token: Bytes
 }
 
+# Stability fee accrual on the VaultEngine: `rate` is the new debt multiplier [ray], `rad` the fees credited to the
+# fee recipient [rad].
+type Drip @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+    rate: BigInt!
+    rad: BigInt!
+}
+
 type Slip @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!

@@ -3,7 +3,7 @@
     "version": "1.0.0-alpha.4",
     "scripts": {
         "build": "rm -rf lib && tsc",
-        "codegen:abi": "squid-evm-typegen src/abi ./abi/*.json",
+        "codegen:abi": "node scripts/codegen-abi.mjs",
         "codegen:model": "squid-typeorm-codegen",
         "db:generate": "npx squid-typeorm-migration generate",
         "db:migrate": "npx squid-typeorm-migration apply",

@@ -5,7 +5,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 export const events = {
     Cancel: event("0x8bf30e7ff26833413be5f69e1d373744864d600b664204b4a2f9844a8eedb9ed", "Cancel(uint256)", {"id": indexed(p.uint256)}),
     Execute: event("0xddb556f1d2c1ec821e910b019d3685b229db152a0ecd517ca7e24b8bd7139289", "Execute(uint256)", {"id": indexed(p.uint256)}),
-    Pause: event("0x8320b06dce22cc23cd6092e0b675403852c085d54c3a0ffe955142be6b68190e", "Pause(bytes32,uint256)", {"scope": p.bytes32, "pausedAt": p.uint256}),
+    Pause: event("0x68b095021b1f40fe513109f513c66692f0b3219aee674a69f4efc57badb8201d", "Pause(uint256)", {"pausedAt": p.uint256}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -24,8 +24,7 @@ export const functions = {
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    pause: fun("0xed56531a", "pause(bytes32)", {"scope": p.bytes32}, ),
-    pauseScope: viewFun("0xad1b1487", "pauseScope()", {}, p.bytes32),
+    pause: fun("0x8456cb59", "pause()", {}, ),
     paused: viewFun("0x5c975abb", "paused()", {}, p.bool),
     pausedAt: viewFun("0x2e55d0f2", "pausedAt()", {}, p.uint256),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
@@ -63,10 +62,6 @@ export class Contract extends ContractBase {
 
     hasRole(role: HasRoleParams["role"], account: HasRoleParams["account"]) {
         return this.eth_call(functions.hasRole, {role, account})
-    }
-
-    pauseScope() {
-        return this.eth_call(functions.pauseScope, {})
     }
 
     paused() {
@@ -125,9 +120,6 @@ export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
 
 export type PauseParams = FunctionArguments<typeof functions.pause>
 export type PauseReturn = FunctionReturn<typeof functions.pause>
-
-export type PauseScopeParams = FunctionArguments<typeof functions.pauseScope>
-export type PauseScopeReturn = FunctionReturn<typeof functions.pauseScope>
 
 export type PausedParams = FunctionArguments<typeof functions.paused>
 export type PausedReturn = FunctionReturn<typeof functions.paused>

@@ -1,8 +1,8 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class ExposureClamped {
-    constructor(props?: Partial<ExposureClamped>) {
+export class ExposureReportFailed {
+    constructor(props?: Partial<ExposureReportFailed>) {
         Object.assign(this, props)
     }
 
@@ -25,8 +25,5 @@ export class ExposureClamped {
     eventLogIndex!: number
 
     @BigIntColumn_({nullable: false})
-    reported!: bigint
-
-    @BigIntColumn_({nullable: false})
-    cap!: bigint
+    substituted!: bigint
 }

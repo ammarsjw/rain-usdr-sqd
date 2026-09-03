@@ -4,7 +4,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     AddVolatileIlk: event("0x9f18973ffe1697bc37451ee876c856ed2e039f564a18687caae7dfc17d30116f", "AddVolatileIlk(bytes32)", {"ilkId": indexed(p.bytes32)}),
-    ExposureClamped: event("0x80a7d1a310a6b2bf16dd90bfbde907c7ef552f5318d4563086dbc92283ea85fe", "ExposureClamped(uint256,uint256)", {"reported": p.uint256, "cap": p.uint256}),
+    ExposureReportFailed: event("0xd74380ffd06976b3a196f621cd8c31cb6eba3912d7311141ab8a5c9f6e27f74f", "ExposureReportFailed(uint256)", {"substituted": p.uint256}),
     File: event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     InvariantChecked: event("0x2ba99f67a85051641806035b942769c163c26579094d10165250b0ec4f7109a6", "InvariantChecked(uint256,uint256,bool)", {"reserve": p.uint256, "worstCaseLoss": p.uint256, "passed": p.bool}),
     RemoveVolatileIlk: event("0x6d45f728d9a5d37500b100fd5402b20469515231e15576fe773283bbbe7bcbb4", "RemoveVolatileIlk(bytes32)", {"ilkId": indexed(p.bytes32)}),
@@ -21,7 +21,6 @@ export const functions = {
     breachThreshold: viewFun("0x36d04ab4", "breachThreshold()", {}, p.uint256),
     breached: viewFun("0x80c1dae2", "breached()", {}, p.bool),
     checkInvariant: fun("0xe79487da", "checkInvariant()", {}, {"loss": p.uint256, "reserve": p.uint256}),
-    exposureCap: viewFun("0xb51d20c7", "exposureCap()", {}, p.uint256),
     externalExposure: viewFun("0xeef93b5f", "externalExposure()", {}, p.address),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
@@ -62,10 +61,6 @@ export class Contract extends ContractBase {
 
     breached() {
         return this.eth_call(functions.breached, {})
-    }
-
-    exposureCap() {
-        return this.eth_call(functions.exposureCap, {})
     }
 
     externalExposure() {
@@ -119,7 +114,7 @@ export class Contract extends ContractBase {
 
 /// Event types
 export type AddVolatileIlkEventArgs = EParams<typeof events.AddVolatileIlk>
-export type ExposureClampedEventArgs = EParams<typeof events.ExposureClamped>
+export type ExposureReportFailedEventArgs = EParams<typeof events.ExposureReportFailed>
 export type FileEventArgs = EParams<typeof events.File>
 export type InvariantCheckedEventArgs = EParams<typeof events.InvariantChecked>
 export type RemoveVolatileIlkEventArgs = EParams<typeof events.RemoveVolatileIlk>
@@ -148,9 +143,6 @@ export type BreachedReturn = FunctionReturn<typeof functions.breached>
 
 export type CheckInvariantParams = FunctionArguments<typeof functions.checkInvariant>
 export type CheckInvariantReturn = FunctionReturn<typeof functions.checkInvariant>
-
-export type ExposureCapParams = FunctionArguments<typeof functions.exposureCap>
-export type ExposureCapReturn = FunctionReturn<typeof functions.exposureCap>
 
 export type ExternalExposureParams = FunctionArguments<typeof functions.externalExposure>
 export type ExternalExposureReturn = FunctionReturn<typeof functions.externalExposure>

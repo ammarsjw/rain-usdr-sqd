@@ -507,7 +507,7 @@ type RemoveVolatileIlk @entity {
     ilkId: Bytes!
 }
 
-type ExposureClamped @entity {
+type ExposureReportFailed @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!
     blockTimestamp: BigInt!
@@ -516,8 +516,7 @@ type ExposureClamped @entity {
     eventLogIndex: Int!
 
     # Custom required values
-    reported: BigInt!
-    cap: BigInt!
+    substituted: BigInt!
 }
 
 # =============================== BalanceSheet =============================== #
@@ -785,7 +784,6 @@ type Pause @entity {
     eventLogIndex: Int!
 
     # Custom required values
-    scope: Bytes!
     pausedAt: BigInt!
 }
 

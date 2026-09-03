@@ -24,9 +24,6 @@ export class Pause {
     @IntColumn_({nullable: false})
     eventLogIndex!: number
 
-    @BytesColumn_({nullable: false})
-    scope!: Uint8Array
-
     @BigIntColumn_({nullable: false})
     pausedAt!: bigint
 }

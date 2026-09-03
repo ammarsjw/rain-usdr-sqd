@@ -12,6 +12,7 @@ export const events = {
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
+    SnapshotReserve: event("0x2b5e275c7a189a6b87a21849009efd8bac1f4525a312b4604e3d43d5dd28bae4", "SnapshotReserve(uint256)", {"reserve": p.uint256}),
     Suck: event("0x7e266d2c9b5648cbc163cf6405c44a8b1f3e4affdcf6154e80d6b9cbcba4370e", "Suck(address,uint256)", {"kpr": indexed(p.address), "rad": p.uint256}),
 }
 
@@ -31,10 +32,14 @@ export const functions = {
     humpFloor: viewFun("0xb810e3e3", "humpFloor()", {}, p.uint256),
     humpRate: viewFun("0xad80d42f", "humpRate()", {}, p.uint256),
     humpTarget: viewFun("0x02c0bf36", "humpTarget()", {}, p.uint256),
+    laggedReserve: viewFun("0x8a809d5f", "laggedReserve()", {}, p.uint256),
+    laggedReserveAt: viewFun("0xa6d84d2b", "laggedReserveAt()", {}, p.uint256),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     reserveAccounting: viewFun("0x9d155075", "reserveAccounting()", {}, p.address),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sin: viewFun("0xcb5cc109", "sin(uint256)", {"era": p.uint256}, p.uint256),
+    snapshotReserve: fun("0x99597c24", "snapshotReserve()", {}, ),
+    solvencyEngine: viewFun("0xa898ed1e", "solvencyEngine()", {}, p.address),
     suck: fun("0x0465b2b8", "suck(address,uint256)", {"kpr": p.address, "rad": p.uint256}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
     totalQueuedSin: viewFun("0xb4f8ea10", "totalQueuedSin()", {}, p.uint256),
@@ -75,12 +80,24 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.humpTarget, {})
     }
 
+    laggedReserve() {
+        return this.eth_call(functions.laggedReserve, {})
+    }
+
+    laggedReserveAt() {
+        return this.eth_call(functions.laggedReserveAt, {})
+    }
+
     reserveAccounting() {
         return this.eth_call(functions.reserveAccounting, {})
     }
 
     sin(era: SinParams["era"]) {
         return this.eth_call(functions.sin, {era})
+    }
+
+    solvencyEngine() {
+        return this.eth_call(functions.solvencyEngine, {})
     }
 
     supportsInterface(interfaceId: SupportsInterfaceParams["interfaceId"]) {
@@ -106,6 +123,7 @@ export type HealEventArgs = EParams<typeof events.Heal>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
+export type SnapshotReserveEventArgs = EParams<typeof events.SnapshotReserve>
 export type SuckEventArgs = EParams<typeof events.Suck>
 
 /// Function types
@@ -154,6 +172,12 @@ export type HumpRateReturn = FunctionReturn<typeof functions.humpRate>
 export type HumpTargetParams = FunctionArguments<typeof functions.humpTarget>
 export type HumpTargetReturn = FunctionReturn<typeof functions.humpTarget>
 
+export type LaggedReserveParams = FunctionArguments<typeof functions.laggedReserve>
+export type LaggedReserveReturn = FunctionReturn<typeof functions.laggedReserve>
+
+export type LaggedReserveAtParams = FunctionArguments<typeof functions.laggedReserveAt>
+export type LaggedReserveAtReturn = FunctionReturn<typeof functions.laggedReserveAt>
+
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>
 
@@ -165,6 +189,12 @@ export type RevokeRoleReturn = FunctionReturn<typeof functions.revokeRole>
 
 export type SinParams = FunctionArguments<typeof functions.sin>
 export type SinReturn = FunctionReturn<typeof functions.sin>
+
+export type SnapshotReserveParams = FunctionArguments<typeof functions.snapshotReserve>
+export type SnapshotReserveReturn = FunctionReturn<typeof functions.snapshotReserve>
+
+export type SolvencyEngineParams = FunctionArguments<typeof functions.solvencyEngine>
+export type SolvencyEngineReturn = FunctionReturn<typeof functions.solvencyEngine>
 
 export type SuckParams = FunctionArguments<typeof functions.suck>
 export type SuckReturn = FunctionReturn<typeof functions.suck>

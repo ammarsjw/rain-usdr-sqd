@@ -94,7 +94,7 @@ export const processor = new EvmBatchProcessor()
             solvencyEngineEvents.AddVolatileIlk.topic,
             solvencyEngineEvents.RemoveVolatileIlk.topic,
             solvencyEngineEvents.InvariantChecked.topic,
-            solvencyEngineEvents.ExposureClamped.topic,
+            solvencyEngineEvents.ExposureReportFailed.topic,
             // BalanceSheet.
             balanceSheetEvents.Fess.topic,
             balanceSheetEvents.Flog.topic,

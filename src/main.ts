@@ -37,7 +37,7 @@ import {
     Drip,
     Execute,
     Exit,
-    ExposureClamped,
+    ExposureReportFailed,
     Fess,
     File,
     Flog,
@@ -336,9 +336,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === solvencyEngineEvents.InvariantChecked.topic) {
                 const { reserve, worstCaseLoss, passed } = solvencyEngineEvents.InvariantChecked.decode(e);
                 entities.push(new InvariantChecked({ ...base, reserve, worstCaseLoss, passed }));
-            } else if (topic === solvencyEngineEvents.ExposureClamped.topic) {
-                const { reported, cap } = solvencyEngineEvents.ExposureClamped.decode(e);
-                entities.push(new ExposureClamped({ ...base, reported, cap }));
+            } else if (topic === solvencyEngineEvents.ExposureReportFailed.topic) {
+                const { substituted } = solvencyEngineEvents.ExposureReportFailed.decode(e);
+                entities.push(new ExposureReportFailed({ ...base, substituted }));
             }
 
             // BalanceSheet.
@@ -451,8 +451,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                 const { id } = governorEvents.Cancel.decode(e);
                 entities.push(new Cancel({ ...base, actionId: id }));
             } else if (topic === governorEvents.Pause.topic) {
-                const { scope, pausedAt } = governorEvents.Pause.decode(e);
-                entities.push(new Pause({ ...base, scope: hexToBytes(scope), pausedAt }));
+                const { pausedAt } = governorEvents.Pause.decode(e);
+                entities.push(new Pause({ ...base, pausedAt }));
             } else if (topic === governorEvents.Unpause.topic) {
                 entities.push(new Unpause({ ...base }));
             }

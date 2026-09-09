@@ -27,6 +27,9 @@ export class Take {
     @BigIntColumn_({nullable: false})
     auctionId!: bigint
 
+    @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
+
     @BigIntColumn_({nullable: false})
     max!: bigint
 

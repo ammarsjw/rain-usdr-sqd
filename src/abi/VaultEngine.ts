@@ -5,7 +5,6 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 export const events = {
     Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
     Drip: event("0x3b9f4ab0566d9d10726a6f7f34cdc9e4b7f03a20a878ed293de4e6ed1b419858", "Drip(bytes32,uint256,uint256)", {"ilkId": indexed(p.bytes32), "rate": p.uint256, "rad": p.uint256}),
-    ExemptFee: event("0xf1669fce1dcfeb6dcab25bd7cdd436669d839efa80ca9119af7d7006e96e6c95", "ExemptFee(bytes32)", {"ilkId": indexed(p.bytes32)}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
@@ -32,7 +31,7 @@ export const functions = {
     collateral: viewFun("0x685a4366", "collateral(bytes32,address)", {"ilkId": p.bytes32, "user": p.address}, p.uint256),
     debt: viewFun("0x0dca59c1", "debt()", {}, p.uint256),
     drip: fun("0x44e2a5a8", "drip(bytes32)", {"ilkId": p.bytes32}, p.uint256),
-    exemptFee: fun("0x09c9b0c7", "exemptFee(bytes32)", {"ilkId": p.bytes32}, ),
+    effectiveLine: viewFun("0x537ee8aa", "effectiveLine(bytes32)", {"ilkId": p.bytes32}, p.uint256),
     feeRecipient: viewFun("0x46904840", "feeRecipient()", {}, p.address),
     'file(bytes32,bytes32,uint256)': fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
@@ -52,6 +51,7 @@ export const functions = {
     ilkOf: viewFun("0xa4e67ff5", "ilkOf(uint256)", {"vaultId": p.uint256}, p.bytes32),
     ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"globalArt": p.uint256, "globalInk": p.uint256, "rate": p.uint256, "spot": p.uint256, "line": p.uint256, "dust": p.uint256, "duty": p.uint256, "rho": p.uint256}),
     init: fun("0x3b663195", "init(bytes32)", {"ilkId": p.bytes32}, ),
+    liquidityCeilings: viewFun("0x72fa7edd", "liquidityCeilings(bytes32)", {"ilkId": p.bytes32}, {"fSafety": p.uint256, "liquidity": p.uint256, "laggedLiquidity": p.uint256, "laggedLiquidityAt": p.uint256}),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     move: fun("0xbb35783b", "move(address,address,uint256)", {"from": p.address, "to": p.address, "rad": p.uint256}, ),
     noFee: viewFun("0xda206a6a", "noFee(bytes32)", {"ilkId": p.bytes32}, p.bool),
@@ -62,6 +62,7 @@ export const functions = {
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     sin: viewFun("0xf059212a", "sin(address)", {"debtSink": p.address}, p.uint256),
     slip: fun("0x7cdd3fde", "slip(bytes32,address,int256)", {"ilkId": p.bytes32, "user": p.address, "wad": p.int256}, ),
+    snapshotLiquidity: fun("0x33c4adc8", "snapshotLiquidity(bytes32)", {"ilkId": p.bytes32}, ),
     solvencyEngine: viewFun("0xa898ed1e", "solvencyEngine()", {}, p.address),
     suck: fun("0xf24e23eb", "suck(address,address,uint256)", {"u": p.address, "v": p.address, "rad": p.uint256}, ),
     supportsInterface: viewFun("0x01ffc9a7", "supportsInterface(bytes4)", {"interfaceId": p.bytes4}, p.bool),
@@ -87,6 +88,10 @@ export class Contract extends ContractBase {
 
     debt() {
         return this.eth_call(functions.debt, {})
+    }
+
+    effectiveLine(ilkId: EffectiveLineParams["ilkId"]) {
+        return this.eth_call(functions.effectiveLine, {ilkId})
     }
 
     feeRecipient() {
@@ -123,6 +128,10 @@ export class Contract extends ContractBase {
 
     ilks(ilkId: IlksParams["ilkId"]) {
         return this.eth_call(functions.ilks, {ilkId})
+    }
+
+    liquidityCeilings(ilkId: LiquidityCeilingsParams["ilkId"]) {
+        return this.eth_call(functions.liquidityCeilings, {ilkId})
     }
 
     live() {
@@ -169,7 +178,6 @@ export class Contract extends ContractBase {
 /// Event types
 export type CageEventArgs = EParams<typeof events.Cage>
 export type DripEventArgs = EParams<typeof events.Drip>
-export type ExemptFeeEventArgs = EParams<typeof events.ExemptFee>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
@@ -207,8 +215,8 @@ export type DebtReturn = FunctionReturn<typeof functions.debt>
 export type DripParams = FunctionArguments<typeof functions.drip>
 export type DripReturn = FunctionReturn<typeof functions.drip>
 
-export type ExemptFeeParams = FunctionArguments<typeof functions.exemptFee>
-export type ExemptFeeReturn = FunctionReturn<typeof functions.exemptFee>
+export type EffectiveLineParams = FunctionArguments<typeof functions.effectiveLine>
+export type EffectiveLineReturn = FunctionReturn<typeof functions.effectiveLine>
 
 export type FeeRecipientParams = FunctionArguments<typeof functions.feeRecipient>
 export type FeeRecipientReturn = FunctionReturn<typeof functions.feeRecipient>
@@ -267,6 +275,9 @@ export type IlksReturn = FunctionReturn<typeof functions.ilks>
 export type InitParams = FunctionArguments<typeof functions.init>
 export type InitReturn = FunctionReturn<typeof functions.init>
 
+export type LiquidityCeilingsParams = FunctionArguments<typeof functions.liquidityCeilings>
+export type LiquidityCeilingsReturn = FunctionReturn<typeof functions.liquidityCeilings>
+
 export type LiveParams = FunctionArguments<typeof functions.live>
 export type LiveReturn = FunctionReturn<typeof functions.live>
 
@@ -296,6 +307,9 @@ export type SinReturn = FunctionReturn<typeof functions.sin>
 
 export type SlipParams = FunctionArguments<typeof functions.slip>
 export type SlipReturn = FunctionReturn<typeof functions.slip>
+
+export type SnapshotLiquidityParams = FunctionArguments<typeof functions.snapshotLiquidity>
+export type SnapshotLiquidityReturn = FunctionReturn<typeof functions.snapshotLiquidity>
 
 export type SolvencyEngineParams = FunctionArguments<typeof functions.solvencyEngine>
 export type SolvencyEngineReturn = FunctionReturn<typeof functions.solvencyEngine>

@@ -3,13 +3,12 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
-    Bark: event("0xdb0b9a53b1f88db6010a9e9af7adf98a1a51e536a2864294729c12850d3f93ec", "Bark(bytes32,uint256,address,uint256,uint256,uint256,address,uint256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "urn": indexed(p.address), "ink": p.uint256, "art": p.uint256, "due": p.uint256, "clip": p.address, "id": p.uint256}),
+    Bark: event("0xdb0b9a53b1f88db6010a9e9af7adf98a1a51e536a2864294729c12850d3f93ec", "Bark(bytes32,uint256,address,uint256,uint256,uint256,address,uint256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "urn": indexed(p.address), "ink": p.uint256, "art": p.uint256, "due": p.uint256, "dutchAuction": p.address, "id": p.uint256}),
     Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
     Digs: event("0x54f095dc7308776bf01e8580e4dd40fd959ea4bf50b069975768320ef8d77d8a", "Digs(bytes32,uint256)", {"ilkId": indexed(p.bytes32), "rad": p.uint256}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
-    'File(bytes32 indexed,bytes32 indexed,address)': event("0x4ff2caaa972a7c6629ea01fae9c93d73cc307d13ea4c369f9bbbb7f9b7e9461d", "File(bytes32,bytes32,address)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "addr": p.address}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
     RoleGranted: event("0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d", "RoleGranted(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
     RoleRevoked: event("0xf6391f5c32d9c69d2a47ea670b442974b53935d1edc7fd64eb21e047a839171b", "RoleRevoked(bytes32,address,address)", {"role": indexed(p.bytes32), "account": indexed(p.address), "sender": indexed(p.address)}),
@@ -24,17 +23,17 @@ export const functions = {
     chop: viewFun("0xd7926538", "chop(bytes32)", {"ilkId": p.bytes32}, p.uint256),
     circuitBreaker: viewFun("0x16efd941", "circuitBreaker()", {}, p.address),
     digs: fun("0xc87193f4", "digs(bytes32,uint256)", {"ilkId": p.bytes32, "rad": p.uint256}, ),
+    dutchAuction: viewFun("0x9da0d7d4", "dutchAuction()", {}, p.address),
     'file(bytes32,bytes32,uint256)': fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
-    'file(bytes32,bytes32,address)': fun("0xebecb39d", "file(bytes32,bytes32,address)", {"ilkId": p.bytes32, "what": p.bytes32, "clip": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     globalDirt: viewFun("0xf8ddf469", "globalDirt()", {}, p.uint256),
     globalHole: viewFun("0xb1ffc23d", "globalHole()", {}, p.uint256),
     governor: viewFun("0x0c340a24", "governor()", {}, p.address),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"clip": p.address, "chop": p.uint256, "hole": p.uint256, "dirt": p.uint256, "barkFactor": p.uint256}),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"chop": p.uint256, "hole": p.uint256, "dirt": p.uint256, "barkFactor": p.uint256}),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
@@ -62,6 +61,10 @@ export class Contract extends ContractBase {
 
     circuitBreaker() {
         return this.eth_call(functions.circuitBreaker, {})
+    }
+
+    dutchAuction() {
+        return this.eth_call(functions.dutchAuction, {})
     }
 
     getRoleAdmin(role: GetRoleAdminParams["role"]) {
@@ -108,7 +111,6 @@ export type DigsEventArgs = EParams<typeof events.Digs>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
-export type FileEventArgs_3 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,address)']>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
 export type RoleGrantedEventArgs = EParams<typeof events.RoleGranted>
 export type RoleRevokedEventArgs = EParams<typeof events.RoleRevoked>
@@ -138,6 +140,9 @@ export type CircuitBreakerReturn = FunctionReturn<typeof functions.circuitBreake
 export type DigsParams = FunctionArguments<typeof functions.digs>
 export type DigsReturn = FunctionReturn<typeof functions.digs>
 
+export type DutchAuctionParams = FunctionArguments<typeof functions.dutchAuction>
+export type DutchAuctionReturn = FunctionReturn<typeof functions.dutchAuction>
+
 export type FileParams_0 = FunctionArguments<typeof functions['file(bytes32,bytes32,uint256)']>
 export type FileReturn_0 = FunctionReturn<typeof functions['file(bytes32,bytes32,uint256)']>
 
@@ -146,9 +151,6 @@ export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,uint256
 
 export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,address)']>
 export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,address)']>
-
-export type FileParams_3 = FunctionArguments<typeof functions['file(bytes32,bytes32,address)']>
-export type FileReturn_3 = FunctionReturn<typeof functions['file(bytes32,bytes32,address)']>
 
 export type GetRoleAdminParams = FunctionArguments<typeof functions.getRoleAdmin>
 export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>

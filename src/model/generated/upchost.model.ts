@@ -24,6 +24,9 @@ export class Upchost {
     @IntColumn_({nullable: false})
     eventLogIndex!: number
 
+    @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
+
     @BigIntColumn_({nullable: false})
     chost!: bigint
 }

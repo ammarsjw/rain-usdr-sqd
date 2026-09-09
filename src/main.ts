@@ -20,7 +20,9 @@ import { contractAddresses } from "./contracts";
 import { idFromEventLogIndex } from "./id";
 import {
     Activated,
+    AddIlk,
     AddVolatileIlk,
+    Backstop,
     BalanceSheetHeal,
     BalanceSheetSuck,
     Bark,
@@ -61,6 +63,7 @@ import {
     RecordDecrease,
     RecordIncrease,
     Redo,
+    RemoveIlk,
     RemoveVolatileIlk,
     RoleAdminChanged,
     RoleGranted,
@@ -161,16 +164,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === balanceSheetEvents["File(bytes32 indexed,address)"].topic) {
                 const { what, addr } = balanceSheetEvents["File(bytes32 indexed,address)"].decode(e);
                 entities.push(new File({ ...base, what: hexToBytes(what), dataAddress: hexToBytes(addr) }));
-            } else if (topic === liquidationTriggerEvents["File(bytes32 indexed,bytes32 indexed,address)"].topic) {
-                const decoded = liquidationTriggerEvents["File(bytes32 indexed,bytes32 indexed,address)"].decode(e);
-                entities.push(
-                    new File({
-                        ...base,
-                        ilkId: hexToBytes(decoded.ilkId),
-                        what: hexToBytes(decoded.what),
-                        dataAddress: hexToBytes(decoded.addr)
-                    })
-                );
+            } else if (topic === balanceSheetEvents["File(bytes32 indexed,bytes32)"].topic) {
+                const { what, dataBytes32 } = balanceSheetEvents["File(bytes32 indexed,bytes32)"].decode(e);
+                entities.push(new File({ ...base, what: hexToBytes(what), dataBytes32: hexToBytes(dataBytes32) }));
             }
 
             // Cage (ledger, converter and trigger share the argless topic; the adapter's
@@ -357,11 +353,15 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === balanceSheetEvents.DistributeSurplus.topic) {
                 const { excess } = balanceSheetEvents.DistributeSurplus.decode(e);
                 entities.push(new DistributeSurplus({ ...base, excess }));
+            } else if (topic === balanceSheetEvents.Backstop.topic) {
+                const { buyer, rad, rainWad } = balanceSheetEvents.Backstop.decode(e);
+                entities.push(new Backstop({ ...base, buyer: hexToBytes(buyer), rad, rainWad }));
             }
 
             // LiquidationTrigger.
             else if (topic === liquidationTriggerEvents.Bark.topic) {
-                const { ilkId, vaultId, urn, ink, art, due, clip, id } = liquidationTriggerEvents.Bark.decode(e);
+                const { ilkId, vaultId, urn, ink, art, due, dutchAuction, id } =
+                    liquidationTriggerEvents.Bark.decode(e);
                 entities.push(
                     new Bark({
                         ...base,
@@ -371,7 +371,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                         ink,
                         art,
                         due,
-                        clip: hexToBytes(clip),
+                        dutchAuction: hexToBytes(dutchAuction),
                         auctionId: id
                     })
                 );
@@ -382,11 +382,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
             // DutchAuction.
             else if (topic === dutchAuctionEvents.Kick.topic) {
-                const { id, top, tab, lot, vaultId, usr, kpr, coin } = dutchAuctionEvents.Kick.decode(e);
+                const { id, ilkId, top, tab, lot, vaultId, usr, kpr, coin } = dutchAuctionEvents.Kick.decode(e);
                 entities.push(
                     new Kick({
                         ...base,
                         auctionId: id,
+                        ilkId: hexToBytes(ilkId),
                         top,
                         tab,
                         lot,
@@ -397,14 +398,27 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                     })
                 );
             } else if (topic === dutchAuctionEvents.Take.topic) {
-                const { id, max, price, owe, tab, lot, usr } = dutchAuctionEvents.Take.decode(e);
-                entities.push(new Take({ ...base, auctionId: id, max, price, owe, tab, lot, usr: hexToBytes(usr) }));
+                const { id, ilkId, max, price, owe, tab, lot, usr } = dutchAuctionEvents.Take.decode(e);
+                entities.push(
+                    new Take({
+                        ...base,
+                        auctionId: id,
+                        ilkId: hexToBytes(ilkId),
+                        max,
+                        price,
+                        owe,
+                        tab,
+                        lot,
+                        usr: hexToBytes(usr)
+                    })
+                );
             } else if (topic === dutchAuctionEvents.Redo.topic) {
-                const { id, top, tab, lot, usr, kpr, coin } = dutchAuctionEvents.Redo.decode(e);
+                const { id, ilkId, top, tab, lot, usr, kpr, coin } = dutchAuctionEvents.Redo.decode(e);
                 entities.push(
                     new Redo({
                         ...base,
                         auctionId: id,
+                        ilkId: hexToBytes(ilkId),
                         top,
                         tab,
                         lot,
@@ -417,19 +431,25 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                 const { id } = dutchAuctionEvents.Yank.decode(e);
                 entities.push(new Yank({ ...base, auctionId: id }));
             } else if (topic === dutchAuctionEvents.Upchost.topic) {
-                const { chost } = dutchAuctionEvents.Upchost.decode(e);
-                entities.push(new Upchost({ ...base, chost }));
+                const { ilkId, chost } = dutchAuctionEvents.Upchost.decode(e);
+                entities.push(new Upchost({ ...base, ilkId: hexToBytes(ilkId), chost }));
             }
 
             // CircuitBreaker.
             else if (topic === circuitBreakerEvents.Activated.topic) {
-                const { deviation } = circuitBreakerEvents.Activated.decode(e);
-                entities.push(new Activated({ ...base, deviation }));
+                const { ilkId, deviation } = circuitBreakerEvents.Activated.decode(e);
+                entities.push(new Activated({ ...base, ilkId: hexToBytes(ilkId), deviation }));
             } else if (topic === circuitBreakerEvents.Deactivated.topic) {
                 entities.push(new Deactivated({ ...base }));
             } else if (topic === circuitBreakerEvents.Checked.topic) {
-                const { deviation, active } = circuitBreakerEvents.Checked.decode(e);
-                entities.push(new Checked({ ...base, deviation, active }));
+                const { worstIlk, maxDeviation, active } = circuitBreakerEvents.Checked.decode(e);
+                entities.push(new Checked({ ...base, worstIlk: hexToBytes(worstIlk), maxDeviation, active }));
+            } else if (topic === circuitBreakerEvents.AddIlk.topic) {
+                const { ilkId } = circuitBreakerEvents.AddIlk.decode(e);
+                entities.push(new AddIlk({ ...base, ilkId: hexToBytes(ilkId) }));
+            } else if (topic === circuitBreakerEvents.RemoveIlk.topic) {
+                const { ilkId } = circuitBreakerEvents.RemoveIlk.decode(e);
+                entities.push(new RemoveIlk({ ...base, ilkId: hexToBytes(ilkId) }));
             }
 
             // Governor.
@@ -451,8 +471,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                 const { id } = governorEvents.Cancel.decode(e);
                 entities.push(new Cancel({ ...base, actionId: id }));
             } else if (topic === governorEvents.Pause.topic) {
-                const { pausedAt } = governorEvents.Pause.decode(e);
-                entities.push(new Pause({ ...base, pausedAt }));
+                const { pausedAt, scope } = governorEvents.Pause.decode(e);
+                entities.push(new Pause({ ...base, pausedAt, scope }));
             } else if (topic === governorEvents.Unpause.topic) {
                 entities.push(new Unpause({ ...base }));
             }

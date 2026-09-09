@@ -60,6 +60,7 @@ type File @entity {
     what: Bytes!
     dataUint: BigInt
     dataAddress: Bytes
+    dataBytes32: Bytes
 }
 
 # One entity for every `Cage` across the system (ledger, spotter, dog: no ilk; adapter: ilk).
@@ -583,6 +584,20 @@ type DistributeSurplus @entity {
     excess: BigInt!
 }
 
+type Backstop @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    buyer: Bytes! @index # address
+    rad: BigInt!
+    rainWad: BigInt!
+}
+
 # =============================== LiquidationTrigger =============================== #
 
 type Bark @entity {
@@ -600,7 +615,7 @@ type Bark @entity {
     ink: BigInt!
     art: BigInt!
     due: BigInt!
-    clip: Bytes! # address
+    dutchAuction: Bytes! # address
     auctionId: BigInt!
 }
 
@@ -629,6 +644,7 @@ type Kick @entity {
 
     # Custom required values
     auctionId: BigInt!
+    ilkId: Bytes!
     top: BigInt!
     tab: BigInt!
     lot: BigInt!
@@ -648,6 +664,7 @@ type Take @entity {
 
     # Custom required values
     auctionId: BigInt!
+    ilkId: Bytes!
     max: BigInt!
     price: BigInt!
     owe: BigInt!
@@ -666,6 +683,7 @@ type Redo @entity {
 
     # Custom required values
     auctionId: BigInt!
+    ilkId: Bytes!
     top: BigInt!
     tab: BigInt!
     lot: BigInt!
@@ -695,6 +713,7 @@ type Upchost @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes!
     chost: BigInt!
 }
 
@@ -709,7 +728,32 @@ type Activated @entity {
     eventLogIndex: Int!
 
     # Custom required values
+    ilkId: Bytes! # collateral type whose deviation triggered activation
     deviation: BigInt!
+}
+
+type AddIlk @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
+}
+
+type RemoveIlk @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    ilkId: Bytes!
 }
 
 type Deactivated @entity {
@@ -730,7 +774,8 @@ type Checked @entity {
     eventLogIndex: Int!
 
     # Custom required values
-    deviation: BigInt!
+    worstIlk: Bytes! # collateral type with the largest deviation this check (zero when none readable)
+    maxDeviation: BigInt!
     active: Boolean!
 }
 
@@ -785,6 +830,7 @@ type Pause @entity {
 
     # Custom required values
     pausedAt: BigInt!
+    scope: BigInt!
 }
 
 type Unpause @entity {

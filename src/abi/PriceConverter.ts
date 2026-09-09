@@ -4,7 +4,7 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     Cage: event("0x2308ed18a14e800c39b86eb6ea43270105955ca385b603b64eca89f98ae8fbda", "Cage()", {}),
-    'File(bytes32 indexed,bytes32 indexed,address)': event("0x4ff2caaa972a7c6629ea01fae9c93d73cc307d13ea4c369f9bbbb7f9b7e9461d", "File(bytes32,bytes32,address)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "pip": p.address}),
+    'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
     Poke: event("0xdfd7467e425a8107cfd368d159957692c25085aacbcf5228ce08f10f2146486e", "Poke(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "val": p.bytes32, "spot": p.uint256}),
@@ -19,12 +19,13 @@ export const functions = {
     cage: fun("0x69245009", "cage()", {}, ),
     'file(bytes32,bytes32,uint256)': fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
-    'file(bytes32,bytes32,address)': fun("0xebecb39d", "file(bytes32,bytes32,address)", {"ilkId": p.bytes32, "what": p.bytes32, "pip": p.address}, ),
+    'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
-    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"pip": p.address, "mat": p.uint256, "fixedPrice": p.bool}),
+    ilks: viewFun("0xd9638d36", "ilks(bytes32)", {"ilkId": p.bytes32}, {"mat": p.uint256, "fixedPrice": p.bool}),
     live: viewFun("0x957aa58c", "live()", {}, p.uint256),
+    oracleSecurityModule: viewFun("0xabee5462", "oracleSecurityModule()", {}, p.address),
     par: viewFun("0x495d32cb", "par()", {}, p.uint256),
     poke: fun("0x1504460f", "poke(bytes32)", {"ilkId": p.bytes32}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
@@ -58,6 +59,10 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.live, {})
     }
 
+    oracleSecurityModule() {
+        return this.eth_call(functions.oracleSecurityModule, {})
+    }
+
     par() {
         return this.eth_call(functions.par, {})
     }
@@ -69,7 +74,7 @@ export class Contract extends ContractBase {
 
 /// Event types
 export type CageEventArgs = EParams<typeof events.Cage>
-export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,address)']>
+export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
 export type PokeEventArgs = EParams<typeof events.Poke>
@@ -93,8 +98,8 @@ export type FileReturn_0 = FunctionReturn<typeof functions['file(bytes32,bytes32
 export type FileParams_1 = FunctionArguments<typeof functions['file(bytes32,uint256)']>
 export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,uint256)']>
 
-export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,bytes32,address)']>
-export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,bytes32,address)']>
+export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,address)']>
+export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,address)']>
 
 export type GetRoleAdminParams = FunctionArguments<typeof functions.getRoleAdmin>
 export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>
@@ -110,6 +115,9 @@ export type IlksReturn = FunctionReturn<typeof functions.ilks>
 
 export type LiveParams = FunctionArguments<typeof functions.live>
 export type LiveReturn = FunctionReturn<typeof functions.live>
+
+export type OracleSecurityModuleParams = FunctionArguments<typeof functions.oracleSecurityModule>
+export type OracleSecurityModuleReturn = FunctionReturn<typeof functions.oracleSecurityModule>
 
 export type ParParams = FunctionArguments<typeof functions.par>
 export type ParReturn = FunctionReturn<typeof functions.par>

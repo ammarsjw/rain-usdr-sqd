@@ -1,8 +1,8 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, BooleanColumn as BooleanColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, Index as Index_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Checked {
-    constructor(props?: Partial<Checked>) {
+export class Backstop {
+    constructor(props?: Partial<Backstop>) {
         Object.assign(this, props)
     }
 
@@ -24,12 +24,13 @@ export class Checked {
     @IntColumn_({nullable: false})
     eventLogIndex!: number
 
+    @Index_("idx_backstop_buyer_a2ba433e")
     @BytesColumn_({nullable: false})
-    worstIlk!: Uint8Array
+    buyer!: Uint8Array
 
     @BigIntColumn_({nullable: false})
-    maxDeviation!: bigint
+    rad!: bigint
 
-    @BooleanColumn_({nullable: false})
-    active!: boolean
+    @BigIntColumn_({nullable: false})
+    rainWad!: bigint
 }

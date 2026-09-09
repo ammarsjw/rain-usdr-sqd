@@ -24,6 +24,9 @@ export class Activated {
     @IntColumn_({nullable: false})
     eventLogIndex!: number
 
+    @BytesColumn_({nullable: false})
+    ilkId!: Uint8Array
+
     @BigIntColumn_({nullable: false})
     deviation!: bigint
 }

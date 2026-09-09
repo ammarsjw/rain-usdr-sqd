@@ -45,7 +45,7 @@ export class Bark {
     due!: bigint
 
     @BytesColumn_({nullable: false})
-    clip!: Uint8Array
+    dutchAuction!: Uint8Array
 
     @BigIntColumn_({nullable: false})
     auctionId!: bigint

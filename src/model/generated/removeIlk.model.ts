@@ -1,8 +1,8 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_, BooleanColumn as BooleanColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, BigIntColumn as BigIntColumn_, BytesColumn as BytesColumn_, IntColumn as IntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
-export class Checked {
-    constructor(props?: Partial<Checked>) {
+export class RemoveIlk {
+    constructor(props?: Partial<RemoveIlk>) {
         Object.assign(this, props)
     }
 
@@ -25,11 +25,5 @@ export class Checked {
     eventLogIndex!: number
 
     @BytesColumn_({nullable: false})
-    worstIlk!: Uint8Array
-
-    @BigIntColumn_({nullable: false})
-    maxDeviation!: bigint
-
-    @BooleanColumn_({nullable: false})
-    active!: boolean
+    ilkId!: Uint8Array
 }

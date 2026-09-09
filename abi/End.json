@@ -1,927 +1,927 @@
 [
     {
+        "type": "constructor",
         "inputs": [
             {
-                "internalType": "contract IVaultEngine",
                 "name": "vaultEngine_",
-                "type": "address"
+                "type": "address",
+                "internalType": "contract IVaultEngine"
             }
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "stateMutability": "nonpayable"
     },
     {
-        "inputs": [],
-        "name": "AccessControlBadConfirmation",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "internalType": "bytes32",
-                "name": "neededRole",
-                "type": "bytes32"
-            }
-        ],
-        "name": "AccessControlUnauthorizedAccount",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "AlreadyCaged",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "ArtNotZero",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "DebtAlreadyFixed",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "DebtNotFixed",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "FixAlreadyDefined",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "FixNotDefined",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "InsufficientBag",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "ReentrancyGuardReentrantCall",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "StillLive",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "SurplusNotZero",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TagAlreadyDefined",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TagNotDefined",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "WaitNotElapsed",
-        "type": "error"
-    },
-    {
-        "anonymous": false,
-        "inputs": [],
-        "name": "Cage",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "tag",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "art",
-                "type": "uint256"
-            }
-        ],
-        "name": "CageIlk",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "usr",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "wad",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "ink",
-                "type": "uint256"
-            }
-        ],
-        "name": "Cash",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "what",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "data",
-                "type": "uint256"
-            }
-        ],
-        "name": "File",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "what",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "addr",
-                "type": "address"
-            }
-        ],
-        "name": "File",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "fix",
-                "type": "uint256"
-            }
-        ],
-        "name": "Flow",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "vaultId",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "owner",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "ink",
-                "type": "uint256"
-            }
-        ],
-        "name": "Free",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "usr",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "wad",
-                "type": "uint256"
-            }
-        ],
-        "name": "Pack",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "previousAdminRole",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "newAdminRole",
-                "type": "bytes32"
-            }
-        ],
-        "name": "RoleAdminChanged",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            }
-        ],
-        "name": "RoleGranted",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            }
-        ],
-        "name": "RoleRevoked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "vaultId",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "wad",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "art",
-                "type": "uint256"
-            }
-        ],
-        "name": "Skim",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "auctionId",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "vaultId",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "lot",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "art",
-                "type": "uint256"
-            }
-        ],
-        "name": "Skip",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "debt",
-                "type": "uint256"
-            }
-        ],
-        "name": "Thaw",
-        "type": "event"
-    },
-    {
-        "inputs": [],
+        "type": "function",
         "name": "DEFAULT_ADMIN_ROLE",
+        "inputs": [],
         "outputs": [
             {
-                "internalType": "bytes32",
                 "name": "",
-                "type": "bytes32"
+                "type": "bytes32",
+                "internalType": "bytes32"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [],
+        "type": "function",
         "name": "VAULT_ENGINE",
+        "inputs": [],
         "outputs": [
             {
-                "internalType": "contract IVaultEngine",
                 "name": "",
-                "type": "address"
+                "type": "address",
+                "internalType": "contract IVaultEngine"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            }
-        ],
+        "type": "function",
         "name": "art",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
         "outputs": [
             {
-                "internalType": "uint256",
                 "name": "snapshotArt",
-                "type": "uint256"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "usr",
-                "type": "address"
-            }
-        ],
+        "type": "function",
         "name": "bag",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "deposited",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "balanceSheet",
-        "outputs": [
-            {
-                "internalType": "contract IBalanceSheet",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "cage",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "inputs": [
             {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "cage",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "uint256",
-                "name": "wad",
-                "type": "uint256"
-            }
-        ],
-        "name": "cash",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "debt",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "what",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "uint256",
-                "name": "data",
-                "type": "uint256"
-            }
-        ],
-        "name": "file",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "what",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
-                "name": "data",
-                "type": "address"
-            }
-        ],
-        "name": "file",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "fix",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "redemptionPrice",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "flow",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "vaultId",
-                "type": "uint256"
-            }
-        ],
-        "name": "free",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            }
-        ],
-        "name": "gap",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "shortfall",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            }
-        ],
-        "name": "getRoleAdmin",
-        "outputs": [
-            {
-                "internalType": "bytes32",
-                "name": "",
-                "type": "bytes32"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
-        "name": "grantRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
-        "name": "hasRole",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "liquidationTrigger",
-        "outputs": [
-            {
-                "internalType": "contract ILiquidationTrigger",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "live",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "ilkId",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "address",
                 "name": "usr",
-                "type": "address"
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "name": "out",
         "outputs": [
             {
-                "internalType": "uint256",
-                "name": "redeemed",
-                "type": "uint256"
+                "name": "deposited",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
+        "type": "function",
+        "name": "balanceSheet",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IBalanceSheet"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "cage",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "cage",
         "inputs": [
             {
-                "internalType": "uint256",
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "cash",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
                 "name": "wad",
-                "type": "uint256"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "name": "pack",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "debt",
         "inputs": [],
-        "name": "priceConverter",
         "outputs": [
             {
-                "internalType": "contract IPriceConverter",
                 "name": "",
-                "type": "address"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
+        "type": "function",
+        "name": "file",
         "inputs": [
             {
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
+                "name": "what",
+                "type": "bytes32",
+                "internalType": "bytes32"
             },
             {
-                "internalType": "address",
-                "name": "callerConfirmation",
-                "type": "address"
+                "name": "data",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "name": "renounceRole",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "file",
         "inputs": [
             {
-                "internalType": "bytes32",
-                "name": "role",
-                "type": "bytes32"
+                "name": "what",
+                "type": "bytes32",
+                "internalType": "bytes32"
             },
             {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
+                "name": "data",
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "name": "revokeRole",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "fix",
         "inputs": [
             {
-                "internalType": "uint256",
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "redemptionPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "flow",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "free",
+        "inputs": [
+            {
                 "name": "vaultId",
-                "type": "uint256"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "name": "skim",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "gap",
         "inputs": [
             {
-                "internalType": "bytes32",
                 "name": "ilkId",
-                "type": "bytes32"
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "shortfall",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "getRoleAdmin",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "grantRole",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "internalType": "bytes32"
             },
             {
-                "internalType": "uint256",
-                "name": "auctionId",
-                "type": "uint256"
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "name": "skip",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "hasRole",
         "inputs": [
             {
-                "internalType": "bytes4",
-                "name": "interfaceId",
-                "type": "bytes4"
+                "name": "role",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "name": "supportsInterface",
         "outputs": [
             {
-                "internalType": "bool",
                 "name": "",
-                "type": "bool"
+                "type": "bool",
+                "internalType": "bool"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
+        "type": "function",
+        "name": "liquidationTrigger",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract ILiquidationTrigger"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "live",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "out",
         "inputs": [
             {
-                "internalType": "bytes32",
                 "name": "ilkId",
-                "type": "bytes32"
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "usr",
+                "type": "address",
+                "internalType": "address"
             }
         ],
-        "name": "tag",
         "outputs": [
             {
-                "internalType": "uint256",
-                "name": "settlementPrice",
-                "type": "uint256"
+                "name": "redeemed",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [],
-        "name": "thaw",
+        "type": "function",
+        "name": "pack",
+        "inputs": [
+            {
+                "name": "wad",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "priceConverter",
         "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "contract IPriceConverter"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "renounceRole",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "callerConfirmation",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "revokeRole",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "skim",
+        "inputs": [
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "skip",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "auctionId",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "supportsInterface",
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "bytes4",
+                "internalType": "bytes4"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "tag",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "settlementPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "thaw",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "wait",
+        "inputs": [],
         "outputs": [
             {
-                "internalType": "uint256",
                 "name": "",
-                "type": "uint256"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [],
+        "type": "function",
         "name": "when",
+        "inputs": [],
         "outputs": [
             {
-                "internalType": "uint256",
                 "name": "",
-                "type": "uint256"
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
+    },
+    {
+        "type": "event",
+        "name": "Cage",
+        "inputs": [],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "CageIlk",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "tag",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Cash",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "usr",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "wad",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "ink",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "File",
+        "inputs": [
+            {
+                "name": "what",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "data",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "File",
+        "inputs": [
+            {
+                "name": "what",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "addr",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Flow",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "fix",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Free",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "owner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "ink",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Pack",
+        "inputs": [
+            {
+                "name": "usr",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "wad",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "RoleAdminChanged",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "previousAdminRole",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "newAdminRole",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "RoleGranted",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "account",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "sender",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "RoleRevoked",
+        "inputs": [
+            {
+                "name": "role",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "account",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "sender",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Skim",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "wad",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Skip",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "auctionId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "vaultId",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
+            },
+            {
+                "name": "lot",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "art",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Thaw",
+        "inputs": [
+            {
+                "name": "debt",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "error",
+        "name": "AccessControlBadConfirmation",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "AccessControlUnauthorizedAccount",
+        "inputs": [
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "neededRole",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "AlreadyCaged",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ArtNotZero",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "DebtAlreadyFixed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "DebtNotFixed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "FixAlreadyDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "FixNotDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InsufficientBag",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ReentrancyGuardReentrantCall",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "StillLive",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "SurplusNotZero",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TagAlreadyDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "TagNotDefined",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "WaitNotElapsed",
+        "inputs": []
     }
 ]

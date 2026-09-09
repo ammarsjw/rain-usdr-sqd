@@ -3,10 +3,12 @@ import { event, fun, viewFun, indexed, ContractBase } from '@subsquid/evm-abi'
 import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '@subsquid/evm-abi'
 
 export const events = {
+    Backstop: event("0x44e09c51c00bb984dcb6962adbad33c0d8f903130ff96f7634be3de3b35528da", "Backstop(address,uint256,uint256)", {"buyer": indexed(p.address), "rad": p.uint256, "rainWad": p.uint256}),
     DistributeSurplus: event("0x2715d9b8da95cf181c609d2011dfc1e6a5af190b40cce4d013e1eb368fabe459", "DistributeSurplus(uint256)", {"excess": p.uint256}),
     Fess: event("0x7a3f1a1ebf14b193365bc7468b58eb3b80ae1638635424aae4eec386da2f02ba", "Fess(uint256)", {"tab": p.uint256}),
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
+    'File(bytes32 indexed,bytes32)': event("0x943a793c11a909d4409e7706d8c3d1467960e08f6141234950042994856812df", "File(bytes32,bytes32)", {"what": indexed(p.bytes32), "dataBytes32": p.bytes32}),
     Flog: event("0x77f6d637bdb297972e16e03f99afbda73b21a36342b99e24dca178d404e6ab9f", "Flog(uint256,uint256)", {"era": indexed(p.uint256), "tab": p.uint256}),
     Heal: event("0x917d6982889419f491488c036c2e6abe788b07222064ab462158ec64ca2c4db7", "Heal(uint256)", {"rad": p.uint256}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
@@ -19,11 +21,16 @@ export const events = {
 export const functions = {
     DEFAULT_ADMIN_ROLE: viewFun("0xa217fddf", "DEFAULT_ADMIN_ROLE()", {}, p.bytes32),
     VAULT_ENGINE: viewFun("0xfc0f6fd2", "VAULT_ENGINE()", {}, p.address),
+    backstop: fun("0x42968322", "backstop(uint256)", {"rad": p.uint256}, p.uint256),
+    backstopCap: viewFun("0xbe145a13", "backstopCap()", {}, p.uint256),
+    backstopHaircut: viewFun("0xb2b9afc7", "backstopHaircut()", {}, p.uint256),
+    backstopUsed: viewFun("0xe6573273", "backstopUsed()", {}, p.uint256),
     buybackReceiver: viewFun("0x1df59e2f", "buybackReceiver()", {}, p.address),
     distributeSurplus: fun("0xc80a0a7f", "distributeSurplus()", {}, p.uint256),
     fess: fun("0x697efb78", "fess(uint256)", {"tab": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
+    'file(bytes32,bytes32)': fun("0xe9b674b9", "file(bytes32,bytes32)", {"what": p.bytes32, "data": p.bytes32}, ),
     flog: fun("0xd7ee674b", "flog(uint256)", {"era": p.uint256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
@@ -34,6 +41,8 @@ export const functions = {
     humpTarget: viewFun("0x02c0bf36", "humpTarget()", {}, p.uint256),
     laggedReserve: viewFun("0x8a809d5f", "laggedReserve()", {}, p.uint256),
     laggedReserveAt: viewFun("0xa6d84d2b", "laggedReserveAt()", {}, p.uint256),
+    oracleSecurityModule: viewFun("0xabee5462", "oracleSecurityModule()", {}, p.address),
+    rainIlk: viewFun("0xc4940493", "rainIlk()", {}, p.bytes32),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     reserveAccounting: viewFun("0x9d155075", "reserveAccounting()", {}, p.address),
     revokeRole: fun("0xd547741f", "revokeRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
@@ -54,6 +63,18 @@ export class Contract extends ContractBase {
 
     VAULT_ENGINE() {
         return this.eth_call(functions.VAULT_ENGINE, {})
+    }
+
+    backstopCap() {
+        return this.eth_call(functions.backstopCap, {})
+    }
+
+    backstopHaircut() {
+        return this.eth_call(functions.backstopHaircut, {})
+    }
+
+    backstopUsed() {
+        return this.eth_call(functions.backstopUsed, {})
     }
 
     buybackReceiver() {
@@ -88,6 +109,14 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.laggedReserveAt, {})
     }
 
+    oracleSecurityModule() {
+        return this.eth_call(functions.oracleSecurityModule, {})
+    }
+
+    rainIlk() {
+        return this.eth_call(functions.rainIlk, {})
+    }
+
     reserveAccounting() {
         return this.eth_call(functions.reserveAccounting, {})
     }
@@ -114,10 +143,12 @@ export class Contract extends ContractBase {
 }
 
 /// Event types
+export type BackstopEventArgs = EParams<typeof events.Backstop>
 export type DistributeSurplusEventArgs = EParams<typeof events.DistributeSurplus>
 export type FessEventArgs = EParams<typeof events.Fess>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
+export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32)']>
 export type FlogEventArgs = EParams<typeof events.Flog>
 export type HealEventArgs = EParams<typeof events.Heal>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
@@ -133,6 +164,18 @@ export type DEFAULT_ADMIN_ROLEReturn = FunctionReturn<typeof functions.DEFAULT_A
 export type VAULT_ENGINEParams = FunctionArguments<typeof functions.VAULT_ENGINE>
 export type VAULT_ENGINEReturn = FunctionReturn<typeof functions.VAULT_ENGINE>
 
+export type BackstopParams = FunctionArguments<typeof functions.backstop>
+export type BackstopReturn = FunctionReturn<typeof functions.backstop>
+
+export type BackstopCapParams = FunctionArguments<typeof functions.backstopCap>
+export type BackstopCapReturn = FunctionReturn<typeof functions.backstopCap>
+
+export type BackstopHaircutParams = FunctionArguments<typeof functions.backstopHaircut>
+export type BackstopHaircutReturn = FunctionReturn<typeof functions.backstopHaircut>
+
+export type BackstopUsedParams = FunctionArguments<typeof functions.backstopUsed>
+export type BackstopUsedReturn = FunctionReturn<typeof functions.backstopUsed>
+
 export type BuybackReceiverParams = FunctionArguments<typeof functions.buybackReceiver>
 export type BuybackReceiverReturn = FunctionReturn<typeof functions.buybackReceiver>
 
@@ -147,6 +190,9 @@ export type FileReturn_0 = FunctionReturn<typeof functions['file(bytes32,uint256
 
 export type FileParams_1 = FunctionArguments<typeof functions['file(bytes32,address)']>
 export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,address)']>
+
+export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,bytes32)']>
+export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,bytes32)']>
 
 export type FlogParams = FunctionArguments<typeof functions.flog>
 export type FlogReturn = FunctionReturn<typeof functions.flog>
@@ -177,6 +223,12 @@ export type LaggedReserveReturn = FunctionReturn<typeof functions.laggedReserve>
 
 export type LaggedReserveAtParams = FunctionArguments<typeof functions.laggedReserveAt>
 export type LaggedReserveAtReturn = FunctionReturn<typeof functions.laggedReserveAt>
+
+export type OracleSecurityModuleParams = FunctionArguments<typeof functions.oracleSecurityModule>
+export type OracleSecurityModuleReturn = FunctionReturn<typeof functions.oracleSecurityModule>
+
+export type RainIlkParams = FunctionArguments<typeof functions.rainIlk>
+export type RainIlkReturn = FunctionReturn<typeof functions.rainIlk>
 
 export type RenounceRoleParams = FunctionArguments<typeof functions.renounceRole>
 export type RenounceRoleReturn = FunctionReturn<typeof functions.renounceRole>

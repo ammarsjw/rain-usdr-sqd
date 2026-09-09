@@ -29,7 +29,7 @@ export const functions = {
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
     isBreached: viewFun("0x12c68770", "isBreached()", {}, p.bool),
     isVolatile: viewFun("0xc1d9cc73", "isVolatile(bytes32)", {"ilkId": p.bytes32}, p.bool),
-    osm: viewFun("0x972da311", "osm()", {}, p.address),
+    oracleSecurityModule: viewFun("0xabee5462", "oracleSecurityModule()", {}, p.address),
     removeVolatileIlk: fun("0xc85f7650", "removeVolatileIlk(bytes32)", {"ilkId": p.bytes32}, ),
     renounceRole: fun("0x36568abe", "renounceRole(bytes32,address)", {"role": p.bytes32, "callerConfirmation": p.address}, ),
     reserveFactor: viewFun("0x4322b714", "reserveFactor()", {}, p.uint256),
@@ -83,8 +83,8 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.isVolatile, {ilkId})
     }
 
-    osm() {
-        return this.eth_call(functions.osm, {})
+    oracleSecurityModule() {
+        return this.eth_call(functions.oracleSecurityModule, {})
     }
 
     reserveFactor() {
@@ -168,8 +168,8 @@ export type IsBreachedReturn = FunctionReturn<typeof functions.isBreached>
 export type IsVolatileParams = FunctionArguments<typeof functions.isVolatile>
 export type IsVolatileReturn = FunctionReturn<typeof functions.isVolatile>
 
-export type OsmParams = FunctionArguments<typeof functions.osm>
-export type OsmReturn = FunctionReturn<typeof functions.osm>
+export type OracleSecurityModuleParams = FunctionArguments<typeof functions.oracleSecurityModule>
+export type OracleSecurityModuleReturn = FunctionReturn<typeof functions.oracleSecurityModule>
 
 export type RemoveVolatileIlkParams = FunctionArguments<typeof functions.removeVolatileIlk>
 export type RemoveVolatileIlkReturn = FunctionReturn<typeof functions.removeVolatileIlk>

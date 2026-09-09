@@ -51,8 +51,7 @@ export const processor = new EvmBatchProcessor()
             vaultEngineEvents["File(bytes32 indexed,uint256)"].topic,
             vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,uint256)"].topic,
             balanceSheetEvents["File(bytes32 indexed,address)"].topic,
-            liquidationTriggerEvents["File(bytes32 indexed,bytes32 indexed,address)"].topic,
-            priceConverterEvents["File(bytes32 indexed,bytes32 indexed,address)"].topic,
+            balanceSheetEvents["File(bytes32 indexed,bytes32)"].topic,
             // VaultEngine.
             vaultEngineEvents.Hope.topic,
             vaultEngineEvents.Nope.topic,
@@ -97,6 +96,7 @@ export const processor = new EvmBatchProcessor()
             solvencyEngineEvents.ExposureReportFailed.topic,
             // BalanceSheet.
             balanceSheetEvents.Fess.topic,
+            balanceSheetEvents.Backstop.topic,
             balanceSheetEvents.Flog.topic,
             balanceSheetEvents.Heal.topic,
             balanceSheetEvents.Suck.topic,
@@ -104,7 +104,7 @@ export const processor = new EvmBatchProcessor()
             // LiquidationTrigger.
             liquidationTriggerEvents.Bark.topic,
             liquidationTriggerEvents.Digs.topic,
-            // DutchAuction.
+            // DutchAuction (the per-ilk File(bytes32,bytes32,uint256) topic is shared with the system File above).
             dutchAuctionEvents.Kick.topic,
             dutchAuctionEvents.Take.topic,
             dutchAuctionEvents.Redo.topic,
@@ -114,6 +114,8 @@ export const processor = new EvmBatchProcessor()
             circuitBreakerEvents.Activated.topic,
             circuitBreakerEvents.Deactivated.topic,
             circuitBreakerEvents.Checked.topic,
+            circuitBreakerEvents.AddIlk.topic,
+            circuitBreakerEvents.RemoveIlk.topic,
             // Governor.
             governorEvents.Schedule.topic,
             governorEvents.Execute.topic,

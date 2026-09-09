@@ -26,4 +26,7 @@ export class Pause {
 
     @BigIntColumn_({nullable: false})
     pausedAt!: bigint
+
+    @BigIntColumn_({nullable: false})
+    scope!: bigint
 }

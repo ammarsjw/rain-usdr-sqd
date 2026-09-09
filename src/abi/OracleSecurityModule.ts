@@ -4,7 +4,8 @@ import type { EventParams as EParams, FunctionArguments, FunctionReturn } from '
 
 export const events = {
     Change: event("0x89712192d0d1795390587564d97b5eb2ccc0c8c9ae9eb1c0f260381583be5d1e", "Change(bytes32,address)", {"ilkId": indexed(p.bytes32), "src": indexed(p.address)}),
-    File: event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
+    'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
+    'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     Poke: event("0x89dcaadc52f13d2bfc2f5e35ac7c4b784e4c1897749319d3bb8dff473ae32189", "Poke(bytes32,uint128,uint128)", {"ilkId": indexed(p.bytes32), "current": p.uint128, "next": p.uint128}),
     PokeFailed: event("0xdaf19275f7dc8b3922dfe9ecf9a7e400af5473e524557967a17dce99fe843824", "PokeFailed(bytes32,address)", {"ilkId": indexed(p.bytes32), "src": indexed(p.address)}),
     RoleAdminChanged: event("0xbd79b86ffe0ab8e8776151514217cd7cacd52c909f66475c3af44e129f0b00ff", "RoleAdminChanged(bytes32,bytes32,bytes32)", {"role": indexed(p.bytes32), "previousAdminRole": indexed(p.bytes32), "newAdminRole": indexed(p.bytes32)}),
@@ -20,10 +21,12 @@ export const functions = {
     HOP: viewFun("0xe85a1b0a", "HOP()", {}, p.uint16),
     change: fun("0x33395e8f", "change(bytes32,address)", {"ilkId": p.bytes32, "newSrc": p.address}, ),
     delay: viewFun("0xa6b0dae8", "delay(bytes32)", {"ilkId": p.bytes32}, p.uint64),
-    file: fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
+    'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
+    'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
     grantRole: fun("0x2f2ff15d", "grantRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, ),
     hasRole: viewFun("0x91d14854", "hasRole(bytes32,address)", {"role": p.bytes32, "account": p.address}, p.bool),
+    maxAge: viewFun("0x687043c5", "maxAge()", {}, p.uint256),
     pass: viewFun("0x41505ac2", "pass(bytes32)", {"ilkId": p.bytes32}, p.bool),
     peek: viewFun("0x7f86d1eb", "peek(bytes32)", {"ilkId": p.bytes32}, {"_0": p.bytes32, "_1": p.bool}),
     peep: viewFun("0xf1d86223", "peep(bytes32)", {"ilkId": p.bytes32}, {"_0": p.bytes32, "_1": p.bool}),
@@ -62,6 +65,10 @@ export class Contract extends ContractBase {
         return this.eth_call(functions.hasRole, {role, account})
     }
 
+    maxAge() {
+        return this.eth_call(functions.maxAge, {})
+    }
+
     pass(ilkId: PassParams["ilkId"]) {
         return this.eth_call(functions.pass, {ilkId})
     }
@@ -97,7 +104,8 @@ export class Contract extends ContractBase {
 
 /// Event types
 export type ChangeEventArgs = EParams<typeof events.Change>
-export type FileEventArgs = EParams<typeof events.File>
+export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,address)']>
+export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type PokeEventArgs = EParams<typeof events.Poke>
 export type PokeFailedEventArgs = EParams<typeof events.PokeFailed>
 export type RoleAdminChangedEventArgs = EParams<typeof events.RoleAdminChanged>
@@ -120,8 +128,11 @@ export type ChangeReturn = FunctionReturn<typeof functions.change>
 export type DelayParams = FunctionArguments<typeof functions.delay>
 export type DelayReturn = FunctionReturn<typeof functions.delay>
 
-export type FileParams = FunctionArguments<typeof functions.file>
-export type FileReturn = FunctionReturn<typeof functions.file>
+export type FileParams_0 = FunctionArguments<typeof functions['file(bytes32,uint256)']>
+export type FileReturn_0 = FunctionReturn<typeof functions['file(bytes32,uint256)']>
+
+export type FileParams_1 = FunctionArguments<typeof functions['file(bytes32,address)']>
+export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,address)']>
 
 export type GetRoleAdminParams = FunctionArguments<typeof functions.getRoleAdmin>
 export type GetRoleAdminReturn = FunctionReturn<typeof functions.getRoleAdmin>
@@ -131,6 +142,9 @@ export type GrantRoleReturn = FunctionReturn<typeof functions.grantRole>
 
 export type HasRoleParams = FunctionArguments<typeof functions.hasRole>
 export type HasRoleReturn = FunctionReturn<typeof functions.hasRole>
+
+export type MaxAgeParams = FunctionArguments<typeof functions.maxAge>
+export type MaxAgeReturn = FunctionReturn<typeof functions.maxAge>
 
 export type PassParams = FunctionArguments<typeof functions.pass>
 export type PassReturn = FunctionReturn<typeof functions.pass>

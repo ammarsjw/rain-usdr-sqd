@@ -35,4 +35,7 @@ export class File {
 
     @BytesColumn_({nullable: true})
     dataAddress!: Uint8Array | undefined | null
+
+    @BytesColumn_({nullable: true})
+    dataBytes32!: Uint8Array | undefined | null
 }

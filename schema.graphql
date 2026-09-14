@@ -584,6 +584,18 @@ type DistributeSurplus @entity {
     excess: BigInt!
 }
 
+type SnapshotReserve @entity {
+    id: ID! # transaction hash + event log index
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+    contractAddress: Bytes!
+    eventLogIndex: Int!
+
+    # Custom required values
+    reserve: BigInt!
+}
+
 type Backstop @entity {
     id: ID! # transaction hash + event log index
     blockNumber: BigInt!

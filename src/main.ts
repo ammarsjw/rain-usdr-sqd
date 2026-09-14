@@ -73,6 +73,7 @@ import {
     Skim,
     Skip,
     Slip,
+    SnapshotReserve,
     SpotPoke,
     Start,
     Stop,
@@ -356,6 +357,9 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             } else if (topic === balanceSheetEvents.Backstop.topic) {
                 const { buyer, rad, rainWad } = balanceSheetEvents.Backstop.decode(e);
                 entities.push(new Backstop({ ...base, buyer: hexToBytes(buyer), rad, rainWad }));
+            } else if (topic === balanceSheetEvents.SnapshotReserve.topic) {
+                const { reserve } = balanceSheetEvents.SnapshotReserve.decode(e);
+                entities.push(new SnapshotReserve({ ...base, reserve }));
             }
 
             // LiquidationTrigger.

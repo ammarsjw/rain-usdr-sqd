@@ -101,6 +101,7 @@ export const processor = new EvmBatchProcessor()
             balanceSheetEvents.Heal.topic,
             balanceSheetEvents.Suck.topic,
             balanceSheetEvents.DistributeSurplus.topic,
+            balanceSheetEvents.SnapshotReserve.topic,
             // LiquidationTrigger.
             liquidationTriggerEvents.Bark.topic,
             liquidationTriggerEvents.Digs.topic,

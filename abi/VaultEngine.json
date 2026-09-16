@@ -125,6 +125,25 @@
     },
     {
         "type": "function",
+        "name": "exclusiveTo",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "owner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "feeRecipient",
         "inputs": [],
         "outputs": [
@@ -181,6 +200,29 @@
         "type": "function",
         "name": "file",
         "inputs": [
+            {
+                "name": "what",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
+            {
+                "name": "data",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "file",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            },
             {
                 "name": "what",
                 "type": "bytes32",
@@ -976,6 +1018,31 @@
     },
     {
         "type": "event",
+        "name": "File",
+        "inputs": [
+            {
+                "name": "ilkId",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "what",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "addr",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "Flux",
         "inputs": [
             {
@@ -1365,6 +1432,11 @@
     {
         "type": "error",
         "name": "DustAmount",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "IlkExclusive",
         "inputs": []
     },
     {

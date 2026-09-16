@@ -50,6 +50,7 @@ export const processor = new EvmBatchProcessor()
             // File overloads (topics shared across the system).
             vaultEngineEvents["File(bytes32 indexed,uint256)"].topic,
             vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,uint256)"].topic,
+            vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,address)"].topic,
             balanceSheetEvents["File(bytes32 indexed,address)"].topic,
             balanceSheetEvents["File(bytes32 indexed,bytes32)"].topic,
             // VaultEngine.

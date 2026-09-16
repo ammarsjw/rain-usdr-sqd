@@ -162,6 +162,16 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
                         dataUint: decoded.data
                     })
                 );
+            } else if (topic === vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,address)"].topic) {
+                const decoded = vaultEngineEvents["File(bytes32 indexed,bytes32 indexed,address)"].decode(e);
+                entities.push(
+                    new File({
+                        ...base,
+                        ilkId: hexToBytes(decoded.ilkId),
+                        what: hexToBytes(decoded.what),
+                        dataAddress: hexToBytes(decoded.addr)
+                    })
+                );
             } else if (topic === balanceSheetEvents["File(bytes32 indexed,address)"].topic) {
                 const { what, addr } = balanceSheetEvents["File(bytes32 indexed,address)"].decode(e);
                 entities.push(new File({ ...base, what: hexToBytes(what), dataAddress: hexToBytes(addr) }));

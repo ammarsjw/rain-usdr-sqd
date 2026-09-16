@@ -8,6 +8,7 @@ export const events = {
     'File(bytes32 indexed,uint256)': event("0xe986e40cc8c151830d4f61050f4fb2e4add8567caad2d5f5496f9158e91fe4c7", "File(bytes32,uint256)", {"what": indexed(p.bytes32), "data": p.uint256}),
     'File(bytes32 indexed,address)': event("0x8fef588b5fc1afbf5b2f06c1a435d513f208da2e6704c3d8f0e0ec91167066ba", "File(bytes32,address)", {"what": indexed(p.bytes32), "addr": p.address}),
     'File(bytes32 indexed,bytes32 indexed,uint256)': event("0x851aa1caf4888170ad8875449d18f0f512fd6deb2a6571ea1a41fb9f95acbcd1", "File(bytes32,bytes32,uint256)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "data": p.uint256}),
+    'File(bytes32 indexed,bytes32 indexed,address)': event("0x4ff2caaa972a7c6629ea01fae9c93d73cc307d13ea4c369f9bbbb7f9b7e9461d", "File(bytes32,bytes32,address)", {"ilkId": indexed(p.bytes32), "what": indexed(p.bytes32), "addr": p.address}),
     Flux: event("0x5718eae79ffb8b6c98c497e5029a903705cf6a33a17aaab32de7fe198d8d8a0d", "Flux(bytes32,address,address,uint256)", {"ilkId": indexed(p.bytes32), "from": indexed(p.address), "to": indexed(p.address), "wad": p.uint256}),
     Frob: event("0x5ec4a8ea5d2358f103950da4d5c2100d3b8d72245b71c03c96b528ac0b1d19a2", "Frob(bytes32,uint256,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
     Grab: event("0xeef20157d364ea2b8a33cccc636e9c5624ccd3e69c81b66f5d8ec43cb3ff80bf", "Grab(bytes32,uint256,address,address,int256,int256)", {"ilkId": indexed(p.bytes32), "vaultId": indexed(p.uint256), "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}),
@@ -32,10 +33,12 @@ export const functions = {
     debt: viewFun("0x0dca59c1", "debt()", {}, p.uint256),
     drip: fun("0x44e2a5a8", "drip(bytes32)", {"ilkId": p.bytes32}, p.uint256),
     effectiveLine: viewFun("0x537ee8aa", "effectiveLine(bytes32)", {"ilkId": p.bytes32}, p.uint256),
+    exclusiveTo: viewFun("0xcb6d9c7b", "exclusiveTo(bytes32)", {"ilkId": p.bytes32}, p.address),
     feeRecipient: viewFun("0x46904840", "feeRecipient()", {}, p.address),
     'file(bytes32,bytes32,uint256)': fun("0x1a0b287e", "file(bytes32,bytes32,uint256)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,uint256)': fun("0x29ae8114", "file(bytes32,uint256)", {"what": p.bytes32, "data": p.uint256}, ),
     'file(bytes32,address)': fun("0xd4e8be83", "file(bytes32,address)", {"what": p.bytes32, "data": p.address}, ),
+    'file(bytes32,bytes32,address)': fun("0xebecb39d", "file(bytes32,bytes32,address)", {"ilkId": p.bytes32, "what": p.bytes32, "data": p.address}, ),
     flux: fun("0x6111be2e", "flux(bytes32,address,address,uint256)", {"ilkId": p.bytes32, "from": p.address, "to": p.address, "wad": p.uint256}, ),
     frob: fun("0x39e9b990", "frob(uint256,address,address,int256,int256)", {"vaultId": p.uint256, "v": p.address, "w": p.address, "dink": p.int256, "dart": p.int256}, ),
     getRoleAdmin: viewFun("0x248a9ca3", "getRoleAdmin(bytes32)", {"role": p.bytes32}, p.bytes32),
@@ -92,6 +95,10 @@ export class Contract extends ContractBase {
 
     effectiveLine(ilkId: EffectiveLineParams["ilkId"]) {
         return this.eth_call(functions.effectiveLine, {ilkId})
+    }
+
+    exclusiveTo(ilkId: ExclusiveToParams["ilkId"]) {
+        return this.eth_call(functions.exclusiveTo, {ilkId})
     }
 
     feeRecipient() {
@@ -181,6 +188,7 @@ export type DripEventArgs = EParams<typeof events.Drip>
 export type FileEventArgs_0 = EParams<typeof events['File(bytes32 indexed,uint256)']>
 export type FileEventArgs_1 = EParams<typeof events['File(bytes32 indexed,address)']>
 export type FileEventArgs_2 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,uint256)']>
+export type FileEventArgs_3 = EParams<typeof events['File(bytes32 indexed,bytes32 indexed,address)']>
 export type FluxEventArgs = EParams<typeof events.Flux>
 export type FrobEventArgs = EParams<typeof events.Frob>
 export type GrabEventArgs = EParams<typeof events.Grab>
@@ -218,6 +226,9 @@ export type DripReturn = FunctionReturn<typeof functions.drip>
 export type EffectiveLineParams = FunctionArguments<typeof functions.effectiveLine>
 export type EffectiveLineReturn = FunctionReturn<typeof functions.effectiveLine>
 
+export type ExclusiveToParams = FunctionArguments<typeof functions.exclusiveTo>
+export type ExclusiveToReturn = FunctionReturn<typeof functions.exclusiveTo>
+
 export type FeeRecipientParams = FunctionArguments<typeof functions.feeRecipient>
 export type FeeRecipientReturn = FunctionReturn<typeof functions.feeRecipient>
 
@@ -229,6 +240,9 @@ export type FileReturn_1 = FunctionReturn<typeof functions['file(bytes32,uint256
 
 export type FileParams_2 = FunctionArguments<typeof functions['file(bytes32,address)']>
 export type FileReturn_2 = FunctionReturn<typeof functions['file(bytes32,address)']>
+
+export type FileParams_3 = FunctionArguments<typeof functions['file(bytes32,bytes32,address)']>
+export type FileReturn_3 = FunctionReturn<typeof functions['file(bytes32,bytes32,address)']>
 
 export type FluxParams = FunctionArguments<typeof functions.flux>
 export type FluxReturn = FunctionReturn<typeof functions.flux>
